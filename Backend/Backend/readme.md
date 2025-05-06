@@ -1,4 +1,4 @@
-# 📦 Backend GSM - Proyecto Web API con MySQL y Docker
+# 📦 Backend VocacionPlus - Proyecto Web API con MySQL y Docker
 
 Este proyecto es un backend en ASP.NET Core Web API utilizando Entity Framework Core y MySQL como base de datos. Está preparado para funcionar tanto en local como dentro de contenedores Docker.
 
