@@ -64,11 +64,18 @@ dotnet tool install --global dotnet-ef
 dotnet ef migrations add NombreMigracion    #crea migracion
 dotnet ef database update                   #actualiza DB
 ```
-**migraciones en docker desde shell local**
+**Migraciones en docker desde shell local**
 ```bash
 export ASPNETCORE_ENVIRONMENT=Docker
 dotnet ef migrations add NombreMigracion    #crea migracion
 dotnet ef database update                   #actualiza DB
 ```
+
+**Cerrar docker**
+```bash
+docker compose down
+```
+
 descargar la extension de docker para vscode
+
 ![DockerExtension](../../img/DockerExtension.png)
