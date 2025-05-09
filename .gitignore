@@ -1,2 +1,11 @@
 # contraseñas
-Backend/Backend/password.cs
+Backend/Backend/appsettings.DataBaseUser.json
+
+# archivos de compilacion
+obj/
+logs/
+*.user
+*.suo
+*.cache
+*.log
+.vscode/
