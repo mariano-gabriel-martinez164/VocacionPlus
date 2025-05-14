@@ -14,62 +14,64 @@ Este proyecto es un backend en ASP.NET Core Web API utilizando Entity Framework 
 
 ## 💻 Instalar Dependencias (linux)
 
-**Docker y dotnet**
+**Docker, dotnet y mysql**
 ```bash
-sudo apt install docker
-sudo apt install dotnet-8
+# instalar docker
+sudo apt install ca-certificates curl gnupg lsb-release -y
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+  https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+sudo usermod -aG docker $USER
+newgrp docker
+# instalar dotnet
+sudo apt install dotnet-sdk-8.0
 dotnet tool install --global dotnet-ef
+# instalar mysql
+sudo apt install mysql-server
+sudo mysql
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'contraseña';
 ```
-## 🚀 Iniciar el entorno con Docker
+usar la misma contraseña del ultimo comando para el paso 2 en Iniciar elentorno
+## 🚀 Iniciar el entorno
 
 1. **Clonar el repositorio**:
    ```bash
    git clone https://github.com/mariano-gabriel-martinez164/VocacionPlus.git
    cd Backend/Backend
    ```
-2. **crear password.cs**
-    ```cs
-    namespace VocacionPlus.DB
-    {
-        public class DB_User
-        {
-            static public string UserName = "";
-            static public string Password = "";
-        }
-    }
+2. **crear .env**
+    ```.env
+    ASPNETCORE_ENVIRONMENT=Docker # Development
+    DB_USER=UserName
+    DB_PASSWORD=UserPassword
     ```
     completar los campos y guardar los cambios este archivo solo es visible para ustedes no se sube al repo. para UserName por ahora usen "root".
-3. **Armar contenedores**:
+3. **Correr DB**:
    ```bash
-   docker compose up --build
+   export ASPNETCORE_ENVIRONMENT=Docker        # trabajar sobre docker
+   export ASPNETCORE_ENVIRONMENT=Development   # trabajar sobre local
+   docker compose up --build # Docker
+   dotnet run # Local
    ```
 4. **Aplicar migraciones**
 
-    abrir terminal del backend del docker
-
-    ![DockerShel](../../img/DockerShell.png)
     ```bash
-    # si se ejecuta fuera del docker los cambios van a la DB local
-    dotnet ef database update 
+    export ASPNETCORE_ENVIRONMENT=Docker        # trabajar sobre docker
+    export ASPNETCORE_ENVIRONMENT=Development   # trabajar sobre local
+    dotnet ef migrations add NombreMigracion    # crear migracion (opcional)
+    dotnet ef database update                   # para actualizar DB
     ```
 5. **Desplegar API**
     
     abrir [API](http://localhost:5000/) en la web
 
 # Pasos extras
-
-## 🧩 Migraciones de EF Core
-**Crear una nueva migracion**
-```bash
-dotnet ef migrations add NombreMigracion    #crea migracion
-dotnet ef database update                   #actualiza DB
-```
-**Migraciones en docker desde shell local**
-```bash
-export ASPNETCORE_ENVIRONMENT=Docker
-dotnet ef migrations add NombreMigracion    #crea migracion
-dotnet ef database update                   #actualiza DB
-```
 
 **Cerrar docker**
 ```bash
