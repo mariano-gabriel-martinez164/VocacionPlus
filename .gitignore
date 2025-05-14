@@ -1,7 +1,3 @@
-# contraseñas
-Backend/Backend/appsettings.DataBaseUser.json
-
-# archivos de compilacion
 obj/
 logs/
 *.user
@@ -9,3 +5,4 @@ logs/
 *.cache
 *.log
 .vscode/
+.env
