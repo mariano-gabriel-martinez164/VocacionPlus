@@ -5,7 +5,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json", optional: false)
-    .AddJsonFile("appsettings.DataBaseUser.json", optional: false)
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
     .AddEnvironmentVariables();
 
