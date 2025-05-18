@@ -1,0 +1,75 @@
+.bar{
+    position: absolute;
+    width: 205.7vh;
+    height: 7vh;
+    background-color: #381518;
+}
+.menu{
+    left: 0.5vh;
+    position: absolute;
+    height: 100%;
+    display: flex;
+
+
+}
+.nombre{
+    top: -3vh;
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 4.5vh;
+    color: #D64350;
+}
+.user{
+    left: 197vh;
+    position: absolute;
+    height: 100%;
+    display: flex;
+
+}
+
+@media (max-width: 600px) {
+    .bar {
+        position: absolute;
+        width: 100vw;
+        height: 8vh;
+    }
+    .menu {
+        position: absolute;
+        height: 65px;
+        align-items: center;
+    }
+    .menu1 {
+        top: 0.5vw;
+        position: absolute;
+        height: 60px;
+        display: flex
+;
+    }
+    .nombre {
+        top: -19px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: max-content;
+        font-size: 4.2vh;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .user {
+        position: absolute;
+        right: 1vw;
+        left: unset;
+        align-items: center;
+        height: 65px;
+    }
+    .user1 {
+        position: absolute;
+        right: 1vw;
+        left: unset;
+        align-items: center;
+        height: 55px;
+    }
+}
