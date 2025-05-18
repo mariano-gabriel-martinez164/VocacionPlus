@@ -1,2 +1,8 @@
-# contraseñas
-Backend/Backend/password.cs
+obj/
+logs/
+*.user
+*.suo
+*.cache
+*.log
+.vscode/
+.env

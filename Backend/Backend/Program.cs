@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using VocacionPlus.DB;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,11 +8,12 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
     .AddEnvironmentVariables();
 
-
 var DB_Server = builder.Configuration.GetConnectionString("Server");
 var DB_Port = builder.Configuration.GetConnectionString("Port");
 var DB_Name = builder.Configuration.GetConnectionString("Database");
-var DB_ConfigurationString = $"server={DB_Server};port={DB_Port};database={DB_Name};user={DB_User.UserName};password={DB_User.Password}";
+var DB_UserName = Environment.GetEnvironmentVariable("DB_USER");
+var DB_UserPasswrod = Environment.GetEnvironmentVariable("DB_PASSWORD");
+var DB_ConfigurationString = $"server={DB_Server};port={DB_Port};database={DB_Name};user={DB_UserName};password={DB_UserPasswrod}";
 
 
 var app = builder.Build();
