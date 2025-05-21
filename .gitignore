@@ -6,4 +6,4 @@ logs/
 *.cache
 *.log
 .vscode/
-.env
+appsettings.User.json

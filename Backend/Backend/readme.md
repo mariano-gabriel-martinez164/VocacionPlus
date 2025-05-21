@@ -45,21 +45,40 @@ usar la misma contraseña del ultimo comando para el paso 2 en Iniciar elentorno
    git clone https://github.com/mariano-gabriel-martinez164/VocacionPlus.git
    cd Backend/Backend
    ```
-2. **crear .env**
-    ```.env
-    ASPNETCORE_ENVIRONMENT=Docker # Development
-    DB_USER=UserName
-    DB_PASSWORD=UserPassword
+2. **Variable de entorno**
+    ``` bash
+    export ASPNETCORE_ENVIRONMENT=Docker # Development Server
     ```
-    completar los campos y guardar los cambios este archivo solo es visible para ustedes no se sube al repo. para UserName por ahora usen "root".
-3. **Correr DB**:
+    la usamos para trabajar sobre la base de datos de docker o la local (Development) o una base de datos externa (Server).
+3. **Crear usuario DB**:
+    
+    ir a docker-compose.yml y completar
+                
+        MYSQL_ROOT_PASSWORD: CONTRASEÑA
+    crear appsettings.User.json con
+    
+        {
+            "ConnectionStrings": {
+                "Username": "usuario",
+                "Password": "contraeña"
+            }
+        }
+
+    usen root como usuario
+
+4. **Correr API**:
    ```bash
-   export ASPNETCORE_ENVIRONMENT=Docker        # trabajar sobre docker
-   export ASPNETCORE_ENVIRONMENT=Development   # trabajar sobre local
-   docker compose up --build # Docker
-   dotnet run # Local
+   # Docker
+   export ASPNETCORE_ENVIRONMENT=Docker
+   docker compose up --build
+   # Local
+   export ASPNETCORE_ENVIRONMENT=Development
+   dotnet run # (requiere MySQL con la DB VocacionPlusDB)
+   # Server
+   export ASPNETCORE_ENVIRONMENT=Server
+   dotnet run # (no requiere MySQL con la DB VocacionPlusDB)
    ```
-4. **Aplicar migraciones**
+5. **Aplicar migraciones**
 
     ```bash
     export ASPNETCORE_ENVIRONMENT=Docker        # trabajar sobre docker
