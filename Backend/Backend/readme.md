@@ -52,9 +52,9 @@ usar la misma contraseña del ultimo comando para el paso 2 en Iniciar elentorno
     la usamos para trabajar sobre la base de datos de docker o la local (Development) o una base de datos externa (Server).
 3. **Crear usuario DB**:
     
-    ir a docker-compose.yml y completar
+    completar docker-compose.yml con .env
                 
-        MYSQL_ROOT_PASSWORD: CONTRASEÑA
+        DB_PASSWORD=contraseña
     crear appsettings.User.json con
     
         {

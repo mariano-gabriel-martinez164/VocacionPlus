@@ -7,4 +7,4 @@ logs/
 *.log
 .vscode/
 appsettings.User.json
-docker-compose.yml
+.env
