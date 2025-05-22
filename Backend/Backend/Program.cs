@@ -40,4 +40,13 @@ app.MapGet("/facultades", async (AppDbContext db) =>
         Results.NotFound("No se encontraron facultades");
 });
 
+app.MapPost("/facultades", async (AppDbContext db, Facultad facultad) =>
+{
+    if (facultad is null)
+        return Results.BadRequest("No se recibio la facultad");
+    await db.facultades.AddAsync(facultad);
+    await db.SaveChangesAsync();
+    return Results.Created($"/facultades/{facultad.Id}", facultad);
+});
+
 app.Run();
