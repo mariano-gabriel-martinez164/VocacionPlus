@@ -1,5 +1,5 @@
 import './App.css';
-import Bar from './Components/Bar.jsx';
+import Bar from './Components/Bar/Bar.jsx';
 function App() {
   return (
     <div className="App">
