@@ -1,0 +1,10 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0
+
+WORKDIR /app
+
+# Copiamos los archivos del proyecto y restauramos paquetes
+COPY . . 
+RUN dotnet restore
+
+# Comando para levantar con hot reload
+CMD ["dotnet", "watch", "run", "--project", "Backend.csproj", "--urls", "http://0.0.0.0:8080"]

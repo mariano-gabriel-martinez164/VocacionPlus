@@ -31,7 +31,7 @@ builder.Services.AddDbContext<AppDbContext>(
 
 var app = builder.Build();
 
-app.MapGet("/", () => $"conectando a {DB_Name} en {DB_Server}:{DB_Port} con el usuario {DB_UserName}");
+app.MapGet("/", () => $"conectando a {DB_Name} en {DB_Server}:{DB_Port} con el usuario {DB_UserName} en modo {builder.Environment.EnvironmentName}");
 app.MapGet("/facultades", async (AppDbContext db) =>
 {
     var facultades = await db.facultades.ToListAsync();
