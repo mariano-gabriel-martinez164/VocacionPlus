@@ -9,7 +9,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Bar from '../Bar/Bar';
-function AltaFacultad() {
+function ModificarFacultad() {
     const [accesibilidad, setAccesibilidad] = React.useState('');
   React.useEffect(() => {
     document.body.style.backgroundColor = '#1A1A1A';
@@ -19,14 +19,14 @@ function AltaFacultad() {
   }, []);
 
   return (
-      <React.Fragment>
+    <React.Fragment>
         <Bar/>
-        <h1 style={{color: '#BA2C39', marginTop:'5rem', marginBottom:'-0.5rem', marginLeft:'13rem', fontSize:'4rem'}}>Crear Facultad</h1>
+        <h1 style={{color: '#BA2C39', marginTop:'5rem', marginBottom:'-0.5rem', marginLeft:'13rem', fontSize:'4rem'}}>Modificar Facultad</h1>
       <CssBaseline />
       <Container fixed sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center',marginTop:'0rem', justifyContent: 'center' }}>
         <Box sx={{ bgcolor: '#381518', width: '100%', minHeight: '109vh', borderRadius: 2, boxShadow: 3, padding: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 <TextField
-            label="Nombre"
+            label="Nombre Actual"
             variant="outlined"
             fullWidth
             InputLabelProps={{ style: { color: '#fff' } }}
@@ -34,7 +34,7 @@ function AltaFacultad() {
             sx={{ backgroundColor:'#BA2C39', input: { color: '#fff' }, marginBottom:'2rem', marginTop:'2rem', label: { color: '#fff' }, borderRadius: 2, boxShadow: 3 }}
           />
           <TextField
-            label="Descripción"
+            label="Descripción Actual"
             variant="outlined"
             fullWidth
             multiline
@@ -42,7 +42,7 @@ function AltaFacultad() {
             sx={{ backgroundColor:'#BA2C39', input: { color: '#fff' }, marginBottom:'2rem', label: { color: '#fff' }, borderRadius: 2, boxShadow: 3 }}
           />
           <TextField
-            label="Dirección"
+            label="Dirección Actual"
             variant="outlined"
             fullWidth
             InputLabelProps={{ style: { color: '#fff' } }}
@@ -65,7 +65,7 @@ function AltaFacultad() {
           </FormControl>
 
             <TextField
-            label="Acceso Directo"
+            label="Acceso Directo Actual"
             variant="outlined"
             fullWidth
             InputLabelProps={{ style: { color: '#fff' } }}
@@ -73,7 +73,7 @@ function AltaFacultad() {
             sx={{ backgroundColor:'#BA2C39', input: { color: '#fff' }, marginBottom:'2rem', label: { color: '#fff' }, borderRadius: 2, boxShadow: 3 }}
           />
           <TextField
-            label="Correo Electrónico"
+            label="Correo Electrónico Actual"
             variant="outlined"
             fullWidth
             type="email"
@@ -118,4 +118,4 @@ function AltaFacultad() {
   );
 }
 
-export default AltaFacultad
+export default ModificarFacultad

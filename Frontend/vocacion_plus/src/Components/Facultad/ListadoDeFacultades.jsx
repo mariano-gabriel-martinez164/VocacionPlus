@@ -6,6 +6,7 @@ import {
   Alert
 } from '@mui/material';
 import FacultadCard from './FacultadCard';
+import Bar from '../Bar/Bar'; // Importa el componente Bar para mostrar la barra de navegación
 
 const ListadoDeFacultades = ({ onSelectFacultad }) => {
   const [facultadesList, setFacultadesList] = useState([]);
@@ -49,6 +50,7 @@ const ListadoDeFacultades = ({ onSelectFacultad }) => {
   }
   return (
     <>
+    <Bar></Bar>
       <Typography variant="h4" component="h1" align="center" gutterBottom>
         Listado de Facultades
       </Typography>

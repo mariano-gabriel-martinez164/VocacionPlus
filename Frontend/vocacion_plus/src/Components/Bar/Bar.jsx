@@ -15,7 +15,7 @@ import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-
+import { Link } from 'react-router-dom';
 export default function MenuAppBar() {
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -44,13 +44,13 @@ export default function MenuAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{ backgroundColor: '#381518' }}>
-        <Toolbar sx={{ position: 'relative', minHeight: 64, pl: 3 }}>
+        <Toolbar sx={{ position: 'relative', minHeight: 64 }}>
           <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ position: 'absolute', left: 16 }}
+            sx={{ position: 'absolute', left: '1rem' }}
             onClick={handleDrawerOpen}
           >
             <MenuIcon />
@@ -60,7 +60,7 @@ export default function MenuAppBar() {
             component="div"
             sx={{
               position: 'absolute',
-              left: 'calc(50% + 16px)',
+              left: 'calc(50% + 1rem)',
               transform: 'translateX(-50%)',
               fontSize: '2rem',
               fontWeight: 'bold',
@@ -73,7 +73,7 @@ export default function MenuAppBar() {
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           {auth && (
-            <div>
+            <div style={{ position: 'absolute', right: '1rem' }}>
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -117,15 +117,13 @@ export default function MenuAppBar() {
           onClick={handleDrawerClose}
           onKeyDown={handleDrawerClose}
         >
+          {/* Navigation List */}
           <List>
-            <ListItem button>
-              <ListItemText primary="Opción 1" />
+            <ListItem button component={Link} to="/altafacultad">
+              <ListItemText primary="Alta Facultad" />
             </ListItem>
-            <ListItem button>
-              <ListItemText primary="Opción 2" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Opción 3" />
+            <ListItem button component={Link} to="/">
+              <ListItemText primary="Listado de Facultades" />
             </ListItem>
           </List>
         </Box>
