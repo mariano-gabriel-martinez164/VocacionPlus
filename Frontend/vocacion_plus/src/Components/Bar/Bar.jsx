@@ -44,13 +44,13 @@ export default function MenuAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{ backgroundColor: '#381518' }}>
-        <Toolbar sx={{ position: 'relative', minHeight: 64 }}>
+        <Toolbar sx={{ position: 'relative', minHeight: 64, pl: 3 }}>
           <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ position: 'absolute', left: 0 }}
+            sx={{ position: 'absolute', left: 16 }}
             onClick={handleDrawerOpen}
           >
             <MenuIcon />
@@ -60,7 +60,7 @@ export default function MenuAppBar() {
             component="div"
             sx={{
               position: 'absolute',
-              left: '50%',
+              left: 'calc(50% + 16px)',
               transform: 'translateX(-50%)',
               fontSize: '2rem',
               fontWeight: 'bold',
@@ -71,7 +71,7 @@ export default function MenuAppBar() {
           >
             Vocación+
           </Typography>
-          <Box sx={{ flexGrow: 1}} />
+          <Box sx={{ flexGrow: 1 }} />
           {auth && (
             <div>
               <IconButton
