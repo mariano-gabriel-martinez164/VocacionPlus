@@ -4,10 +4,17 @@
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.14.0",
+<<<<<<< HEAD
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.1.2",
     "@mui/material": "^7.1.2",
     "@mui/styled-engine-sc": "^7.1.1",
+=======
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^7.1.0",
+    "@mui/material": "^7.1.0",
+    "@mui/styled-engine-sc": "^7.1.0",
+>>>>>>> f4e39d8ded2688d1db1caf65143d286087d826e7
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
@@ -15,7 +22,11 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-scripts": "5.0.1",
+<<<<<<< HEAD
     "styled-components": "^6.1.19",
+=======
+    "styled-components": "^6.1.18",
+>>>>>>> f4e39d8ded2688d1db1caf65143d286087d826e7
     "web-vitals": "^2.1.4"
   },
   "scripts": {

@@ -1,8 +1,10 @@
 obj/
+bin/
 logs/
 *.user
 *.suo
 *.cache
 *.log
 .vscode/
+appsettings.User.json
 .env
