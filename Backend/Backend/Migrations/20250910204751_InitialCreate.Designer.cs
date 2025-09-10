@@ -11,8 +11,8 @@ using VocacionPlus.Database;
 namespace Backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250521234800_init")]
-    partial class init
+    [Migration("20250910204751_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,9 +28,17 @@ namespace Backend.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Accesibilidad")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Correo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
@@ -41,6 +49,14 @@ namespace Backend.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Ubicacion")
                         .IsRequired()
                         .HasColumnType("longtext");
 
