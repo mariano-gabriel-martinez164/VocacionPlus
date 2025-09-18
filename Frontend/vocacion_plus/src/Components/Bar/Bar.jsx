@@ -1,7 +1,7 @@
 import React from 'react'
 import './Bar.css'
-import menu from '../images/menu.png';
-import user from '../images/user.png';
+import menu from '../../images/menu.png';
+import user from '../../images/user.png';
 const Bar = () => {
   return (
     <div>
