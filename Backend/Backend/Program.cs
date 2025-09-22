@@ -9,6 +9,7 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
     .AddEnvironmentVariables();
 
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // agregar el contexto de la base de datos
@@ -17,6 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(
     .LogTo(Console.WriteLine, LogLevel.Information)
     .EnableSensitiveDataLogging()
     .EnableDetailedErrors()
+
 );
 // inicio del swagger
 builder.Services.AddEndpointsApiExplorer();
