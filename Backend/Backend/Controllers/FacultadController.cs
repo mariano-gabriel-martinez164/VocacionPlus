@@ -17,9 +17,12 @@ namespace VocacionPlus.Controllers
 
         // GET: /facultad/
         [HttpGet]
-        public async Task<IActionResult> GetFacultades()
+        public async Task<IActionResult> GetFacultades(int page = 1, int pageSize = 10)
         {
-            var facultades = await _context.facultades.ToListAsync();
+            var facultades = await _context.facultades
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
             return Ok(new { facultades });
         }
 
@@ -61,5 +64,6 @@ namespace VocacionPlus.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
+        
     }
 }

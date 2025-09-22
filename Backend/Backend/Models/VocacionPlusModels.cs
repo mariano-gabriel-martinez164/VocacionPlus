@@ -4,6 +4,24 @@ using System.Collections.Generic;
 
 namespace VocacionPlus.Models
 {
+    public class Facultad
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("id")]
+        [Required]
+        public int Id { get; set; }
+        public string Nombre { get; set; }
+        public string Telefono { get; set; }
+        public string Correo { get; set; }
+        public bool Accesibilidad { get; set; } //publica = true
+        public string Descripcion { get; set; }
+        public string Direccion { get; set; }
+        public string Imagen { get; set; }
+        public string Url { get; set; }
+        public List<Carrera> Carreras { get; set; } = new List<Carrera>();
+    }
+
     public class Usuario
     {
         [Key]
@@ -13,7 +31,7 @@ namespace VocacionPlus.Models
         public string Apellido { get; set; }
         public string Contraseña { get; set; }
         public string Mail { get; set; }
-        public int? TestVocacionalId { get; set; }
+        public int TestVocacionalId { get; set; }
         public TestVocacional TestVocacional { get; set; }
     }
 
@@ -30,6 +48,7 @@ namespace VocacionPlus.Models
         public float Convencional { get; set; }
         public int UsuarioId { get; set; }
         public Usuario Usuario { get; set; }
+        public List<Tag> Tags { get; set; } = new();
     }
 
     public class Carrera
@@ -38,24 +57,20 @@ namespace VocacionPlus.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public int Valoracion { get; set; }
         public string Descripcion { get; set; }
         public int FacultadId { get; set; }
         public Facultad Facultad { get; set; }
         public string PlanDeEstudio { get; set; }
+        public List<Tag> Tags { get; set; } = new();
     }
 
-    public class Curso
+    public class Tag
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public int Valoracion { get; set; }
-        public string Descripcion { get; set; }
-        public int FacultadId { get; set; }
-        public Facultad Facultad { get; set; }
-        public string PlanDeEstudio { get; set; }
+        public List<Carrera> Carreras {get; set; } = new();
     }
 
     public class Valoracion
@@ -63,15 +78,11 @@ namespace VocacionPlus.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string Comentario { get; set; }
+        public string? Comentario { get; set; }
         public int Puntuacion { get; set; }
         public int AutorId { get; set; }
         public Usuario Autor { get; set; }
-        public int? FacultadId { get; set; }
-        public Facultad Facultad { get; set; }
-        public int? CarreraId { get; set; }
+        public int CarreraId { get; set; }
         public Carrera Carrera { get; set; }
-        public int? CursoId { get; set; }
-        public Curso Curso { get; set; }
     }
 }
