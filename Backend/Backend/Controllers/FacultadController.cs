@@ -34,6 +34,33 @@ namespace VocacionPlus.Controllers
             if (facultad == null) return NotFound();
             return Ok(facultad);
         }
+        // get: /facultad/{facultad_nombre}/
+        [HttpGet("buscar")]
+        public async Task<IActionResult> GetFacultadByName(
+            [FromQuery] string nombre,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10)
+        {
+            if (string.IsNullOrWhiteSpace(nombre))
+                return BadRequest("debe especificar un nombre.");
+
+            var query = _context.facultades
+            .Where(f => f.Nombre.ToLower().Contains(nombre.ToLower()));
+
+            var total = await query.CountAsync();
+            var facultades = await query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+            
+            return Ok(new
+            {
+                total,
+                page,
+                pageSize,
+                results = facultades
+            });
+        }
 
         // POST: /facultad/
         [HttpPost]
@@ -64,6 +91,5 @@ namespace VocacionPlus.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
-        
     }
 }
