@@ -17,7 +17,12 @@ namespace VocacionPlus.Controllers
 
         // POST: /usuario/
         [HttpPost]
-        public IActionResult RegistrarUsuario([FromBody] object usuario) { return Ok(); }
+        public async Task<IActionResult> RegistrarUsuario([FromBody] Usuario usuario)
+        {
+            _context.usuarios.Add(usuario);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetUsuario), new {id = usuario.Id}, usuario);
+        }
 
         // PUT: /usuario/{usuario_id}/clave/
         [HttpPut("{usuario_id}/clave")]
@@ -26,7 +31,9 @@ namespace VocacionPlus.Controllers
         // PUT: /usuario/
         [HttpPut]
         public IActionResult CambiarDatosUsuario([FromBody] object datos) { return Ok(); }
-
+        //GET: /usuario/{}
+        [HttpGet]
+        public async Task<IActionResult> GetUsuario
         // GET: /usuario/{nombre}/
         [HttpGet("{nombre}")]
         public IActionResult BuscarUsuarioPorNombre(string nombre) { return Ok(); }

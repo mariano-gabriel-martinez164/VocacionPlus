@@ -21,7 +21,11 @@ namespace VocacionPlus.Models
         public string Url { get; set; }
         public List<Carrera> Carreras { get; set; } = new List<Carrera>();
     }
-
+    public enum TipoUsuario
+    {
+        Normal,
+        Admin
+    }
     public class Usuario
     {
         [Key]
@@ -31,6 +35,7 @@ namespace VocacionPlus.Models
         public string Apellido { get; set; }
         public string Contraseña { get; set; }
         public string Mail { get; set; }
+        public TipoUsuario Rol { get; set; } = TipoUsuario.Normal;
         public int TestVocacionalId { get; set; }
         public TestVocacional TestVocacional { get; set; }
     }
