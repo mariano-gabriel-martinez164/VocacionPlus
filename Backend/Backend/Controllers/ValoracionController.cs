@@ -17,30 +17,49 @@ namespace VocacionPlus.Controllers
 
         // POST: /valoracion/
         [HttpPost]
-        public IActionResult CrearValoracion([FromBody] object valoracion) { return Ok(); }
+        public async Task<IActionResult> CreateValoracion([FromBody] Valoracion valoracion)
+        {
+            _context.valoraciones.Add(valoracion);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetValoracion), new {id = valoracion.Id}, valoracion);
+        }
 
         // GET: /valoracion/{facultad_id}/
         [HttpGet("facultad/{facultad_id}")]
-        public IActionResult ObtenerValoracionFacultad(int facultad_id) { return Ok(); }
+        public IActionResult GetValoracionFacultad(int facultad_id) { return Ok(); }
 
         // GET: /valoracion/{valoracion_id}/
         [HttpGet("{valoracion_id}")]
-        public IActionResult ObtenerValoracion(int valoracion_id) { return Ok(); }
+        public async Task<IActionResult> GetValoracion(int valoracion_id)
+        {
+            var valoracion = await _context.valoraciones.FindAsync(valoracion_id);
+            if (valoracion == null) return NotFound();
 
-        // GET: /valoracion/curso/{curso_id}/
-        [HttpGet("curso/{curso_id}")]
-        public IActionResult ObtenerValoracionCurso(int curso_id) { return Ok(); }
+            return Ok(valoracion);
+        }
 
         // GET: /valoracion/carrera/{carrera_id}/
         [HttpGet("carrera/{carrera_id}")]
-        public IActionResult ObtenerValoracionCarrera(int carrera_id) { return Ok(); }
+        public async Task<IActionResult> GetValoracionesCarrera(int carrera_id, int page = 1, int pageSize = 10)
+        {
+            var valoraciones = await _context.valoraciones
+            .Where(v => v.CarreraId == carrera_id)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+            return Ok( new { valoraciones });
+        }
 
         // DELETE: /valoracion/{valoracion_id}/
         [HttpDelete("{valoracion_id}")]
-        public IActionResult OcultarComentario(int valoracion_id) { return Ok(); }
+        public async Task<IActionResult> DeleteComentario(int valoracion_id)
+        {
+            var valoracion = await _context.valoraciones.FindAsync(valoracion_id);
+            if (valoracion == null) return NotFound();
+            _context.valoraciones.Remove(valoracion);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
 
-        // DELETE: /valoracion/
-        [HttpDelete]
-        public IActionResult OcultarVariosComentarios([FromBody] object valoraciones) { return Ok(); }
     }
 }

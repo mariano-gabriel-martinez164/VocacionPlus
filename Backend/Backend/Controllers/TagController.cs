@@ -94,6 +94,7 @@ namespace VocacionPlus.Controllers
         {
             var tag = await _context.tags.FindAsync(tag_id);
             if (tag == null) return NotFound();
+            _context.tags.Remove(tag);
             await _context.SaveChangesAsync();
             return NoContent();
         }
