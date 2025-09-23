@@ -167,7 +167,7 @@ public async Task<IActionResult> GetCarrerasPorFacultad(int facultad_id, int pag
         [HttpDelete("{carrera_id}")]
         public async Task<IActionResult> EliminarCarrera(int carrera_id)
         {
-            var carrera = await _context.Carreras.FindAsync(carrera_id);
+            var carrera = await _context.carreras.FindAsync(carrera_id);
             if (carrera == null)
             {
                 return NotFound($"No se encontró la carrera con el ID {carrera_id} para eliminar.");
