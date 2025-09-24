@@ -116,6 +116,7 @@ public async Task<IActionResult> GetCarrerasPorFacultad(int facultad_id, int pag
         // POST: /carrera/
         /// Crea una nueva carrera.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CrearCarrera([FromBody] Carrera nuevaCarrera)
         {
             if (nuevaCarrera == null)
@@ -133,6 +134,7 @@ public async Task<IActionResult> GetCarrerasPorFacultad(int facultad_id, int pag
         // PUT: /carrera/{carrera_id}/
         /// Actualiza una carrera existente.
         [HttpPut("{carrera_id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditarCarrera(int carrera_id, [FromBody] Carrera carreraActualizada)
         {
             if (carrera_id != carreraActualizada.Id)
@@ -165,6 +167,7 @@ public async Task<IActionResult> GetCarrerasPorFacultad(int facultad_id, int pag
         // DELETE: /carrera/{carrera_id}/
         /// Elimina una carrera por su ID.
         [HttpDelete("{carrera_id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EliminarCarrera(int carrera_id)
         {
             var carrera = await _context.carreras.FindAsync(carrera_id);

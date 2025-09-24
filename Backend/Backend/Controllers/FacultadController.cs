@@ -64,6 +64,7 @@ namespace VocacionPlus.Controllers
 
         // POST: /facultad/
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateFacultad([FromBody] Facultad facultad)
         {
             _context.facultades.Add(facultad);
@@ -73,6 +74,7 @@ namespace VocacionPlus.Controllers
 
         // PUT: /facultad/{facultad_id}/
         [HttpPut("{facultad_id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateFacultad(int facultad_id, [FromBody] Facultad facultad)
         {
             if (facultad_id != facultad.Id) return BadRequest();
@@ -83,6 +85,7 @@ namespace VocacionPlus.Controllers
 
         // DELETE: /facultad/{facultad_id}/
         [HttpDelete("{facultad_id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteFacultad(int facultad_id)
         {
             var facultad = await _context.facultades.FindAsync(facultad_id);

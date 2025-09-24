@@ -52,6 +52,7 @@ namespace VocacionPlus.Controllers
 
         // DELETE: /valoracion/{valoracion_id}/
         [HttpDelete("{valoracion_id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteComentario(int valoracion_id)
         {
             var valoracion = await _context.valoraciones.FindAsync(valoracion_id);
