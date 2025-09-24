@@ -2,6 +2,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VocacionPlus.Models;
 using VocacionPlus.Database;
+using Microsoft.AspNetCore.Identity;
+using VocacionPlus.Models.DTOs;
+using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.IdentityModel.Tokens;  
+using System.IdentityModel.Tokens.Jwt; 
+using System.Security.Claims;            
+using System.Text;                       
 
 namespace VocacionPlus.Controllers
 {
@@ -17,33 +24,182 @@ namespace VocacionPlus.Controllers
 
         // POST: /usuario/
         [HttpPost]
-        public async Task<IActionResult> RegistrarUsuario([FromBody] Usuario usuario)
+        public async Task<IActionResult> RegistrarUsuario([FromBody] UsuarioCreateRequest dto)
         {
+            if (!dto.esAdmin)
+            {
+                if (dto.Test == null) return BadRequest("el usuario normal debe incluir test");
+            }
+
+            var passwordHasher = new PasswordHasher<Usuario>();
+
+            var usuario = new Usuario
+            {
+                Nombre = dto.Nombre,
+                Apellido = dto.Apellido,
+                Mail = dto.Correo,
+                Password = passwordHasher.HashPassword(null, dto.Password),
+                TestVocacional = dto.Test,
+            };
+
             _context.usuarios.Add(usuario);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetUsuario), new {id = usuario.Id}, usuario);
+            var response = new UsuarioResponse
+            {
+                Id = usuario.Id,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Correo = usuario.Mail
+            };
+
+            return CreatedAtAction(nameof(GetUsuario), new { id = usuario.Id }, response);
         }
 
         // PUT: /usuario/{usuario_id}/clave/
         [HttpPut("{usuario_id}/clave")]
-        public IActionResult CambiarClave(int usuario_id, [FromBody] object datos) { return Ok(); }
+        public async Task<IActionResult> UpdatePassword(int usuario_id, [FromBody] ChangePasswordRequest request)
+        {
+            var usuario = await _context.usuarios.FindAsync(usuario_id);
+            if (usuario == null) return NotFound("Usuario no encontrado");
+            var passwordHasher = new PasswordHasher<Usuario>();
+            var result = passwordHasher.VerifyHashedPassword(usuario, usuario.Password, request.PasswordActual);
+            if (result == PasswordVerificationResult.Failed)
+            {
+                return BadRequest("la contraseña actual es incorrecta");
+            }
+            usuario.Password = passwordHasher.HashPassword(usuario, request.PasswordNueva);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
 
         // PUT: /usuario/
-        [HttpPut]
-        public IActionResult CambiarDatosUsuario([FromBody] object datos) { return Ok(); }
-        //GET: /usuario/{}
-        [HttpGet]
-        public async Task<IActionResult> GetUsuario
-        // GET: /usuario/{nombre}/
-        [HttpGet("{nombre}")]
-        public IActionResult BuscarUsuarioPorNombre(string nombre) { return Ok(); }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> CambiarDatosUsuario(int id, [FromBody] UsuarioUpdateRequest dto)
+        {
+            var usuario = await _context.usuarios.FindAsync(id);
+            if (usuario == null) return NotFound();
+
+            usuario.Nombre = dto.Nombre;
+            usuario.Apellido = dto.Apellido;
+            await _context.SaveChangesAsync();
+            var response = new UsuarioResponse
+            {
+                Id = usuario.Id,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Correo = usuario.Mail
+            };
+            return Ok(response);
+        }
+
+        //put : /id/banear/
+        [HttpPut("{id}/banear")]
+        public async Task<IActionResult> BanearUsuario(int id)
+        {
+            var usuario = await _context.usuarios.FindAsync(id);
+            if (usuario == null) return NotFound();
+
+            usuario.Honor = false; // o cualquier otra restricción
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpPut("{id}/activar")]
+        public async Task<IActionResult> ActivarUsuario(int id)
+        {
+            var usuario = await _context.usuarios.FindAsync(id);
+            if (usuario == null) return NotFound();
+
+            usuario.Honor = true;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // GET: /usuario/{id}
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUsuario(int id)
+        {
+            var usuario = await _context.usuarios.FindAsync(id);
+            if (usuario == null) return NotFound();
+            var response = new UsuarioResponse
+            {
+                Id = usuario.Id,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Correo = usuario.Mail
+            };
+            return Ok(response);
+        }
+
+        // GET: /usuario/buscar/
+        [HttpGet("buscar")]
+        public async Task<IActionResult> GetUsuarioPorNombre(
+            [FromQuery] string nombre,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10)
+        {
+            var usuarios = await _context.usuarios
+            .Where(u => u.Nombre.ToLower().Contains(nombre.ToLower()))
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Select(u => new UsuarioResponse
+            {
+                Id = u.Id,
+                Nombre = u.Nombre,
+                Apellido = u.Apellido,
+                Correo = u.Mail
+            })
+            .ToListAsync();
+
+            return Ok(new{ usuarios });
+        }
 
         // GET: /usuario/iniciar-sesion/
         [HttpGet("iniciar-sesion")]
-        public IActionResult IniciarSesion() { return Ok(); }
+        public async Task<IActionResult> IniciarSesion([FromBody] VocacionPlus.Models.DTOs.LoginRequest dto)
+        {
+            var usuario = await _context.usuarios.FirstOrDefaultAsync(u => u.Mail == dto.Correo);
+            if (usuario == null) return Unauthorized("usuario o contraseña incorrecta");
+            var passwordHasher = new PasswordHasher<Usuario>();
+            var result = passwordHasher.VerifyHashedPassword(usuario, usuario.Password, dto.Password);
+            if (result == PasswordVerificationResult.Failed) return Unauthorized("usuario o contraseña incorrecta");
+
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
+                new Claim("nombre", usuario.Nombre),
+                new Claim("rol", usuario.Rol.ToString())
+            };
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Mariancrack123"));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var token = new JwtSecurityToken(
+                issuer: "TuApp",
+                audience: "TuApp",
+                claims: claims,
+                expires: DateTime.UtcNow.AddHours(1),
+                signingCredentials: creds
+            );
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+            Response.Cookies.Append("jwt", jwt, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTimeOffset.UtcNow.AddHours(1)
+            });
+            return Ok(new { usuario.Id, usuario.Nombre, usuario.Mail});
+        }
 
         // GET: /usuario/cerrar-sesion/
-        [HttpGet("cerrar-sesion")]
-        public IActionResult CerrarSesion() { return Ok(); }
+        [HttpPost("cerrar-sesion")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("jwt");
+            return NoContent();
+        }
+
     }
 }

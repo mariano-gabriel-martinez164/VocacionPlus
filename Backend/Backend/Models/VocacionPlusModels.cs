@@ -33,9 +33,10 @@ namespace VocacionPlus.Models
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
-        public string Contraseña { get; set; }
+        public string Password { get; set; }
         public string Mail { get; set; }
         public TipoUsuario Rol { get; set; } = TipoUsuario.Normal;
+        public bool Honor { get; set; } = true; //puede comentar o no, para banear trolls
         public int TestVocacionalId { get; set; }
         public TestVocacional TestVocacional { get; set; }
     }
