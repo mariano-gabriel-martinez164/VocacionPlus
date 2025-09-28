@@ -19,6 +19,7 @@ namespace VocacionPlus.Controllers
 
         //post: /tag
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateTag([FromBody] Tag tag)
         {
             _context.tags.Add(tag);
@@ -28,6 +29,7 @@ namespace VocacionPlus.Controllers
 
         //vincular un tag con una carrera
         [HttpPost("{carreraId}/tags/{tagId}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddTagToCarrera(int carreraId, int tagId)
         {
             var carrera = await _context.carreras
@@ -80,6 +82,7 @@ namespace VocacionPlus.Controllers
 
         //put
         [HttpPut("{tag_id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateTag(int tag_id, [FromBody] Tag tag)
         {
             if (tag_id != tag.Id) return BadRequest();
@@ -90,6 +93,7 @@ namespace VocacionPlus.Controllers
         
         //delete
         [HttpDelete("{tag_id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteTag(int tag_id)
         {
             var tag = await _context.tags.FindAsync(tag_id);

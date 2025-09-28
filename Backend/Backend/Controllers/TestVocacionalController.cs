@@ -76,6 +76,7 @@ namespace VocacionPlus.Controllers
 
         // DELETE: /testVocacional/
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteTest(int test_id)
         {
             var test = await _context.testVocacionales.FindAsync(test_id);
