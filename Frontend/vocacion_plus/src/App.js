@@ -15,7 +15,7 @@ function App() {
       <Bar/>
       <Routes>
         <Route path="/facultad" element={<Facultad />} />
-        <Route path="/carreras" element={<Carreras />} />
+        <Route path="/carrera" element={<Carreras />} />
         <Route path="/usuario" element={<Usuario />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
