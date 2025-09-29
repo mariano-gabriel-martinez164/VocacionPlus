@@ -59,7 +59,6 @@ namespace VocacionPlus.Models
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public int FacultadId { get; set; }
-        public Facultad Facultad { get; set; }
         public string PlanDeEstudio { get; set; }
         public List<Tag> Tags { get; set; } = new();
     }
