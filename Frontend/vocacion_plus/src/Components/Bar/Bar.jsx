@@ -12,6 +12,8 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { Drawer, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import { red } from "@mui/material/colors";
+import { borderBottom, color, fontSize, height } from "@mui/system";
 
 export default function Bar() {
   // aca pongan las opciones del menu (tienen que estar con el link en el app.js)
@@ -42,10 +44,11 @@ export default function Bar() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <Box sx={{ flexGrow: 1 }} className="box">
+      <AppBar position="static" className="bar">
         <Toolbar>
           <IconButton
+            className="menu-boton"
             size="large"
             edge="start"
             color="inherit"
@@ -56,22 +59,44 @@ export default function Bar() {
             <MenuIcon />
           </IconButton>
           <Drawer open={open} onClose={toggleDrawer(false)}>
-            <List>
-              {routes.map((item, index) => (
-              <ListItem key={index}>
-                <ListItemButton component={Link} to={item.path}>
-                  <ListItemText primary={item.text} />
-                </ListItemButton>
-              </ListItem>
-              ))}
-            </List>
+            <Box className="nav" sx={{
+              bgcolor: "var(--primary-500)",
+              color: "var(--white)",
+              height: "100%"
+            }}>
+              <List>
+                {routes.map((item, index) => (
+                  <ListItem key={index}
+                    sx={{
+                      width: "8vw",
+                      padding: 0,
+                      borderColor: "var(--black)",
+                      borderBottom: 2,
+                    }}
+                  >
+                    <ListItemButton component={Link} to={item.path}
+                    sx={{
+                        textAlign: "center",
+                        margin: 0,
+                        "&:hover": {
+                          backgroundColor: "var(--primary-400)",
+                        }
+                      }}
+                    >
+                      <ListItemText primary={item.text} />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
           </Drawer>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: "center" }}>
+          <Typography className="titulo" variant="h6" component="div" sx={{ flexGrow: 1, textAlign: "center" }}>
             Vocación Plus
           </Typography>
           {auth && (
             <div>
               <IconButton
+                className="menu-boton"
                 size="large"
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
