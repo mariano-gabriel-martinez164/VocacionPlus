@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VocacionPlus.Models;
 using VocacionPlus.Database;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace VocacionPlus.Controllers
 {

@@ -9,6 +9,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt; 
 using System.Security.Claims;            
 using System.Text;                       
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+
 
 namespace VocacionPlus.Controllers
 {
@@ -26,9 +29,9 @@ namespace VocacionPlus.Controllers
         [HttpPost]
         public async Task<IActionResult> RegistrarUsuario([FromBody] UsuarioCreateRequest dto)
         {
-            if (!dto.esAdmin)
+            if (!dto.esAdmin && dto.Test == null)
             {
-                if (dto.Test == null) return BadRequest("el usuario normal debe incluir test");
+               return BadRequest("el usuario normal debe incluir test");
             }
 
             var passwordHasher = new PasswordHasher<Usuario>();
@@ -39,8 +42,21 @@ namespace VocacionPlus.Controllers
                 Apellido = dto.Apellido,
                 Mail = dto.Correo,
                 Password = passwordHasher.HashPassword(null, dto.Password),
-                TestVocacional = dto.Test,
+                Rol = dto.esAdmin ? TipoUsuario.Admin : TipoUsuario.Normal,
+                Honor = dto.Honor ?? true
             };
+            if(dto.Test != null)
+            {
+                usuario.TestVocacional = new TestVocacional
+                {
+                    Realista = dto.Test.Realista,
+                    Investigador = dto.Test.Investigador,
+                    Artistico = dto.Test.Artistico,
+                    Social = dto.Test.Social,
+                    Emprendedor = dto.Test.Emprendedor,
+                    Convencional = dto.Test.Convencional
+                };
+            }
 
             _context.usuarios.Add(usuario);
             await _context.SaveChangesAsync();
@@ -157,8 +173,8 @@ namespace VocacionPlus.Controllers
             return Ok(new{ usuarios });
         }
 
-        // GET: /usuario/iniciar-sesion/
-        [HttpGet("iniciar-sesion")]
+        //post /usuario/iniciar-sesion/
+        [HttpPost("iniciar-sesion")]
         public async Task<IActionResult> IniciarSesion([FromBody] VocacionPlus.Models.DTOs.LoginRequest dto)
         {
             var usuario = await _context.usuarios.FirstOrDefaultAsync(u => u.Mail == dto.Correo);
@@ -167,14 +183,14 @@ namespace VocacionPlus.Controllers
             var result = passwordHasher.VerifyHashedPassword(usuario, usuario.Password, dto.Password);
             if (result == PasswordVerificationResult.Failed) return Unauthorized("usuario o contraseña incorrecta");
 
-            var claims = new[]
+            var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
-                new Claim("nombre", usuario.Nombre),
-                new Claim("rol", usuario.Rol.ToString())
+                new Claim("role", usuario.Rol.ToString()),
+                new Claim("nombre", usuario.Nombre)
             };
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Mariancrack123"));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("EstaEsUnaClaveMuySeguraDeAlMenos16Bytes"));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            
             var token = new JwtSecurityToken(
                 issuer: "TuApp",
                 audience: "TuApp",
@@ -183,14 +199,7 @@ namespace VocacionPlus.Controllers
                 signingCredentials: creds
             );
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-            Response.Cookies.Append("jwt", jwt, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTimeOffset.UtcNow.AddHours(1)
-            });
-            return Ok(new { usuario.Id, usuario.Nombre, usuario.Mail});
+            return Ok(new { usuario.Id, usuario.Nombre, usuario.Mail, Token = jwt});
         }
 
         // GET: /usuario/cerrar-sesion/
@@ -199,6 +208,12 @@ namespace VocacionPlus.Controllers
         {
             Response.Cookies.Delete("jwt");
             return NoContent();
+        }
+        [HttpGet("claims")]
+        public IActionResult Claims()
+        {
+            var claims = User.Claims.Select(c => new { c.Type, c.Value });
+            return Ok(claims);
         }
 
     }

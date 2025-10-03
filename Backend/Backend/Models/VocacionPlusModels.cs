@@ -19,7 +19,6 @@ namespace VocacionPlus.Models
         public string Direccion { get; set; }
         public string Imagen { get; set; }
         public string Url { get; set; }
-        public List<Carrera> Carreras { get; set; } = new List<Carrera>();
     }
     public enum TipoUsuario
     {
@@ -37,7 +36,6 @@ namespace VocacionPlus.Models
         public string Mail { get; set; }
         public TipoUsuario Rol { get; set; } = TipoUsuario.Normal;
         public bool Honor { get; set; } = true; //puede comentar o no, para banear trolls
-        public int TestVocacionalId { get; set; }
         public TestVocacional TestVocacional { get; set; }
     }
 
@@ -54,7 +52,6 @@ namespace VocacionPlus.Models
         public float Convencional { get; set; }
         public int UsuarioId { get; set; }
         public Usuario Usuario { get; set; }
-        public List<Tag> Tags { get; set; } = new();
     }
 
     public class Carrera
@@ -65,7 +62,6 @@ namespace VocacionPlus.Models
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public int FacultadId { get; set; }
-        public Facultad Facultad { get; set; }
         public string PlanDeEstudio { get; set; }
         public List<Tag> Tags { get; set; } = new();
     }

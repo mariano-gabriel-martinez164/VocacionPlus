@@ -1,3 +1,5 @@
+using VocacionPlus.Models.DTOs;
+
 namespace VocacionPlus.Models.DTOs
 {
     public class UsuarioCreateRequest
@@ -8,7 +10,7 @@ namespace VocacionPlus.Models.DTOs
         public string Password { get; set; }
         public bool? Honor { get; set; } //puede comentar
         public bool esAdmin { get; set; }
-        public TestVocacional Test { get; set; }
+        public TestVocacionalCreateRequest Test { get; set; }
     }
     public class UsuarioResponse
     {
@@ -31,5 +33,5 @@ namespace VocacionPlus.Models.DTOs
     {
         public string Correo { get; set; }
         public string Password { get; set; }
-    }
+    };
 }

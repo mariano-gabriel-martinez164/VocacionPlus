@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using VocacionPlus.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace VocacionPlus.Database
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<IdentityUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -18,7 +20,6 @@ namespace VocacionPlus.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
             // Relación uno a uno entre Usuario y TestVocacional
             modelBuilder.Entity<Usuario>()
                 .HasOne(u => u.TestVocacional)

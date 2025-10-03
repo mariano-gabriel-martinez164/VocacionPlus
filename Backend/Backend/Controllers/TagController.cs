@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using VocacionPlus.Models;
 using VocacionPlus.Database;
 using System.IO.Compression;
+using Microsoft.AspNetCore.Authorization;
 
 namespace VocacionPlus.Controllers
 {

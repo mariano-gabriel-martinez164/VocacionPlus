@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VocacionPlus.Models;
 using VocacionPlus.Database;
+using Microsoft.AspNetCore.Authorization;
+using VocacionPlus.Models.DTOs;
 
 namespace VocacionPlus.Controllers
 {
@@ -17,51 +19,36 @@ namespace VocacionPlus.Controllers
 
         // POST: /testVocacional/
         [HttpPost]
-        public async Task<IActionResult> CreateTest([FromBody] TestVocacional test)
+        public async Task<IActionResult> CreateTest(int usuarioId, [FromBody] TestVocacionalCreateRequest dto)
         {
-            var tags = new List<Tag>();
-            if (test.Realista >= 5)
+            var usuario = await _context.usuarios.FindAsync(usuarioId);
+            if (usuario == null) return NotFound("no encontrado");
+            var test = new TestVocacional
             {
-                var tag = await _context.tags.FirstOrDefaultAsync(t => t.Nombre == "Matematicas");
-                if (tag != null) tags.Add(tag);
-            }
-            if (test.Investigador >= 5)
-            {
-                var tag = await _context.tags.FirstOrDefaultAsync(t => t.Nombre == "ciencia");
-                if (tag != null) tags.Add(tag);
-            }
-            if (test.Artistico >= 5)
-            {
-                var tag = await _context.tags.FirstOrDefaultAsync(t => t.Nombre == "Creativo");
-                if (tag != null) tags.Add(tag);
-            }
-            if (test.Social >= 5)
-            {
-                var tag = await _context.tags.FirstOrDefaultAsync(t => t.Nombre == "Sociales");
-                if (tag != null) tags.Add(tag);
-            }
-             if (test.Emprendedor >= 5)
-            {
-                var tag = await _context.tags.FirstOrDefaultAsync(t => t.Nombre == "Empresa");
-                if (tag != null) tags.Add(tag);
-            }
-             if (test.Convencional >= 5)
-            {
-                var tag = await _context.tags.FirstOrDefaultAsync(t => t.Nombre == "ingenieria industrial");
-                if (tag != null) tags.Add(tag);
-            }
-            test.Tags = tags;
+                UsuarioId = usuario.Id,
+                Realista = dto.Realista,
+                Investigador = dto.Investigador,
+                Artistico = dto.Artistico,
+                Social = dto.Social,
+                Emprendedor = dto.Emprendedor,
+                Convencional = dto.Convencional
+            };
             _context.testVocacionales.Add(test);
-            
-            if (test.Tags.Count > 0 && test.Tags != null)
+            await _context.SaveChangesAsync();
+            var tagsRecomendados = new List<string>();
+            if(test.Realista >= 6) tagsRecomendados.Add("Realista");
+            if(test.Artistico >= 6) tagsRecomendados.Add("Artistico");
+            if(test.Social >= 6) tagsRecomendados.Add("Social");
+            if(test.Investigador >= 6) tagsRecomendados.Add("Investigador");
+            if(test.Emprendedor >= 6) tagsRecomendados.Add("Emprendedor");
+            if(test.Convencional >= 6) tagsRecomendados.Add("Convencional");
+
+            return Ok(new
             {
-                await _context.SaveChangesAsync();
-            }
-            else
-            {
-                return BadRequest("error de tags");
-            }
-            return CreatedAtAction(nameof(GetTest), new { id = test.Id }, test);
+                test.Id,
+                Usuario = usuario.Nombre,
+                tagsRecomendados
+            });
         }
 
         // GET: /testVocacional/{usuario_id}/
