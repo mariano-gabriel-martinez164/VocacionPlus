@@ -3,16 +3,26 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-export default function RegisterForm() {
+export default function RegisterForm({ onSubmit }) {
   const [age, setAge] = React.useState("");
   const [nombre, setNombre] = React.useState("");
-  const [password, SetPassword] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [confirmPassword, setConfirmPassword] = React.useState("");
   const [correo, setCorreo] = React.useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (password !== confirmPassword){
+      alert("Las contraseñas no coinciden");
+      return;
+    }
+    const ageNumber = Number(age);
+    if (ageNumber < 7 || ageNumber > 100){
+      alert("la edad debe estar entre 7 y 100 años");
+      return 
+    }
     console.log({nombre, correo, password, age});
-    //falta la verificacion de la doble contrase;a
+    if(onSubmit) { onSubmit({ nombre, correo, password, age: ageNumber }); }
   }
 
   return (
@@ -33,40 +43,42 @@ export default function RegisterForm() {
     >
     <TextField
       required
-      id="nombre"
-      label="Obligatorio"
+      label="Nombre"
       value={nombre}
-      defaultValue="Nombre"
       variant="filled"
       type="text"
       onChange={e => setNombre(e.target.value)}
     />
     <TextField
       required
-      id="correo"
-      label="Obligatorio"
-      defaultValue="Correo"
+      label="Correo"
       type="email"
       variant="filled"
       value={correo}
-      onChange={e = setCorreo(e.target.value)}
+      onChange={e => setCorreo(e.target.value)}
     />
    <TextField
       required
-      id="password"
-      label="Obligatorio"
-      defaultValue="Contraseña"
+      label="Contraseña"
       type="password"
       variant="filled"
       value={password}
       onChange={e => setPassword(e.target.value)}
     />
-    {/* falta un campo para verificar la contra*/}
+    <TextField
+      required
+      label="Repetir contraseña"
+      type="password"
+      value={confirmPassword}
+      onChange={e => setConfirmPassword(e.target.value)}
+      variant="filled"
+    />
     <TextField
       label="Edad"
       type="number"
       value={age}
       onChange={ e => setAge(e.target.value)}
+      inputProps={{ min: 7, max: 100 }}
       variant="filled"
     />
     <Button

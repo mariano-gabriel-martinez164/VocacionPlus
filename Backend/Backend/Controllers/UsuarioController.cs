@@ -25,8 +25,8 @@ namespace VocacionPlus.Controllers
             _context = context;
         }
 
-        // POST: /usuario/
-        [HttpPost]
+        // POST: /Usuario/register
+        [HttpPost("register")]
         public async Task<IActionResult> RegistrarUsuario([FromBody] UsuarioCreateRequest dto)
         {
             if (!dto.esAdmin && dto.Test == null)
