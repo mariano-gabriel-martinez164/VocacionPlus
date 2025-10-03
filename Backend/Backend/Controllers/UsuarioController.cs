@@ -111,6 +111,7 @@ namespace VocacionPlus.Controllers
 
         //put : /id/banear/
         [HttpPut("{id}/banear")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> BanearUsuario(int id)
         {
             var usuario = await _context.usuarios.FindAsync(id);
@@ -123,6 +124,7 @@ namespace VocacionPlus.Controllers
         }
 
         [HttpPut("{id}/activar")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ActivarUsuario(int id)
         {
             var usuario = await _context.usuarios.FindAsync(id);
@@ -152,6 +154,7 @@ namespace VocacionPlus.Controllers
 
         // GET: /usuario/buscar/
         [HttpGet("buscar")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUsuarioPorNombre(
             [FromQuery] string nombre,
             [FromQuery] int page = 1,
@@ -170,7 +173,7 @@ namespace VocacionPlus.Controllers
             })
             .ToListAsync();
 
-            return Ok(new{ usuarios });
+            return Ok(new { usuarios });
         }
 
         //post /usuario/iniciar-sesion/
@@ -209,12 +212,5 @@ namespace VocacionPlus.Controllers
             Response.Cookies.Delete("jwt");
             return NoContent();
         }
-        [HttpGet("claims")]
-        public IActionResult Claims()
-        {
-            var claims = User.Claims.Select(c => new { c.Type, c.Value });
-            return Ok(claims);
-        }
-
     }
 }
