@@ -1,74 +1,41 @@
-.bar{
-    position: absolute;
-    width: 100%;
-    height: 7vh;
-    background-color: #381518;
-}
-.menu{
-    left: 0.5vh;
-    position: absolute;
-    height: 100%;
-    display: flex;
+.box .bar {
+  background-color: var(--primary-500);
+  color: var(--primary-100);
 }
 
-.nombre{
-    top: -3vh;
-    position: absolute;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    font-size: 4.5vh;
-    color: #D64350;
-}
-.user{
-    left: 197vh;
-    position: absolute;
-    height: 100%;
-    display: flex;
-
+.bar .titulo {
+  font-weight: bold;
+  font-size: 2rem;
+  color: var(--primary-100);
+  letter-spacing: 1px;
 }
 
-@media (max-width: 600px) {
-    .bar {
-        position: absolute;
-        width: 100vw;
-        height: 8vh;
-    }
-    .menu {
-        position: absolute;
-        height: 65px;
-        align-items: center;
-    }
-    .menu1 {
-        top: 0.5vw;
-        position: absolute;
-        height: 60px;
-        display: flex
-;
-    }
-    .nombre {
-        top: -19px;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        width: max-content;
-        font-size: 4.2vh;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
-    .user {
-        position: absolute;
-        right: 1vw;
-        left: unset;
-        align-items: center;
-        height: 65px;
-    }
-    .user1 {
-        position: absolute;
-        right: 1vw;
-        left: unset;
-        align-items: center;
-        height: 55px;
-    }
+.bar .nav {
+  background-color: var(--primary-100);
+}
+
+.bar .menu-boton {
+  color: var(--primary-100);
+  transition: color 0.3s ease;
+}
+
+.bar .menu-boton:hover {
+  color: var(--primary-300); /* azul medio al hover */
+}
+
+.bar .MuiSvgIcon-root {
+  font-size: 3rem; /* íconos más grandes */
+}
+
+.bar .MuiMenu-paper {
+  background-color: var(--primary-400);
+  color: var(--white);
+}
+
+.bar .MuiMenuItem-root {
+  font-size: 0.95rem;
+}
+
+.bar .MuiMenuItem-root:hover {
+  background-color: var(--secondary-400);
 }

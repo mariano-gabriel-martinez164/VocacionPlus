@@ -1,21 +1,27 @@
-import React from 'react';
-import { Container } from '@mui/material';
-import { Routes, Route } from 'react-router-dom';
-import VerFacultades from './Components/Facultad/VerFacultad';
-import ListadoDeFacultades from './Components/Facultad/ListadoDeFacultades';
-import FacultadCard from './Components/Facultad/FacultadCard';
-import AltaFacultad from './Components/Facultad/AltaFacultad';
-import ModificarFacultad from './Components/Facultad/ModificarFacultad';
-const App = () => {
+// App.js
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+// Importá tus componentes (pantallas)
+import Facultad from "./Components/VerFacultad/Facultad";
+import Carreras from "./Components/Carreras/Carreras";
+import Usuario from "./Components/Usuario/Usuario";
+import Login from "./Components/Usuario/Login";
+import Register from "./Components/Usuario/Registro";
+import Bar from "./Components/Bar/Bar";
+function App() {
   return (
+    <Router>
+      <Bar/>
       <Routes>
-        <Route path="/modificarFacultad/:id" element={<ModificarFacultad />}/>
-        <Route path="/altaFacultad" element={<AltaFacultad />} />
-        <Route path="/" element={<ListadoDeFacultades />} />
-        <Route path="/facultad/:id" element={<VerFacultades />} />
-        <Route path="/facultad/:id/card" element={<FacultadCard />} />
+        <Route path="/facultad" element={<Facultad />} />
+        <Route path="/carrera" element={<Carreras />} />
+        <Route path="/usuario" element={<Usuario />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
+    </Router>
   );
-};
+}
 
 export default App;

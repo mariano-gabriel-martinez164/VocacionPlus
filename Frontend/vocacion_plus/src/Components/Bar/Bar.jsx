@@ -1,5 +1,9 @@
-import React from 'react'
-import './Bar.css'
+import React from "react";
+import SchoolIcon from '@mui/icons-material/School'; // icono para facultad
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu'; // icono para carrera
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import "./Bar.css";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,72 +13,92 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import { Link } from 'react-router-dom';
+import { Drawer, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import { red } from "@mui/material/colors";
+import { borderBottom, color, fontSize, height } from "@mui/system";
 
+export default function Bar() {
+  // aca pongan las opciones del menu (tienen que estar con el link en el app.js)
+  const routes = [
+    { text: "Facultades", path: "/facultad" },
+    { text: "Carreras", path: "/carrera" },
+    { text: "Usuario", path: "/usuario" },
+    { text: "Login", path: "/login" },
+    { text: "Registro", path: "/register" },
+  ];
 
-export default function MenuAppBar() {
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   const handleChange = (event) => {
     setAuth(event.target.checked);
   };
-
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const handleDrawerOpen = () => {
-    setDrawerOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setDrawerOpen(false);
+  const [open, setOpen] = useState(false);
+  const toggleDrawer = (newOpen) => () => {
+    setOpen(newOpen);
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" style={{ backgroundColor: '#381518' }}>
-        <Toolbar sx={{ position: 'relative', minHeight: 64 }}>
+    <Box sx={{ flexGrow: 1 }} className="box">
+      <AppBar position="static" className="bar">
+        <Toolbar>
           <IconButton
+            className="menu-boton"
             size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ position: 'absolute', left: '1rem' }}
-            onClick={handleDrawerOpen}
+            sx={{ mr: 2 }}
+            onClick={toggleDrawer(true)}
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{
-              position: 'absolute',
-              left: 'calc(50% + 1rem)',
-              transform: 'translateX(-50%)',
-              fontSize: '2rem',
-              fontWeight: 'bold',
-              color: '#BA2C39',
-              textAlign: 'center',
-              width: 'max-content',
-            }}
-          >
-            Vocación+
+          <Drawer open={open} onClose={toggleDrawer(false)}>
+            <Box className="nav" sx={{
+              bgcolor: "var(--primary-500)",
+              color: "var(--white)",
+              height: "100%"
+            }}>
+              <List>
+                {routes.map((item, index) => (
+                  <ListItem key={index}
+                    sx={{
+                      width: "8vw",
+                      padding: 0,
+                      borderColor: "var(--black)",
+                      borderBottom: 2,
+                    }}
+                  >
+                    <ListItemButton component={Link} to={item.path}
+                    sx={{
+                        textAlign: "center",
+                        margin: 0,
+                        "&:hover": {
+                          backgroundColor: "var(--primary-400)",
+                        }
+                      }}
+                    >
+                      <ListItemText primary={item.text} />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+          </Drawer>
+          <Typography className="titulo" variant="h6" component="div" sx={{ flexGrow: 1, textAlign: "center" }}>
+            Vocación Plus
           </Typography>
-          <Box sx={{ flexGrow: 1 }} />
           {auth && (
-            <div style={{ position: 'absolute', right: '1rem' }}>
+            <div>
               <IconButton
+                className="menu-boton"
                 size="large"
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -106,28 +130,6 @@ export default function MenuAppBar() {
           )}
         </Toolbar>
       </AppBar>
-      <Drawer
-        anchor="left"
-        open={drawerOpen}
-        onClose={handleDrawerClose}
-      >
-        <Box
-          sx={{ width: 250 }}
-          role="presentation"
-          onClick={handleDrawerClose}
-          onKeyDown={handleDrawerClose}
-        >
-          {/* Navigation List */}
-          <List>
-            <ListItem button component={Link} to="/altafacultad">
-              <ListItemText primary="Alta Facultad" />
-            </ListItem>
-            <ListItem button component={Link} to="/">
-              <ListItemText primary="Listado de Facultades" />
-            </ListItem>
-          </List>
-        </Box>
-      </Drawer>
     </Box>
   );
 }
