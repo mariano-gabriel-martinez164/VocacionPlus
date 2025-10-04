@@ -4,53 +4,6 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu'; // icono para carre
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Bar.css";
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import { Drawer, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
-import { red } from "@mui/material/colors";
-import { borderBottom, color, fontSize, height } from "@mui/system";
-
-export default function Bar() {
-  // aca pongan las opciones del menu (tienen que estar con el link en el app.js)
-  const routes = [
-    { text: "Facultades", path: "/facultad" },
-    { text: "Carreras", path: "/carrera" },
-    { text: "Usuario", path: "/usuario" },
-    { text: "Login", path: "/login" },
-    { text: "Registro", path: "/register" },
-  ];
-
-  const [auth, setAuth] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const [open, setOpen] = useState(false);
-  const toggleDrawer = (newOpen) => () => {
-    setOpen(newOpen);
-  };
-
-  return (
-    <Box sx={{ flexGrow: 1 }} className="box">
-      <AppBar position="static" className="bar">
-        <Toolbar>
-          <IconButton
-            className="menu-boton"
             size="large"
             edge="start"
             color="inherit"

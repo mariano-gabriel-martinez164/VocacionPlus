@@ -3,8 +3,10 @@ import FacultadCard from './FacultadCard'; // ¡Ahora FacultadCard es el que con
 
 const VerFacultad = ({ facultadId, onGoBack }) => {
   return (
-    // FacultadCard manejará su propia carga, errores y visualización con el nuevo estilo
+    <div className="container">
+      hola Mudo
     <FacultadCard facultadId={facultadId} onGoBack={onGoBack} />
+      </div>
   );
 };
 

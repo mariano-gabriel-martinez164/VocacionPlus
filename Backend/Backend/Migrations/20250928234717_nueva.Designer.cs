@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VocacionPlus.Database;
 
@@ -10,9 +11,11 @@ using VocacionPlus.Database;
 namespace Backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250928234717_nueva")]
+    partial class nueva
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.13");
@@ -247,6 +250,8 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FacultadId");
+
                     b.ToTable("carreras");
                 });
 
@@ -303,7 +308,12 @@ namespace Backend.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("TestVocacionalId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TestVocacionalId");
 
                     b.ToTable("tags");
                 });
@@ -369,6 +379,9 @@ namespace Backend.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Rol")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TestVocacionalId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -469,6 +482,24 @@ namespace Backend.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("VocacionPlus.Models.Carrera", b =>
+                {
+                    b.HasOne("VocacionPlus.Models.Facultad", "Facultad")
+                        .WithMany("Carreras")
+                        .HasForeignKey("FacultadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Facultad");
+                });
+
+            modelBuilder.Entity("VocacionPlus.Models.Tag", b =>
+                {
+                    b.HasOne("VocacionPlus.Models.TestVocacional", null)
+                        .WithMany("Tags")
+                        .HasForeignKey("TestVocacionalId");
+                });
+
             modelBuilder.Entity("VocacionPlus.Models.TestVocacional", b =>
                 {
                     b.HasOne("VocacionPlus.Models.Usuario", "Usuario")
@@ -497,6 +528,16 @@ namespace Backend.Migrations
                     b.Navigation("Autor");
 
                     b.Navigation("Carrera");
+                });
+
+            modelBuilder.Entity("VocacionPlus.Models.Facultad", b =>
+                {
+                    b.Navigation("Carreras");
+                });
+
+            modelBuilder.Entity("VocacionPlus.Models.TestVocacional", b =>
+                {
+                    b.Navigation("Tags");
                 });
 
             modelBuilder.Entity("VocacionPlus.Models.Usuario", b =>
