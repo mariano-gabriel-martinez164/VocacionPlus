@@ -1,4 +1,6 @@
 import React from "react";
+import SchoolIcon from '@mui/icons-material/School'; // icono para facultad
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu'; // icono para carrera
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Bar.css";

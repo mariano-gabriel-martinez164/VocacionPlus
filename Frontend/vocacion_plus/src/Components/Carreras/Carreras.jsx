@@ -98,6 +98,7 @@ const Carrera = () => {
     <Box sx={{
       backgroundColor: "var(--gray-light)",
       pb: 6,
+      minHeight: "90vh"
     }}>
       <Stack
         direction="row"
@@ -151,7 +152,7 @@ const Carrera = () => {
         />
       </Stack>
       <Divider sx={{ mb: 2, bgcolor: "var(--white)", mr: 8, ml: 8 }} />
-      <Grid container spacing={2} p={4}>
+      <Grid container spacing={2} sx={{ paddingInline: "8vw", paddingBlock: "4vh" }}>
         {carreras.map((item, index) => (
         <Grid key={index} size={3} m={0}>
             <CarreraCard carrera={item} index={index}/>

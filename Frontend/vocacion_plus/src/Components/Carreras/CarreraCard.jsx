@@ -11,21 +11,32 @@ import {
   CircularProgress,
   Box,
   Alert,
+  Rating,
+  styled,
 } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School'; // Main icon for the faculty
 import LocationOnIcon from '@mui/icons-material/LocationOn'; // Icon for location
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Icon for the back button
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'; // Icon for careers
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+
+const StyledRating = styled(Rating)({
+  '& .MuiRating-iconFilled': {
+    color: 'var(--primary-300)',
+  },
+  '& .MuiRating-iconHover': {
+    color: 'var(--primary-100)',
+  },
+});
 
 // Este componente ahora recibe una lista de facultades y las muestra en cards
 const CarreraCard = ({ carrera, index }) => {
+  const [valoracion, setValoracion] = React.useState(2);
 
   return (
     <Card
       key={index}
       sx={{
-        width: 340,
-        height: 440,
         backgroundColor: 'var(--primary-500)',
         color: 'var(--black)',
         borderRadius: '8px',
@@ -43,6 +54,17 @@ const CarreraCard = ({ carrera, index }) => {
           {carrera.descripcion}
         </Typography>
       </CardContent>
+      <StyledRating
+        name='valoracion'
+        precision={0.2}
+        icon={<MenuBookIcon fontSize="large" />}
+        emptyIcon={<MenuBookIcon fontSize="large" />}
+        value={valoracion}
+        readOnly
+        sx={{
+          p: 2
+        }}
+      />
     </Card>
   );
 };
