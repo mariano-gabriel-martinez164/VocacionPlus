@@ -19,6 +19,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn'; // Icon for locatio
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Icon for the back button
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'; // Icon for careers
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
@@ -33,8 +34,13 @@ const StyledRating = styled(Rating)({
 const CarreraCard = ({ carrera, index }) => {
   const [valoracion, setValoracion] = React.useState(2);
 
+  const navigate = useNavigate();
+  const NavCarreraDetails = () => {
+    navigate(`/carrera/${encodeURIComponent(carrera.nombre)}`);
+  };
   return (
     <Card
+      onClick={NavCarreraDetails}
       key={index}
       sx={{
         backgroundColor: 'var(--primary-500)',
