@@ -13,6 +13,8 @@ import Bar from "./Components/Bar/Bar";
 import { Box } from "@mui/system";
 import Footer from "./Components/Footer/Footer";
 import Contacto from "./Components/Footer/Contactos";
+import PoliticaPrivacidad from "./Components/Footer/PoliticaPrivacidad"
+import Terminos from "./Components/Footer/Terminos"
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/contacto" element={<Contacto />} />
+            <Route path="/privacidad" element={<PoliticaPrivacidad />} />
+            <Route path="/terminos" element={<Terminos />} />
           </Routes>
         </Box>
         <Footer />
