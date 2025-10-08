@@ -1,5 +1,5 @@
-import RegisterForm from "../Components/FormRegister/InputField";
-import { registerUser } from "../services/userService";
+import RegisterForm from "../../Components/FormRegister/InputField";
+import { registerUser } from "../../services/userService";
 
 export default function Register() {
     const handleRegister = async (data) => {
