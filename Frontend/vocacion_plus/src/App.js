@@ -11,6 +11,7 @@ import Login from "./Components/Usuario/Login";
 import Register from "./Components/Usuario/Registro";
 import Bar from "./Components/Bar/Bar";
 import { Box } from "@mui/system";
+import Footer from "./Components/Footer/Footer";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path="/register" element={<Register />} />
           </Routes>
         </Box>
+        <Footer />
       </Box>
     </Router>
   );
