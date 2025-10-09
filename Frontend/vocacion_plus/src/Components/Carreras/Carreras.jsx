@@ -1,8 +1,26 @@
-import { Autocomplete, TextField, Typography, InputAdornment, Divider } from "@mui/material";
+import { Autocomplete, TextField, Typography, InputAdornment, Divider, Fab, Pagination, styled } from "@mui/material";
 import { Box, Grid, Stack } from "@mui/system";
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import CarreraCard from "./CarreraCard";
+import AddIcon from '@mui/icons-material/Add';
+
+const CustomPagination = styled(Pagination)(({ theme }) => ({
+  "& .MuiPaginationItem-root": {
+    color: "var(--primary-300)",
+    border: "1px solid var(--primary-300)",
+  },
+  "& .MuiPaginationItem-root:hover": {
+    backgroundColor: "var(--primary-100)",
+  },
+  "& .Mui-selected": {
+    backgroundColor: "var(--primary-500)",
+    color: "#fff",
+  },
+  "& .MuiPaginationItem-ellipsis": {
+    color: "gray",
+  },
+}));
 
 const Carrera = () => {
   const carreras = [
@@ -93,12 +111,12 @@ const Carrera = () => {
       "nombre": "Facultad de Ciencias Sociales y Comunicación"
     }
   ];
-  
+
   return (
-    <Box sx={{
+    <Box display="flex" flexDirection="column" sx={{
       backgroundColor: "var(--gray-light)",
       pb: 6,
-      minHeight: "90vh"
+      minHeight: "88vh"
     }}>
       <Stack
         direction="row"
@@ -152,13 +170,39 @@ const Carrera = () => {
         />
       </Stack>
       <Divider sx={{ mb: 2, bgcolor: "var(--white)", mr: 8, ml: 8 }} />
-      <Grid container spacing={2} sx={{ paddingInline: "8vw", paddingBlock: "4vh" }}>
+      <Grid container spacing={4} sx={{ paddingInline: "8vw", paddingBlock: "4vh" }}>
         {carreras.map((item, index) => (
-        <Grid key={index} size={3} m={0}>
-            <CarreraCard carrera={item} index={index}/>
-        </Grid>
+          <Grid key={index} size={3} m={0}>
+            <CarreraCard carrera={item} index={index} />
+          </Grid>
         ))}
       </Grid>
+      <Box sx={{
+        display: 'flex',
+        flexGrow: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+      }}>
+        <Fab aria-label="add" sx={{
+          color: "var(--primary-200)",
+          bgcolor: "var(--gray-light)",
+          border: 2,
+          borderColor: "var(--primary-200)",
+          transition: "all 0.3s ease",
+          position: "relative",
+          bottom: 20,
+          right: 16,
+          '&:hover': {
+            bgcolor: 'var(--primary-500)',
+            transform: 'scale(1.08)',
+          },
+        }}>
+          <AddIcon />
+        </Fab>
+      </Box>
+      <Box display='flex' justifyContent='center'>
+        <CustomPagination count={5} />
+      </Box>
     </Box>
   );
 }

@@ -1,48 +1,62 @@
 import React from "react";
-import SchoolIcon from '@mui/icons-material/School'; // icono para facultad
-import HistoryEduIcon from '@mui/icons-material/HistoryEdu'; // icono para carrera
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Bar.css";
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
+import { 
+    AppBar, Box, Toolbar, Typography, IconButton, 
+    MenuItem, Menu, Drawer, List, ListItem, 
+    ListItemButton, ListItemText, Dialog // Importamos Dialog
+} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import { Drawer, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
-import { red } from "@mui/material/colors";
-import { borderBottom, color, fontSize, height } from "@mui/system";
+import LoginModal from "./LoginModal"; // Importa el componente de Login como Modal
 
 export default function Bar() {
-  // aca pongan las opciones del menu (tienen que estar con el link en el app.js)
+  // Opciones del menú (Drawer)
   const routes = [
     { text: "Facultades", path: "/facultad" },
     { text: "Carreras", path: "/carrera" },
-    { text: "Usuario", path: "/usuario" },
-    { text: "Login", path: "/login" },
+    { text: "Usuario", path: "/usuario" }, 
     { text: "Registro", path: "/register" },
   ];
 
-  const [auth, setAuth] = React.useState(true);
+  // Cambiamos el estado inicial de 'auth' a false (no logueado) para probar el login.
+  const [auth, setAuth] = React.useState(false); 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [openLogin, setOpenLogin] = React.useState(false); // Estado para el Login Modal
 
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const [open, setOpen] = useState(false);
+  // Manejadores del Modal de Login
+  const handleOpenLogin = () => {
+    setAnchorEl(null); 
+    setOpenLogin(true);
+  };
+
+  const handleCloseLogin = () => {
+    setOpenLogin(false);
+  };
+  
+  // Función que se ejecuta al hacer clic en el icono de cuenta
+  const handleAccountIconClick = (event) => {
+    if (auth) {
+      // Si está autenticado, abre el menú desplegable
+      handleMenu(event);
+    } else {
+      // Si NO está autenticado, abre el popup de Login
+      handleOpenLogin();
+    }
+  };
+
+  const [openDrawer, setOpenDrawer] = useState(false);
   const toggleDrawer = (newOpen) => () => {
-    setOpen(newOpen);
+    setOpenDrawer(newOpen);
   };
 
   return (
@@ -60,26 +74,23 @@ export default function Bar() {
           >
             <MenuIcon />
           </IconButton>
-          <Drawer open={open} onClose={toggleDrawer(false)}>
+          
+          {/* Drawer (Menú Lateral) */}
+          <Drawer open={openDrawer} onClose={toggleDrawer(false)}>
             <Box className="nav" sx={{
               bgcolor: "var(--primary-500)",
               color: "var(--white)",
-              height: "100%"
+              height: "100%",
+              width: 250 
             }}>
               <List>
                 {routes.map((item, index) => (
-                  <ListItem key={index}
-                    sx={{
-                      width: "8vw",
-                      padding: 0,
-                      borderColor: "var(--black)",
-                      borderBottom: 2,
-                    }}
-                  >
-                    <ListItemButton component={Link} to={item.path}
-                    sx={{
+                  <ListItem key={index} disablePadding>
+                    <ListItemButton component={Link} to={item.path} onClick={toggleDrawer(false)}
+                      sx={{
                         textAlign: "center",
-                        margin: 0,
+                        padding: '16px 8px',
+                        borderBottom: '1px solid var(--black)', 
                         "&:hover": {
                           backgroundColor: "var(--primary-400)",
                         }
@@ -92,44 +103,50 @@ export default function Bar() {
               </List>
             </Box>
           </Drawer>
+
           <Typography className="titulo" variant="h6" component="div" sx={{ flexGrow: 1, textAlign: "center" }}>
             Vocación Plus
           </Typography>
-          {auth && (
-            <div>
-              <IconButton
-                className="menu-boton"
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
+
+          {/* Icono de Cuenta: Usa la función condicional handleAccountIconClick */}
+          <div>
+            <IconButton
+              className="menu-boton"
+              size="large"
+              aria-label={auth ? "account of current user" : "login"}
+              aria-controls={auth ? "menu-appbar" : undefined}
+              aria-haspopup={auth ? "true" : undefined}
+              onClick={handleAccountIconClick} // **AQUÍ ESTÁ EL CAMBIO CLAVE**
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+
+            {/* Menú desplegable, SOLO se renderiza si el usuario está autenticado */}
+            {auth && (
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right', }}
                 keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
+                transformOrigin={{ vertical: 'top', horizontal: 'right', }}
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
               </Menu>
-            </div>
-          )}
+            )}
+          </div>
+          
         </Toolbar>
       </AppBar>
+      
+      {/* Login Popup (Dialog) */}
+      <Dialog open={openLogin} onClose={handleCloseLogin}>
+        {/* Renderiza el componente de Login dentro del Dialog */}
+        <LoginModal handleClose={handleCloseLogin} />
+      </Dialog>
     </Box>
   );
 }
