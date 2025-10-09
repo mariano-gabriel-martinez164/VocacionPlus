@@ -32,7 +32,6 @@ const FacultadCard = ({ facultades, onGoBack }) => {
           color: '#e0e0e0',
           borderRadius: '8px',
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
-          maxWidth: 800,
           width: '100%',
           margin: 'auto',
         }}
@@ -42,7 +41,7 @@ const FacultadCard = ({ facultades, onGoBack }) => {
           variant="contained"
           onClick={onGoBack}
           startIcon={<ArrowBackIcon />}
-          sx={{ backgroundColor: '#8ab4f8', color: '#202124', '&:hover': { backgroundColor: '#a8c7fa' } }}
+          sx={{ backgroundColor: '#005effff', color: '#202124', '&:hover': { backgroundColor: '#a8c7fa' } }}
         >
           Volver
         </Button>
@@ -59,9 +58,11 @@ const FacultadCard = ({ facultades, onGoBack }) => {
         gap: 3,
         justifyContent: 'center',
         alignItems: 'flex-start',
-        p: 3,
-        minHeight: '80vh',
-        backgroundColor: '#f5f5f5',
+        p: 2,
+        transform: 'translatex(-39vh)', // Mejora el rendimiento en algunos navegadores
+        width: '195vh',
+        minHeight: '90vh',
+        backgroundColor: '#1a1a1a',
       }}
     >
       {facultades.map((facultad) => (

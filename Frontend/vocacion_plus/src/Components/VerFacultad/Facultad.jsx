@@ -58,7 +58,7 @@ const App = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+    <Container sx={{ mt: 4, mb: 4 }}>
       {selectedFacultadId ? (
         // Si hay un ID seleccionado, mostramos los detalles de esa facultad
         <VerFacultades
@@ -76,9 +76,14 @@ const App = () => {
           <Alert severity="error">{errorList}</Alert>
         ) : (
           <>
-            <Typography variant="h4" component="h1" align="center" gutterBottom>
-              Listado de Facultades
-            </Typography>
+        <Typography variant="h4" sx={{
+          fontSize: "3rem",
+          fontWeight: "bold",
+          color: "var(--primary-200)",
+          flexGrow: 1,
+        }}>
+          Facultades
+        </Typography>
             <FacultadCard
               facultades={facultadesList.map(f => ({
                 ...f,
@@ -88,7 +93,7 @@ const App = () => {
                   { id: '1', nombre: 'Carrera 1' },
                   { id: '2', nombre: 'Carrera 2' }
                 ],
-                imagen: `https://via.placeholder.com/600x200?text=${f.id.toUpperCase()}_FACULTAD`
+                imagen: `https://imgs.search.brave.com/qS0oKh7SXE1Y7BJvuIzSVFkJuKStVDSYEjdAmdo4vzY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9yZXRy/YXRvLWRlLWdhdGl0/by1ncmFjaW9zby1z/dWUlQzMlQjFvLWJs/YW5jby1hY2VyY2Ft/aWVudG8tZ2F0b3Mt/MjAyMjQ3NzQ5Lmpw/Zw`
               }))}
               onGoBack={() => {}} // No hace nada en el listado
             />
