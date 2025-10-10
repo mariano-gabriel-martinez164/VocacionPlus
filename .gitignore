@@ -10,3 +10,4 @@ appsettings.User.json
 .env
 fixFacultad.py
 scrapingFacultades.py
+/Backend/Backend/VocacionPlus.db 
