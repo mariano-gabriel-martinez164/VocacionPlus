@@ -8,3 +8,5 @@ logs/
 .vscode/
 appsettings.User.json
 .env
+fixFacultad.py
+scrapingFacultades.py
