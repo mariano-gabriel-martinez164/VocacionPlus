@@ -2,10 +2,12 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import PasswordField from './password'; 
 
 export default function RegisterForm({ onSubmit }) {
   const [age, setAge] = React.useState("");
   const [nombre, setNombre] = React.useState("");
+  const [apellido, setApellido] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [correo, setCorreo] = React.useState("");
@@ -21,8 +23,8 @@ export default function RegisterForm({ onSubmit }) {
       alert("la edad debe estar entre 7 y 100 años");
       return 
     }
-    console.log({nombre, correo, password, age});
-    if(onSubmit) { onSubmit({ nombre, correo, password, age: ageNumber }); }
+    console.log({nombre, apellido, correo, password, age});
+    if(onSubmit) { onSubmit({ nombre, apellido, correo, password, age: ageNumber }); }
   }
 
   return (
@@ -51,27 +53,29 @@ export default function RegisterForm({ onSubmit }) {
     />
     <TextField
       required
+      label="Apellido"
+      value={apellido}
+      variant="filled"
+      type="text"
+      onChange={e => setApellido(e.target.value)}
+    />
+    <TextField
+      required
       label="Correo"
       type="email"
       variant="filled"
       value={correo}
       onChange={e => setCorreo(e.target.value)}
     />
-   <TextField
-      required
+    <PasswordField
       label="Contraseña"
-      type="password"
-      variant="filled"
       value={password}
       onChange={e => setPassword(e.target.value)}
     />
-    <TextField
-      required
+    <PasswordField
       label="Repetir contraseña"
-      type="password"
       value={confirmPassword}
       onChange={e => setConfirmPassword(e.target.value)}
-      variant="filled"
     />
     <TextField
       label="Edad"

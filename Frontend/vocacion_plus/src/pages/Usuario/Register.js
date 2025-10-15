@@ -4,7 +4,22 @@ import { registerUser } from "../../services/userService";
 export default function Register() {
     const handleRegister = async (data) => {
         try {
-            const result = await registerUser(data);
+            const payload = {
+                nombre: data.nombre,
+                apellido: data.apellido,
+                correo: data.correo,
+                password: data.password,
+                esAdmin: false,
+                test: {
+                    Realista: 0,
+                    Investigador: 0,
+                    Artistico: 0,
+                    Social: 0,
+                    Emprendedor: 0,
+                    Convencional: 0
+                }
+            }
+            const result = await registerUser(payload);
             alert("Usuario registrado con exito");
             console.log("datos a enviar al backend:", data) 
         } catch (error) {
