@@ -8,6 +8,7 @@ DB_PATH = r"C:\Users\marti\OneDrive\Escritorio\tempo\VocacionPlus\Backend\Backen
 # URL fuente (privadas)
 URL = "https://es.wikipedia.org/wiki/Anexo:Universidades_privadas_de_Argentina"
 
+
 # --- Scraping ---
 def obtener_facultades():
     print("Obteniendo universidades privadas desde Wikipedia...")
@@ -64,7 +65,8 @@ def obtener_facultades():
                 "Descripcion": "",
                 "Direccion": direccion,
                 "Imagen": "",
-                "Url": url_oficial or url_wiki
+                "Url": url_oficial if url_oficial else url_wiki
+
             }
             universidades.append(universidad)
             print(f"Procesada: {nombre} | {url_oficial or url_wiki}")

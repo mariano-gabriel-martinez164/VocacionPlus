@@ -17,6 +17,25 @@ HEADERS = {
 SOCIALS = ["facebook.com", "twitter.com", "youtube.com", "linkedin.com", "instagram.com"]
 KEYWORDS_DIR = ["Av.", "Calle", "Ruta", "Direccion", "Av", "calle"]  # por si vienen sin punto
 
+
+def actualizar_url(universidades):
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    actualizadas = 0
+    
+    for u in universidades:
+        cursor.execute("""
+            UPDATE facultades
+            SET Url = ?
+            WHERE Nombre = ?
+        """, (u["Url"], u["Nombre"]))
+        if cursor.rowcount > 0:
+            actualizadas += 1
+        
+    conn.commit()
+    conn.close()
+    print(f"se actualizaron {actualizadas} ")
+    
 # util: normalizar urls encontradas
 def normalize_url(href, base=None):
     if not href:
@@ -120,13 +139,12 @@ def scrape_privadas():
             url_oficial = normalize_url(enlace_oficial_tag.get("href", ""), base=None)
 
         # si el enlace oficial está vacío, fallback al link wiki
-        url_final = url_oficial or url_wiki
+        url_final = url_oficial if url_oficial else url_wiki
         print(f"direccion NUEVA {nombre} : {direccion}")
         universidades.append({
             "Nombre": nombre,
             "Direccion": direccion,
             "UrlOficial": url_oficial,
-            "UrlWiki": url_wiki,
             "Url": url_final
         })
         print(f"Encontrada: {nombre} | Dir: {direccion} | Oficial: {url_oficial or '(no)'}")
@@ -179,13 +197,12 @@ def scrape_publicas():
         if enlace_oficial_tag:
             url_oficial = normalize_url(enlace_oficial_tag.get("href", ""), base=None)
 
-        url_final = url_oficial or url_wiki
+        url_final = url_oficial if url_oficial else url_wiki
         print(f"direccion NUEVA {nombre} : {direccion}")
         universidades.append({
             "Nombre": nombre,
             "Direccion": direccion,
             "UrlOficial": url_oficial,
-            "UrlWiki": url_wiki,
             "Url": url_final
         })
         print(f"Encontrada: {nombre} | Dir: {direccion} | Oficial: {url_oficial or '(no)'}")
@@ -200,7 +217,7 @@ def upsert_and_enrich(universidades):
     for uni in universidades:
         nombre = uni["Nombre"]
         direccion_col = uni["Direccion"]
-        url_oficial = uni["UrlOficial"] or uni["Url"]  # preferir oficial, fallback
+        url_oficial = uni["Url"] 
         url_oficial = normalize_url(url_oficial, base=None)
 
         # primero intentar extraer contacto desde el sitio oficial
@@ -245,7 +262,8 @@ def upsert_and_enrich(universidades):
                 print("   No se pudo acceder al sitio oficial:", e)
 
         # ahora comprobar si existe la uni en la DB
-        cursor.execute("SELECT rowid, Telefono, Correo, Direccion, Url FROM facultades WHERE Nombre = ?", (nombre,))
+        nombre_norm = nombre.strip().lower()
+        cursor.execute("SELECT rowid, Telefono, Correo, Direccion, Url FROM facultades WHERE LOWER(Nombre) = ?", (nombre_norm,))
         existing = cursor.fetchone()
         if existing:
             rowid_existing, tel_exist, mail_exist, dir_exist, url_exist = existing
@@ -253,7 +271,7 @@ def upsert_and_enrich(universidades):
             tel_new = tel_exist if tel_exist else (nuevo_telefono or "")
             mail_new = mail_exist if mail_exist else (nuevo_correo or "")
             dir_new = direccion_col or dir_exist or ""
-            url_new = url_exist if (url_exist and url_exist.strip()) else (url_oficial or uni["UrlWiki"] or "")
+            url_new = url_oficial or ""
 
             # decide si actualizar
             if (tel_new != tel_exist) or (mail_new != mail_exist) or (dir_new != dir_exist) or (url_new != url_exist):
@@ -291,10 +309,12 @@ def upsert_and_enrich(universidades):
     print("\nProceso completado: DB actualizada.")
 
 if __name__ == "__main__":
-    #print("==== PRIVADAS ====")
-    #privadas = scrape_privadas()
-    #upsert_and_enrich(privadas)
+    print("==== PRIVADAS ====")
+    privadas = scrape_privadas()
+    actualizar_url(privadas)
+    upsert_and_enrich(privadas)
 
     print("\n==== PÚBLICAS ====")
     publicas = scrape_publicas()
+    actualizar_url(publicas)
     upsert_and_enrich(publicas)
