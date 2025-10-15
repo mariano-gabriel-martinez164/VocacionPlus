@@ -8,7 +8,8 @@ export default function Register() {
             alert("Usuario registrado con exito");
             console.log("datos a enviar al backend:", data) 
         } catch (error) {
-            alert(error.response?.data?.massage || "Error al conectar con el servidor");
+            console.error("error en: ", error);
+            alert(error.response?.data?.message || error.message || "Error al conectar con el servidor");
         }
     };
     return (
