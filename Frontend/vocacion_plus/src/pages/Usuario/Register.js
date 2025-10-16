@@ -1,5 +1,6 @@
-import RegisterForm from "../../Components/FormRegister/InputField";
+import RegisterForm from "../../Components/FormRegister/form";
 import { registerUser } from "../../services/userService";
+import "./Register.css"; 
 
 export default function Register() {
     const handleRegister = async (data) => {
@@ -28,7 +29,7 @@ export default function Register() {
         }
     };
     return (
-        <div style={{display:'flex', justifyContent: 'center', marginTop: 50}}>
+        <div className="register-page">
             <RegisterForm onSubmit={handleRegister} />
         </div>
     )

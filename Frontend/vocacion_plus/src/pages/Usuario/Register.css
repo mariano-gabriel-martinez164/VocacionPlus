@@ -1,0 +1,27 @@
+:root {
+  /* Gama principal de rojos oscuros */
+  --primaryColor-white: #D64350;      /* el más claro */
+  --primaryColor-lighter: #BA2C39;
+  --primaryColor-light: #8F242D;
+  --primaryColor-default: #5A2328;
+  --primaryColor-dark: #381518;
+  --primaryColor-darker: #260D0F;
+  --backgroundColor-default: #1A1A1A;        /* el más oscuro */
+
+  /* Otros colores de soporte (ej. textos, fondo contraste) */
+  --color-fondo: var(--backgroundColor-default);
+  --color-texto: #FFFFFF;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+.register-page {
+    display: flex;
+    justify-content: center;
+    align-items: 100vh;
+    min-height: 100vh;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    padding: 20px;
+}
