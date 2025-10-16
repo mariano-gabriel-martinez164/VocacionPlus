@@ -1,0 +1,24 @@
+.test-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.test-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+

@@ -127,7 +127,7 @@ export default function RegisterForm({ onSubmit }) {
           <Box sx={{ mt: 2, width: '100%', display: 'flex', justifyContent: 'center', marginTop: 'auto', marginBottom: 3 }}>
             <Button
               type="submit" variant="contained" color="primary">
-                Crear cuenta
+                Continuar 
             </Button>
           </Box>
         </Box>
