@@ -13,5 +13,9 @@ export const loginUser = async (data) => {
             headers: { "Content-Type": "application/json" }
         }
     );
+    const token = response.data.token || response.data.token;
+    if (token) {
+        localStorage.setItem("token", token);
+    }
     return response.data;
 }; 
