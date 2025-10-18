@@ -8,3 +8,4 @@ logs/
 .vscode/
 appsettings.User.json
 .env
+Backend/Backend/VocacionPlus.db
