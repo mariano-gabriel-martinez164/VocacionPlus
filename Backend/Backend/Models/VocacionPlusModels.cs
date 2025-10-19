@@ -12,14 +12,36 @@ namespace VocacionPlus.Models
         [Required]
         public int Id { get; set; }
         public string Nombre { get; set; }
+        public string Abreviatura { get; set; }
         public string Telefono { get; set; }
         public string Correo { get; set; }
         public bool Accesibilidad { get; set; } //publica = true
         public string Descripcion { get; set; }
         public string Direccion { get; set; }
+        public string Localidad { get; set; }
+        public string Provincia { get; set; }
         public string Imagen { get; set; }
         public string Url { get; set; }
+        public List<Sede> Sedes { get; set; } = new(); 
     }
+    public class Sede
+{
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
+
+    public string Nombre { get; set; } // Ej: “Sede Central”, “Campus Pilar”
+    public string Direccion { get; set; }
+    public string Localidad { get; set; }
+    public string Provincia { get; set; }
+
+    public string? Telefono { get; set; }
+    public string? Correo { get; set; }
+
+    // FK con Facultad
+    public int FacultadId { get; set; }
+    public Facultad Facultad { get; set; }
+}
     public enum TipoUsuario
     {
         Normal,

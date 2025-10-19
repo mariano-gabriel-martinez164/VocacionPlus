@@ -11,6 +11,7 @@ namespace VocacionPlus.Database
         {
         }
         public DbSet<Facultad> facultades { get; set; }
+        public DbSet<Sede> sedes { get; set;  }
         public DbSet<Usuario> usuarios { get; set; }
         public DbSet<TestVocacional> testVocacionales { get; set; }
         public DbSet<Tag> tags { get; set; }
@@ -25,6 +26,11 @@ namespace VocacionPlus.Database
                 .HasOne(u => u.TestVocacional)
                 .WithOne(t => t.Usuario)
                 .HasForeignKey<TestVocacional>(t => t.UsuarioId);
+            modelBuilder.Entity<Facultad>()
+                .HasMany(f => f.Sedes)
+                .WithOne(s => s.Facultad)
+                .HasForeignKey(s => s.FacultadId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
