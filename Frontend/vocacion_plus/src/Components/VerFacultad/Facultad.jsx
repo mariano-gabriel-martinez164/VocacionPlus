@@ -6,9 +6,13 @@ import {
   Paper,
   Box,
   CircularProgress, // Para simular carga del listado de IDs
-  Alert // Para mensajes de error si la carga de IDs falla
+  Alert, // Para mensajes de error si la carga de IDs falla
+  Autocomplete,
+  TextField,
+  InputAdornment,
 } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import SearchIcon from '@mui/icons-material/Search';
 
 // Importamos el componente VerFacultades (que ahora internamente usa FacultadCard)
 import VerFacultades from './VerFacultad'; // Asegúrate de que la ruta sea correcta
@@ -84,6 +88,41 @@ const App = () => {
         }}>
           Facultades
         </Typography>
+       <Autocomplete
+          sx={{
+            alignContent: "center",
+            flexGrow: 2,
+          }}
+          freeSolo
+          disableClearable
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Buscar carrera"
+              variant="outlined"
+              size="medium"
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon fontSize="large" />
+                  </InputAdornment>
+                ),
+                style: {
+                  backgroundColor: "var(--secondary-500)",
+                  borderRadius: "12px",
+                  color: "var(--secondary-500)",
+                },
+              }}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": { border: "none" }, // saca el borde del input
+                },
+                input: { color: "var(--secondary-100)" }, // color del placeholder/texto
+              }}
+            />
+          )}
+        />
             <FacultadCard
               facultades={facultadesList.map(f => ({
                 ...f,
