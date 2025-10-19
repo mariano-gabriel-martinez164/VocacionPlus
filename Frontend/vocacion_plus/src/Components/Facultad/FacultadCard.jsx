@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import InfoIcon from '@mui/icons-material/Info';
+import { jwtDecode } from "jwt-decode";
 import {
   Card,
   CardContent,
@@ -11,15 +15,34 @@ import {
   CircularProgress,
   Box,
   Alert,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
 } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School'; // Main icon for the faculty
 import LocationOnIcon from '@mui/icons-material/LocationOn'; // Icon for location
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Icon for the back button
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'; // Icon for careers
+import '../../App.css';
 
 // Este componente ahora recibe una lista de facultades y las muestra en cards
-const FacultadCard = ({facultades}) => {
-  // Si no hay facultades, muestra un mensaje
+const FacultadCard = ({facultades, Eliminar }) => {
+    const [openModal, setOpenModal] = useState(false);
+    const [facultadSelect, setFacultadSelect] = useState(null);
+    const handleOpenModal = (facultadId) => {
+      setFacultadSelect(facultadId);
+      setOpenModal(true);
+    };
+    const handleCloseModal = () => setOpenModal(false);
+    const handleConfirmEliminar = (facultadId) => {
+    if (Eliminar && facultadSelect !== null) Eliminar(facultadSelect); 
+      handleCloseModal();
+    };
+    const token = localStorage.getItem("token");
+    const user = token ? jwtDecode(token) : null;
+    const rol = user?.role || null;
+
   if (!facultades || facultades.length === 0) {
     return (
       <Box
@@ -86,7 +109,7 @@ const FacultadCard = ({facultades}) => {
               {facultad.nombre}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, color: '#bdbdbd' }}>
-              <LocationOnIcon sx={{ mr: 0.5, fontSize: 18, color: '#8ab4f8' }} />
+              <LocationOnIcon sx={{ mr: 0.5, fontSize: 18, color: 'var(--primaryColor-white)' }} />
               <Typography variant="body2" component="span" sx={{ fontStyle: 'italic', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {facultad.direccion}
               </Typography>
@@ -98,8 +121,8 @@ const FacultadCard = ({facultades}) => {
               <List dense sx={{ pl: 0, maxHeight: 60, overflow: 'auto' }}>
                 {facultad.carreras.map((carrera) => (
                   <ListItem key={carrera.id} sx={{ py: 0.2 }}>
-                    <AccountBalanceIcon sx={{ mr: 1, fontSize: 18, color: '#8ab4f8' }} />
-                    <ListItemText primary={carrera.nombre} primaryTypographyProps={{ sx: { whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' } }} />
+                    <AccountBalanceIcon sx={{ mr: 1, fontSize: 18, color: 'var(--primaryColor-white)' }} />
+                    <ListItemText primary={carrera.nombre} primaryTypographyProps={{ sx: { whiteSpace: 'nowrap', color: 'var(--color-texto)', overflow: 'hidden', textOverflow: 'ellipsis' } }} />
                   </ListItem>
                 ))}
               </List>
@@ -110,17 +133,68 @@ const FacultadCard = ({facultades}) => {
             )}
           </CardContent>
           <CardActions sx={{ justifyContent: 'flex-end', p: 2, borderTop: '1px solid #333' }}>
-            <Button
+            {rol === "Admin" && (
+              <>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#34a853", // verde
+                  fontWeight: "bold",
+                  borderRadius: 2,
+                  textTransform: "none",
+                  transition: "0.3s",
+                  "&:hover": {
+                    backgroundColor: "#57bb8a",
+                    transform: "scale(1.05)",
+                  },
+                  mr: 1,
+                }}
+              startIcon={<EditIcon />}>
+                Editar
+              </Button>
+
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#ea4335", // rojo
+                  fontWeight: "bold",
+                  borderRadius: 2,
+                  textTransform: "none",
+                  transition: "0.3s",
+                  "&:hover": {
+                    backgroundColor: "#ff6b6b",
+                    transform: "scale(1.05)",
+                  },
+                }}
+              startIcon={<DeleteIcon />}
+              onClick={() => handleOpenModal(facultad.id)}>
+                Eliminar
+              </Button>
+              <Dialog open={openModal} onClose={handleCloseModal}>
+              <DialogTitle>Confirmar eliminación</DialogTitle>
+              <DialogContent>
+                <Typography>¿Estás seguro que querés eliminar la facultad "{facultad.nombre}"?</Typography>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseModal}>Cancelar</Button>
+                <Button color="error" onClick={handleConfirmEliminar}>Eliminar</Button>
+              </DialogActions>
+            </Dialog>
+              </>)}
+               <Button
               variant="contained"
               sx={{
-                backgroundColor: '#8ab4f8',
-                color: '#202124',
+                backgroundColor: 'var(--primaryColor-light)',
                 fontWeight: 'bold',
+                borderRadius: 2,
+                textTransform: 'none',
+                transition: '0.3s',
                 '&:hover': {
-                  backgroundColor: '#a8c7fa',
+                  backgroundColor: 'var(--primaryColor-lighter)',
+                  transform: 'scale(1.05)',
                 },
-              }}
-            >
+            }}
+             startIcon={<InfoIcon />}>
               Detalles
             </Button>
           </CardActions>

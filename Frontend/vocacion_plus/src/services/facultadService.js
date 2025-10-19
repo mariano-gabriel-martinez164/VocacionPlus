@@ -31,3 +31,29 @@ try {
     return [];
     }
 };
+
+export const eliminarFacultad = async (facultadId) => {
+    try {
+        const token = localStorage.getItem("token"); 
+        console.log("token q ", token);
+        console.log("id que recibi es : ", facultadId);
+        console.log("mi url es :",`${url}/${facultadId}/`);
+    const response = await axios.delete(`${url}/${facultadId}/`, {
+        headers: { Authorization: `Bearer ${token}`}
+    });
+    console.log("Respuesta del servidor:", response);
+    return response.data;
+    } catch(error) {
+        if (error.response) {
+        // El servidor respondió con un estado fuera de 2xx
+        console.error("Error con respuesta del servidor:", error.response.status, error.response.data);
+        } else if (error.request) {
+        // La solicitud se hizo pero no hubo respuesta
+        console.error("Error en la solicitud, no hubo respuesta:", error.request);
+        } else {
+        // Otro tipo de error
+        console.error("Error desconocido:", error.message);
+        }
+    throw error; // opcional, si quieres que el componente maneje el error
+    }
+};

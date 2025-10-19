@@ -17,6 +17,7 @@ import { Drawer, List, ListItem, ListItemButton, ListItemText } from "@mui/mater
 import { red } from "@mui/material/colors";
 import { borderBottom, color, fontSize, height } from "@mui/system";
 import { jwtDecode } from "jwt-decode";
+import '../../App.css';
 
 export default function Bar() {
  
@@ -45,6 +46,7 @@ export default function Bar() {
    ? [
       { text: " Gestionar Facultades", path: "/" },
       { text: "Gestionar Carreras", path: "/carrera" },
+       { text: "Gestionar Usuarios", path: "/carrera" },
     ]
     : [
         { text: "Buscar Facultades", path: "/" },
@@ -71,31 +73,39 @@ export default function Bar() {
           >
             <MenuIcon />
           </IconButton>
-          <Drawer open={open} onClose={toggleDrawer(false)}>
-	  <Box className="nav" sx={{
-		  bgcolor: "var(--primary-500)",
-              color: "var(--white)",
-              height: "100%",
-              width: "100%",
-            }}>
+          <Drawer open={open} onClose={toggleDrawer(false)} slotProps={{
+            paper: {
+              sx: {
+                backgroundColor: 'var(--primaryColor-darker)',
+                color: 'var(--color-texto)',
+                width: 260,
+                borderRight: '1px solid var(--primaryColor-light)',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                '& .MuiList-root': {
+                  padding: 0,
+                },
+                '& .MuiListItemButton-root': {
+                  textAlign: 'center',
+                  borderBottom: '1px solid var(--primaryColor-dark)',
+                  fontWeight: 500,
+                  '&:hover': {
+                    backgroundColor: 'var(--primaryColor-light)',
+                  },
+                  '&:active': {
+                    backgroundColor: 'var(--primaryColor-default)',
+                  },
+                },
+              },
+            },
+          }}>
+            <Box sx={{ flexGrow: 1}}>
               <List>
                 {routes.map((item, index) => (
-                  <ListItem key={index}
-                    sx={{
-                      padding: 0,
-                      borderColor: "var(--black)",
-                      borderBottom: 2,
-                    }}
-                  >
-                    <ListItemButton component={Link} to={item.path}
-                    sx={{
-                        textAlign: "center",
-                        margin: 0,
-                        "&:hover": {
-                          backgroundColor: "var(--primary-400)",
-                        }
-                      }}
-                    >
+                  <ListItem key={index} disablePadding>
+                    <ListItemButton component={Link} to={item.path} onClick={toggleDrawer(false)}>
                       <ListItemText primary={item.text} />
                     </ListItemButton>
                   </ListItem>
@@ -133,6 +143,27 @@ export default function Bar() {
                 }}
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
+                slotProps={{
+                  paper: {
+                    sx: {
+                      backgroundColor: 'var(--primaryColor-darker)',
+                      color: 'var(--color-texto)',
+                      borderRadius: 2,
+                      border: '1px solid var(--primaryColor-light)',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+                      minWidth: 160,
+                      '& .MuiMenuItem-root': {
+                        fontWeight: 500,
+                        '&:hover': {
+                          backgroundColor: 'var(--primaryColor-light)',
+                        },
+                        '&:active': {
+                          backgroundColor: 'var(--primaryColor-default)',
+                        },
+                      },
+                    },
+                  }
+                }}
               >
                 { isLoggedIn 
                 ? [

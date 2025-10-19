@@ -198,7 +198,7 @@ namespace VocacionPlus.Controllers
                 issuer: "TuApp",
                 audience: "TuApp",
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(1),
+                expires: DateTime.UtcNow.AddHours(3),
                 signingCredentials: creds
             );
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);

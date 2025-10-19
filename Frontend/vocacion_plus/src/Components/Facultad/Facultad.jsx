@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'; // Agregamos useEffect por si quieres cargar IDs dinámicamente
 import { Box, CircularProgress, Alert, Pagination } from '@mui/material';
-import { getCarrerasEnFacultadCard, getFacultades } from '../../services/facultadService';
+import { eliminarFacultad, getCarrerasEnFacultadCard, getFacultades } from '../../services/facultadService';
 import { useLocation } from "react-router-dom";
 // Importamos el componente VerFacultades (que ahora internamente usa FacultadCard)
 import VerFacultades from './VerFacultad'; // Asegúrate de que la ruta sea correcta
 import FacultadCard from './FacultadCard'; // Importa el card directamente
+import '../../App.css';
 
 const FacultadList = () => {
   const location = useLocation();
@@ -14,6 +15,15 @@ const FacultadList = () => {
   const [facultades, setFacultades ] = useState([]);
   const [loading, setLoading ] = useState(true);
   const [error, setError] = useState(null);
+
+  const handleEliminarFacultad = async (id) => {
+    try {
+      await eliminarFacultad(id);
+      setFacultades(prev => prev.filter(f => f.id !== id));
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,22 +60,22 @@ const FacultadList = () => {
 	
   if (loading) return (
     <Box sx={{
-      display: 'flex', justifyContent: 'center', mt:4
+      display: 'flex', justifyContent: 'center', mt:4, background: 'linear-gradient(180deg, var(--primaryColor-default) 0%, var(--backgroundColor-default) 100%)'
     }}>
       <CircularProgress />
     </Box>
   );
   if (error) return  (
     <Box sx={{
-      display: 'flex', justifyContent: 'center', mt:4
+      display: 'flex', justifyContent: 'center', mt:4, background: 'linear-gradient(180deg, var(--primaryColor-default) 0%, var(--backgroundColor-default) 100%)'
     }}>
       <Alert severity='error'>{error}</Alert>
     </Box>
   );
 
   return (
-    <>
-      <FacultadCard facultades={facultades} />
+    <Box sx= {{ background: 'linear-gradient(180deg, var(--primaryColor-default) 0%, var(--backgroundColor-default) 100%)'}}>
+      <FacultadCard facultades={facultades} Eliminar={handleEliminarFacultad} />
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
         <Pagination
           count={Math.ceil(totalItems / pageSize)} 
@@ -74,7 +84,7 @@ const FacultadList = () => {
           color="primary"
         />
       </Box>
-    </>
+    </Box>
   )
 };
 
