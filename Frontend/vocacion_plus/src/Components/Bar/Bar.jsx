@@ -43,11 +43,11 @@ export default function Bar() {
   }
    const routes = rol == "Admin" 
    ? [
-      { text: " Gestionar Facultades", path: "/facultad" },
+      { text: " Gestionar Facultades", path: "/" },
       { text: "Gestionar Carreras", path: "/carrera" },
     ]
     : [
-        { text: "Buscar Facultades", path: "/facultad" },
+        { text: "Buscar Facultades", path: "/" },
         { text: "Buscar Carreras", path: "/carrera" },
     ];
  
@@ -72,8 +72,8 @@ export default function Bar() {
             <MenuIcon />
           </IconButton>
           <Drawer open={open} onClose={toggleDrawer(false)}>
-            <Box className="nav" sx={{
-              bgcolor: "var(--primary-500)",
+	  <Box className="nav" sx={{
+		  bgcolor: "var(--primary-500)",
               color: "var(--white)",
               height: "100%",
               width: "100%",

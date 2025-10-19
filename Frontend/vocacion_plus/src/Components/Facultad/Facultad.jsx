@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'; // Agregamos useEffect por si quieres cargar IDs dinámicamente
 import { Box, CircularProgress, Alert, Pagination } from '@mui/material';
 import { getCarrerasEnFacultadCard, getFacultades } from '../../services/facultadService';
-
+import { useLocation } from "react-router-dom";
 // Importamos el componente VerFacultades (que ahora internamente usa FacultadCard)
 import VerFacultades from './VerFacultad'; // Asegúrate de que la ruta sea correcta
 import FacultadCard from './FacultadCard'; // Importa el card directamente
 
 const FacultadList = () => {
+  const location = useLocation();
   const [page, setPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [pageSize] = useState(9);
@@ -40,8 +41,13 @@ const FacultadList = () => {
     };
 
     fetchData();
-  }, [page, pageSize]);
+  }, [page, pageSize ]);
 
+  useEffect(() => {
+	setPage(1);
+	console.log("path actual:", location.pathname);
+  }, [ location.pathname]);
+	
   if (loading) return (
     <Box sx={{
       display: 'flex', justifyContent: 'center', mt:4

@@ -11,7 +11,7 @@ export default function Login() {
         try {
         const result = await loginUser(data); 
         console.log("Datos enviados al backend:", data);
-        navigate("/facultad");
+        navigate("/");
         } catch (error) {
         console.error("Error en login:", error);
         alert(error.response?.data?.message || error.message || "Error al conectar con el servidor");
