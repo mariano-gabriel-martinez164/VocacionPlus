@@ -1,23 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Card,
   CardContent,
-  CardActions,
   Typography,
-  Button,
-  List,
-  ListItem,
-  ListItemText,
-  CircularProgress,
-  Box,
-  Alert,
   Rating,
   styled,
 } from '@mui/material';
-import SchoolIcon from '@mui/icons-material/School'; // Main icon for the faculty
-import LocationOnIcon from '@mui/icons-material/LocationOn'; // Icon for location
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Icon for the back button
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance'; // Icon for careers
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 const StyledRating = styled(Rating)({
@@ -31,7 +19,7 @@ const StyledRating = styled(Rating)({
 
 // Este componente ahora recibe una lista de facultades y las muestra en cards
 const CarreraCard = ({ carrera, index }) => {
-  const [valoracion, setValoracion] = React.useState(2);
+  const [valoracion] = useState(2);
 
   return (
     <Card

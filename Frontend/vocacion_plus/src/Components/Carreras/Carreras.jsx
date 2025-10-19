@@ -89,28 +89,7 @@ const Carrera = () => {
       "plan de estudio": "Plan 2021 - 4 años con talleres prácticos en medios."
     }
   ];
-  const facultades = [
-    {
-      "facultad_id": 1,
-      "nombre": "Facultad de Ingeniería en Sistemas"
-    },
-    {
-      "facultad_id": 2,
-      "nombre": "Facultad de Ciencias Económicas"
-    },
-    {
-      "facultad_id": 3,
-      "nombre": "Facultad de Arquitectura e Ingeniería Civil"
-    },
-    {
-      "facultad_id": 4,
-      "nombre": "Facultad de Ciencias de la Salud"
-    },
-    {
-      "facultad_id": 5,
-      "nombre": "Facultad de Ciencias Sociales y Comunicación"
-    }
-  ];
+  // facultades data removed because it's not used in this component
 
   return (
     <Box display="flex" flexDirection="column" sx={{

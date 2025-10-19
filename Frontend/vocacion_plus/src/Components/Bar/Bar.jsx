@@ -20,8 +20,8 @@ export default function Bar() {
     { text: "Registro", path: "/register" },
   ];
 
-  // Cambiamos el estado inicial de 'auth' a false (no logueado) para probar el login.
-  const [auth, setAuth] = React.useState(false); 
+  // Estado de autenticación (false por defecto). No necesitamos el setter actualmente.
+  const [auth] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openLogin, setOpenLogin] = React.useState(false); // Estado para el Login Modal
 

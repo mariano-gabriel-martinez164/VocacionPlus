@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'; // Agregamos useEffect por si quieres cargar IDs dinámicamente
 import {
-  Button,
   Container,
   Typography,
-  Paper,
   Box,
   CircularProgress, // Para simular carga del listado de IDs
   Alert, // Para mensajes de error si la carga de IDs falla
@@ -11,7 +9,6 @@ import {
   TextField,
   InputAdornment,
 } from '@mui/material';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import SearchIcon from '@mui/icons-material/Search';
 
 // Importamos el componente VerFacultades (que ahora internamente usa FacultadCard)
@@ -95,10 +92,16 @@ const App = () => {
           }}
           freeSolo
           disableClearable
+          options={facultadesList ? facultadesList.map(f => f.nombre) : []}
+          onChange={(event, value) => {
+            // Cuando se selecciona una opción por nombre, buscamos su id y mostramos la facultad
+            const fac = facultadesList.find(f => f.nombre === value);
+            if (fac) handleViewFacultad(fac.id);
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
-              label="Buscar carrera"
+              label="Facultades"
               variant="outlined"
               size="medium"
               InputProps={{

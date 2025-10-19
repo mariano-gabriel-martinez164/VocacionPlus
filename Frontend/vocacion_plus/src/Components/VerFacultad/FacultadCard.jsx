@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Card,
   CardContent,
@@ -8,11 +8,8 @@ import {
   List,
   ListItem,
   ListItemText,
-  CircularProgress,
   Box,
-  Alert,
 } from '@mui/material';
-import SchoolIcon from '@mui/icons-material/School'; // Main icon for the faculty
 import LocationOnIcon from '@mui/icons-material/LocationOn'; // Icon for location
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Icon for the back button
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'; // Icon for careers
