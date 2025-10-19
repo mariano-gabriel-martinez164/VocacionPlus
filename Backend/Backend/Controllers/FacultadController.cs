@@ -20,11 +20,18 @@ namespace VocacionPlus.Controllers
         [HttpGet]
         public async Task<IActionResult> GetFacultades(int page = 1, int pageSize = 10)
         {
+            var totalItems = await _context.facultades.CountAsync();
             var facultades = await _context.facultades
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync();
-            return Ok(new { facultades });
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return Ok(new {
+                TotalItems = totalItems,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize),
+                CurrentPage = page,
+                Data = facultades
+            });
         }
 
         // GET: /facultad/{facultad_id}/

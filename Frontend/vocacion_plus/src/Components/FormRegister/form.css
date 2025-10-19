@@ -17,7 +17,7 @@
 }
 
 .register-form .MuiFilledInput-root {
-  background-color: var(--primaryColor-dark);
+  background-color: var(--primaryColor-light);
 }
 
 .register-form .MuiFilledInput-root:hover {
@@ -33,3 +33,33 @@
   background-color: var(--primaryColor-white);
   color: white;
 }
+.logincorreo .MuiFilledInput-root,
+.loginpass .MuiFilledInput-root {
+  background-color: var(--primaryColor-dark) !important;
+  border-radius: 8px !important;
+  transition: background-color 0.2s ease;
+}
+
+.logincorreo .MuiFilledInput-root:hover,
+.loginpass .MuiFilledInput-root:hover {
+  background-color: var(--primaryColor-light) !important;
+}
+
+.logincorreo .MuiFilledInput-root.Mui-focused,
+.loginpass .MuiFilledInput-root.Mui-focused {
+  background-color: var(--primaryColor-lighter) !important;
+}
+
+.logincorreo .MuiFilledInput-input,
+.loginpass .MuiFilledInput-input {
+  color: white !important;
+  background-color: transparent !important;
+}
+
+.logincorreo .MuiFilledInput-root::before,
+.loginpass .MuiFilledInput-root::before,
+.logincorreo .MuiFilledInput-root::after,
+.loginpass .MuiFilledInput-root::after {
+  border-bottom: none !important;
+}
+

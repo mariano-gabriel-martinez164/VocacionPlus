@@ -1,102 +1,75 @@
 import React, { useState, useEffect } from 'react'; // Agregamos useEffect por si quieres cargar IDs dinámicamente
-import {
-  Button,
-  Container,
-  Typography,
-  Paper,
-  Box,
-  CircularProgress, // Para simular carga del listado de IDs
-  Alert // Para mensajes de error si la carga de IDs falla
-} from '@mui/material';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Box, CircularProgress, Alert, Pagination } from '@mui/material';
+import { getCarrerasEnFacultadCard, getFacultades } from '../../services/facultadService';
 
 // Importamos el componente VerFacultades (que ahora internamente usa FacultadCard)
 import VerFacultades from './VerFacultad'; // Asegúrate de que la ruta sea correcta
 import FacultadCard from './FacultadCard'; // Importa el card directamente
 
-const App = () => {
-  const [selectedFacultadId, setSelectedFacultadId] = useState(null);
-  const [facultadesList, setFacultadesList] = useState([]); // Estado para la lista de facultades
-  const [loadingList, setLoadingList] = useState(true);    // Estado para la carga del listado
-  const [errorList, setErrorList] = useState(null);       // Estado para errores del listado
+const FacultadList = () => {
+  const [page, setPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [pageSize] = useState(9);
+  const [facultades, setFacultades ] = useState([]);
+  const [loading, setLoading ] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Simulación de carga de IDs de facultades
   useEffect(() => {
-    const fetchFacultadesIds = async () => {
+    const fetchData = async () => {
+      console.log("fetching a facultad por pag", page);
+      setLoading(true);
+      setError(null);
       try {
-        // Simula una llamada a la API para obtener un listado de IDs y nombres
-        const dummyData = [
-          { id: 'ing_sistemas', nombre: 'Facultad de Ingeniería de Sistemas' },
-          { id: 'cien_exactas', nombre: 'Facultad de Ciencias Exactas y Naturales' },
-          { id: 'artes_diseno', nombre: 'Facultad de Artes y Diseño' },
-          { id: 'medicina', nombre: 'Facultad de Ciencias Médicas' },
-          { id: 'derecho', nombre: 'Facultad de Derecho y Ciencias Sociales' },
-          { id: 'economia', nombre: 'Facultad de Ciencias Económicas' },
-        ];
-
-        setTimeout(() => {
-          setFacultadesList(dummyData);
-          setLoadingList(false);
-        }, 800); // Pequeño retraso para simular la carga
-
-      } catch (err) {
-        setErrorList('No se pudo cargar el listado de facultades.');
-        setLoadingList(false);
-        console.error("Error al cargar listado de facultades:", err);
+        const data = await getFacultades(page, pageSize);
+        console.log("datos del endpoint f: ", data);
+        const carrerasCard = await Promise.all(
+          data.facultades.map(async (fac) => {
+            const carrera = await getCarrerasEnFacultadCard(fac.id);
+            console.log(`Carreras para facultad ${fac.nombre}:`, carrera);
+            return {...fac, carreras : carrera};
+          })
+        );
+        console.log("f final loco: ", carrerasCard);
+        setFacultades(carrerasCard);
+        setTotalItems(data.totalItems);
+      } catch {
+        setError('no se puedieron cargar las facultades.');
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchFacultadesIds();
-  }, []); // Se ejecuta solo una vez al montar el componente
+    fetchData();
+  }, [page, pageSize]);
 
-  const handleViewFacultad = (id) => {
-    setSelectedFacultadId(id);
-  };
-
-  const handleGoBack = () => {
-    setSelectedFacultadId(null); // Vuelve a null para mostrar el listado
-  };
+  if (loading) return (
+    <Box sx={{
+      display: 'flex', justifyContent: 'center', mt:4
+    }}>
+      <CircularProgress />
+    </Box>
+  );
+  if (error) return  (
+    <Box sx={{
+      display: 'flex', justifyContent: 'center', mt:4
+    }}>
+      <Alert severity='error'>{error}</Alert>
+    </Box>
+  );
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      {selectedFacultadId ? (
-        // Si hay un ID seleccionado, mostramos los detalles de esa facultad
-        <VerFacultades
-          facultadId={selectedFacultadId}
-          onGoBack={handleGoBack}
+    <>
+      <FacultadCard facultades={facultades} />
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+        <Pagination
+          count={Math.ceil(totalItems / pageSize)} 
+          page={page}
+          onChange={(event, value) => setPage(value)}
+          color="primary"
         />
-      ) : (
-        // Mostrar cards de facultades en vez de lista
-        loadingList ? (
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '150px' }}>
-            <CircularProgress />
-            <Typography variant="h6" sx={{ ml: 2 }}>Cargando listado...</Typography>
-          </Box>
-        ) : errorList ? (
-          <Alert severity="error">{errorList}</Alert>
-        ) : (
-          <>
-            <Typography variant="h4" component="h1" align="center" gutterBottom>
-              Listado de Facultades
-            </Typography>
-            <FacultadCard
-              facultades={facultadesList.map(f => ({
-                ...f,
-                descripcion: 'Descripción breve de la facultad.',
-                ubicacion: 'Ubicación genérica',
-                carreras: [
-                  { id: '1', nombre: 'Carrera 1' },
-                  { id: '2', nombre: 'Carrera 2' }
-                ],
-                imagen: `https://via.placeholder.com/600x200?text=${f.id.toUpperCase()}_FACULTAD`
-              }))}
-              onGoBack={() => {}} // No hace nada en el listado
-            />
-          </>
-        )
-      )}
-    </Container>
-  );
+      </Box>
+    </>
+  )
 };
 
-export default App;
+export default FacultadList;

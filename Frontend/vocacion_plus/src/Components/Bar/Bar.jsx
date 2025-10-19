@@ -19,12 +19,7 @@ import { borderBottom, color, fontSize, height } from "@mui/system";
 import { jwtDecode } from "jwt-decode";
 
 export default function Bar() {
-  // aca pongan las opciones del menu (tienen que estar con el link en el app.js)
-  const routes = [
-    { text: "Facultades", path: "/facultad" },
-    { text: "Carreras", path: "/carrera" },
-  ];
-
+ 
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -38,13 +33,28 @@ export default function Bar() {
     setAnchorEl(null);
   };
 
+  const token = localStorage.getItem("token");
+  const user = token ? jwtDecode(token) : null;
+  const isLoggedIn = !!user;
+  let rol = null;
+  if (token) {
+    const decoded = jwtDecode(token);
+    rol = decoded.role;
+  }
+   const routes = rol == "Admin" 
+   ? [
+      { text: " Gestionar Facultades", path: "/facultad" },
+      { text: "Gestionar Carreras", path: "/carrera" },
+    ]
+    : [
+        { text: "Buscar Facultades", path: "/facultad" },
+        { text: "Buscar Carreras", path: "/carrera" },
+    ];
+ 
   const [open, setOpen] = useState(false);
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
-  const token = localStorage.getItem("token");
-  const user = token ? jwtDecode(token) : null;
-  const isLoggedIn = !!user;
 
   return (
     <Box sx={{ flexGrow: 1 }} className="box">
@@ -56,7 +66,7 @@ export default function Bar() {
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
+            sx={{ mr: 3 }}
             onClick={toggleDrawer(true)}
           >
             <MenuIcon />
@@ -65,13 +75,13 @@ export default function Bar() {
             <Box className="nav" sx={{
               bgcolor: "var(--primary-500)",
               color: "var(--white)",
-              height: "100%"
+              height: "100%",
+              width: "100%",
             }}>
               <List>
                 {routes.map((item, index) => (
                   <ListItem key={index}
                     sx={{
-                      width: "8vw",
                       padding: 0,
                       borderColor: "var(--black)",
                       borderBottom: 2,
@@ -124,25 +134,23 @@ export default function Bar() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                { isLoggedIn ? (
-                  <>
-                    <MenuItem onClick={handleClose}>Perfil</MenuItem>
-                    <MenuItem onClick={() => {
+                { isLoggedIn 
+                ? [
+                    <MenuItem key="perfil" onClick={handleClose}>Perfil</MenuItem>,
+                    <MenuItem key="cerrar" onClick={() => {
                       localStorage.removeItem("token");
                       handleClose();
                       window.location.reload();
                     }}>Cerrar sesión</MenuItem>
-                  </>
-                ) : (
-                  <>
-                    <MenuItem component={Link} to="/login" onClick={handleClose}>
+                ]
+                : [  
+                    <MenuItem key="login" component={Link} to="/login" onClick={handleClose}>
                       Iniciar sesión
-                    </MenuItem>
-                    <MenuItem component={Link} to="/register" onClick={handleClose}>
+                    </MenuItem>,
+                    <MenuItem key="register" component={Link} to="/register" onClick={handleClose}>
                       Registrarse
                     </MenuItem>
-                  </>
-                )}
+                ]}
               </Menu>
             </div>
           )}

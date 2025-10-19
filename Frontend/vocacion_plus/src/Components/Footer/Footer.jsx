@@ -29,7 +29,7 @@ const Footer = () => {
           {/* Columna 1: Descripción */}
           <Grid item xs={12} md={5}>
             <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
-              Facultades App
+              Vocacion Plus
             </Typography>
             <Typography variant="body2" sx={{ color: '#bdbdbd' }}>
               Plataforma dedicada a proveer información detallada sobre las facultades regionales. Encontrá ubicaciones, carreras y más.
@@ -51,7 +51,7 @@ const Footer = () => {
         {/* Derechos Reservados */}
         <Box mt={4} sx={{ pt: 3, borderTop: '1px solid #333' }}>
           <Typography variant="body2" align="center" sx={{ color: '#757575' }}>
-            © {new Date().getFullYear()} Facultades App. Todos los derechos reservados.
+            © {new Date().getFullYear()} VocacionPlus. Todos los derechos reservados.
           </Typography>
         </Box>
         

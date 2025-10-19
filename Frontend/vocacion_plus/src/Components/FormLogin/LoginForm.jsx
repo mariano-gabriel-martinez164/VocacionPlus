@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import PasswordField from '../FormRegister/password';
 import "../FormRegister/form.css"; // usamos los mismos estilos que RegisterForm
 
+
 export default function LoginForm({ onSubmit }) {
   const [correo, setCorreo] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -33,6 +34,7 @@ export default function LoginForm({ onSubmit }) {
 
       <TextField
         required
+        className='loginCorreo'
         label="Correo"
         type="email"
         variant="filled"
@@ -41,6 +43,7 @@ export default function LoginForm({ onSubmit }) {
       />
       <PasswordField
             label="Contraseña"
+            className='loginPass'
             value={password}
             onChange={e => setPassword(e.target.value)}
         />

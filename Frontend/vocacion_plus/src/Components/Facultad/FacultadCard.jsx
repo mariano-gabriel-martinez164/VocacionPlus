@@ -18,7 +18,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Icon for the back 
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'; // Icon for careers
 
 // Este componente ahora recibe una lista de facultades y las muestra en cards
-const FacultadCard = ({ facultades, onGoBack }) => {
+const FacultadCard = ({facultades}) => {
   // Si no hay facultades, muestra un mensaje
   if (!facultades || facultades.length === 0) {
     return (
@@ -29,7 +29,6 @@ const FacultadCard = ({ facultades, onGoBack }) => {
           flexDirection: 'column',
           alignItems: 'center',
           backgroundColor: '#202124',
-          color: '#e0e0e0',
           borderRadius: '8px',
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
           maxWidth: 800,
@@ -38,14 +37,6 @@ const FacultadCard = ({ facultades, onGoBack }) => {
         }}
       >
         <Typography variant="h6" sx={{ mb: 2 }}>No se encontraron facultades.</Typography>
-        <Button
-          variant="contained"
-          onClick={onGoBack}
-          startIcon={<ArrowBackIcon />}
-          sx={{ backgroundColor: '#8ab4f8', color: '#202124', '&:hover': { backgroundColor: '#a8c7fa' } }}
-        >
-          Volver
-        </Button>
       </Box>
     );
   }
@@ -61,7 +52,6 @@ const FacultadCard = ({ facultades, onGoBack }) => {
         alignItems: 'flex-start',
         p: 3,
         minHeight: '80vh',
-        backgroundColor: '#f5f5f5',
       }}
     >
       {facultades.map((facultad) => (
@@ -71,7 +61,6 @@ const FacultadCard = ({ facultades, onGoBack }) => {
             width: 340,
             height: 440,
             backgroundColor: '#202124',
-            color: '#e0e0e0',
             borderRadius: '8px',
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
             display: 'flex',
@@ -99,21 +88,18 @@ const FacultadCard = ({ facultades, onGoBack }) => {
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, color: '#bdbdbd' }}>
               <LocationOnIcon sx={{ mr: 0.5, fontSize: 18, color: '#8ab4f8' }} />
               <Typography variant="body2" component="span" sx={{ fontStyle: 'italic', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                {facultad.ubicacion}
+                {facultad.direccion}
               </Typography>
             </Box>
-            <Typography variant="body2" paragraph sx={{ color: '#e0e0e0', lineHeight: 1.5, maxHeight: 56, overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {facultad.descripcion}
-            </Typography>
             <Typography variant="subtitle2" sx={{ color: '#bdbdbd', mt: 2 }}>
               Carreras Ofertadas
             </Typography>
             {facultad.carreras && facultad.carreras.length > 0 ? (
-              <List dense sx={{ color: '#e0e0e0', pl: 0, maxHeight: 60, overflow: 'auto' }}>
+              <List dense sx={{ pl: 0, maxHeight: 60, overflow: 'auto' }}>
                 {facultad.carreras.map((carrera) => (
                   <ListItem key={carrera.id} sx={{ py: 0.2 }}>
                     <AccountBalanceIcon sx={{ mr: 1, fontSize: 18, color: '#8ab4f8' }} />
-                    <ListItemText primary={carrera.nombre} primaryTypographyProps={{ color: '#e0e0e0', sx: { whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' } }} />
+                    <ListItemText primary={carrera.nombre} primaryTypographyProps={{ sx: { whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' } }} />
                   </ListItem>
                 ))}
               </List>
@@ -126,8 +112,6 @@ const FacultadCard = ({ facultades, onGoBack }) => {
           <CardActions sx={{ justifyContent: 'flex-end', p: 2, borderTop: '1px solid #333' }}>
             <Button
               variant="contained"
-              onClick={onGoBack}
-              startIcon={<ArrowBackIcon />}
               sx={{
                 backgroundColor: '#8ab4f8',
                 color: '#202124',
@@ -137,7 +121,7 @@ const FacultadCard = ({ facultades, onGoBack }) => {
                 },
               }}
             >
-              Volver
+              Detalles
             </Button>
           </CardActions>
         </Card>

@@ -1,8 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import './App.css';
 
 // Importá tus componentes (pantallas)
-import Facultad from "./Components/Facultad/Facultad";
+import FacultadList from "./Components/Facultad/Facultad";
 import Carreras from "./Components/Carreras/Carreras";
 import verCarrera from "./Components/Carreras/Carreras";
 import Login from "./pages/Usuario/Login";
@@ -26,7 +27,7 @@ function App() {
         <Bar />
         <Box sx= {{ flexGrow: 1, alignItems: 'start' }}>
           <Routes>
-            <Route path="/" element={<Facultad />} />
+            <Route path="/" element={<FacultadList />} />
             <Route path="/carrera" element={<Carreras />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

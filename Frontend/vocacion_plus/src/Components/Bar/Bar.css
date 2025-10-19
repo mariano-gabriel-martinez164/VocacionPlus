@@ -1,6 +1,6 @@
 .box .bar {
-  background-color: var(--primary-500);
-  color: var(--primary-100);
+  background-color: var(--primaryColor-darker);
+  color: var(--primaryColor-light);
 }
 
 .bar .titulo {
