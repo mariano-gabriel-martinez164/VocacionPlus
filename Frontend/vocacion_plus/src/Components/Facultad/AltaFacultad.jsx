@@ -116,7 +116,7 @@ const AltaFacultad = () => {
             required
             sx={{ mb: 2 }}
           />
-          <TextField
+         <TextField
             className="fieldForm"
             name="descripcion"
             label="Descripcion"
@@ -124,6 +124,9 @@ const AltaFacultad = () => {
             onChange={handleChange}
             fullWidth
             required
+            multiline        // permite varias líneas
+            minRows={3}      // empieza con 3 filas
+            maxRows={10}     // puede crecer hasta 10 filas
             sx={{ mb: 2 }}
           />
           <TextField

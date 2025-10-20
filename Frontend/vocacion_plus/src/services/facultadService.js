@@ -64,3 +64,36 @@ export const crearFacultad = async (data) => {
         headers: {Authorization: `Bearer ${token}`},
     });
 };
+
+export const editarFacultad = async (id, data) => {
+    const token = localStorage.getItem("token");
+    try {
+        const response = await axios.put(`${url}/${id}`, data, {
+            headers: { Authorization: `Bearer ${token}`},
+        });
+        console.log("facultad editada: ", response.data);
+        return response.data;
+    } catch(error) {
+        if(error.response) {
+            console.error("error en respuesta sv: ", error.response.status, error.response.data);
+        } else if (error.request) {
+            console.error("error en la soli, no resp", error.request);
+        } else {
+            console.error("error desconocido:", error.message);
+        }
+        throw error;
+    }
+};
+
+export const getFacultadById = async (facultadId) => {
+    try {
+        console.log("ok ahora desde el getfbId es:", facultadId);
+        const response = await axios.get(`${url}/${facultadId}`);
+        console.log("y la sup ruta es : ", `${url}/${facultadId}`);
+        console.log("y la supuest datita es :", response.data);
+        return response.data;
+    } catch (error) {
+        console.error(`Error al traer la facultad ${facultadId}:`, error);
+        throw error;
+    }
+};

@@ -15,6 +15,7 @@ import PoliticaPrivacidad from "./Components/Footer/PoliticaPrivacidad"
 import Terminos from "./Components/Footer/Terminos"
 import { Box } from "@mui/system"
 import AltaFacultad from "./Components/Facultad/AltaFacultad";
+import EditarFacultad from "./Components/Facultad/ModificarFacultad";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Routes>
             <Route path="/" element={<FacultadList />} />
             <Route path="/alta-facultad" element={<AltaFacultad />} />
+            <Route path="/editar-facultad/:id" element={<EditarFacultad />} />
             <Route path="/carrera" element={<Carreras />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
