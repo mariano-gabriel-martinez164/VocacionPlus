@@ -205,18 +205,20 @@ const FacultadCard = ({facultades, Eliminar }) => {
             </Dialog>
               </>)}
                <Button
-              variant="contained"
-              sx={{
-                backgroundColor: 'var(--primaryColor-light)',
-                fontWeight: 'bold',
-                borderRadius: 2,
-                textTransform: 'none',
-                transition: '0.3s',
-                '&:hover': {
-                  backgroundColor: 'var(--primaryColor-lighter)',
-                  transform: 'scale(1.05)',
-                },
-            }}
+                component={Link}
+                to={`/facultad/${facultad.id}`}
+                variant="contained"
+                sx={{
+                  backgroundColor: 'var(--primaryColor-light)',
+                  fontWeight: 'bold',
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  transition: '0.3s',
+                  '&:hover': {
+                    backgroundColor: 'var(--primaryColor-lighter)',
+                    transform: 'scale(1.05)',
+                  },
+              }}
              startIcon={<InfoIcon />}>
               Detalles
             </Button>
