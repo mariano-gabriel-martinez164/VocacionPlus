@@ -93,7 +93,7 @@ const FacultadCard = ({facultades, Eliminar }) => {
         >
           {facultad.imagen && (
             <img
-              src={facultad.imagen}
+              src={`http://localhost:5073${facultad.imagen}`}
               alt={`Imagen de ${facultad.nombre}`}
               style={{
                 width: '100%',
@@ -105,20 +105,40 @@ const FacultadCard = ({facultades, Eliminar }) => {
             />
           )}
           <CardContent sx={{ flexGrow: 1, overflow: 'hidden', p: 2 }}>
-            <Typography variant="h6" sx={{ color: '#ffffff', fontWeight: 'bold', mb: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            <Typography variant="h5" sx={{ color: '#ffffff', fontWeight: 'bold', mb: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {facultad.abreviatura}
+            </Typography>
+            <Typography variant="subtitle2" sx={{ color: '#bdbdbd', mt: 2 }}>
               {facultad.nombre}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, color: '#bdbdbd' }}>
               <LocationOnIcon sx={{ mr: 0.5, fontSize: 18, color: 'var(--primaryColor-white)' }} />
               <Typography variant="body2" component="span" sx={{ fontStyle: 'italic', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                {facultad.direccion}
+                {facultad.localidad} , {facultad.provincia}
               </Typography>
             </Box>
             <Typography variant="subtitle2" sx={{ color: '#bdbdbd', mt: 2 }}>
               Carreras Ofertadas
             </Typography>
             {facultad.carreras && facultad.carreras.length > 0 ? (
-              <List dense sx={{ pl: 0, maxHeight: 60, overflow: 'auto' }}>
+              <List dense sx={{ pl: 0,
+                maxHeight: 60,
+                overflow: 'auto',
+                '&::-webkit-scrollbar': {
+                width: '6px', // ancho
+                height: '6px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  backgroundColor: 'transparent', // o mismo color que la card
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  backgroundColor: 'var(--primaryColor-white)', // color del scroll
+                  borderRadius: '10px',
+                },
+                '&::-webkit-scrollbar-thumb:hover': {
+                  backgroundColor: '#999', // color al pasar el mouse
+                },
+                }}>
                 {facultad.carreras.map((carrera) => (
                   <ListItem key={carrera.id} sx={{ py: 0.2 }}>
                     <AccountBalanceIcon sx={{ mr: 1, fontSize: 18, color: 'var(--primaryColor-white)' }} />
