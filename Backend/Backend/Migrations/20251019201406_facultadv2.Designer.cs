@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VocacionPlus.Database;
 
@@ -10,9 +11,11 @@ using VocacionPlus.Database;
 namespace Backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251019201406_facultadv2")]
+    partial class facultadv2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.13");
@@ -305,44 +308,6 @@ namespace Backend.Migrations
                     b.ToTable("facultades");
                 });
 
-            modelBuilder.Entity("VocacionPlus.Models.Sede", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Correo")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Direccion")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("FacultadId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Localidad")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Provincia")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Telefono")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FacultadId");
-
-                    b.ToTable("sedes");
-                });
-
             modelBuilder.Entity("VocacionPlus.Models.Tag", b =>
                 {
                     b.Property<int>("Id")
@@ -519,17 +484,6 @@ namespace Backend.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VocacionPlus.Models.Sede", b =>
-                {
-                    b.HasOne("VocacionPlus.Models.Facultad", "Facultad")
-                        .WithMany("Sedes")
-                        .HasForeignKey("FacultadId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Facultad");
-                });
-
             modelBuilder.Entity("VocacionPlus.Models.TestVocacional", b =>
                 {
                     b.HasOne("VocacionPlus.Models.Usuario", "Usuario")
@@ -558,11 +512,6 @@ namespace Backend.Migrations
                     b.Navigation("Autor");
 
                     b.Navigation("Carrera");
-                });
-
-            modelBuilder.Entity("VocacionPlus.Models.Facultad", b =>
-                {
-                    b.Navigation("Sedes");
                 });
 
             modelBuilder.Entity("VocacionPlus.Models.Usuario", b =>
