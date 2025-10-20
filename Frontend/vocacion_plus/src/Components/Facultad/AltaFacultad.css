@@ -36,11 +36,14 @@
 .alta-facultad-form .MuiTextField-root,
 .alta-facultad-form .MuiFormControl-root {
   width: 100%;
+  background-color: var(--primaryColor-default);
+  border-radius: 7px;
 }
 
-.alta-facultad-form .MuiFilledInput-root {
-  background-color: var(--primaryColor-light);
-  border-radius: 8px;
+
+.fieldForm {
+  background-color: var(--primaryColor-default);
+  border-radius: 7px;
 }
 
 .alta-facultad-form .MuiFilledInput-root:hover {

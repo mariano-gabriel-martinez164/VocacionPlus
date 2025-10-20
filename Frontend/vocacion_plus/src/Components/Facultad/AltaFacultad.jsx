@@ -22,7 +22,7 @@ const AltaFacultad = () => {
   const [facultad, setFacultad] = useState({
     nombre: "",
     imagen: "",
-    acronimo: "",
+    abreviatura: "",
     telefono: "",
     correo: "",
     publica: true,
@@ -46,14 +46,20 @@ const AltaFacultad = () => {
     setLoading(true);
     setError("");
     setSuccess("");
+    console.log("datos a enviar:", facultad);
 
     try {
-      await crearFacultad(facultad);
+      const respo = await crearFacultad(facultad);
+      console.log("repu del back:", respo);
       setSuccess("Facultad creada correctamente");
-     
+      window.scrollTo({ top: 0, behavior: "smooth"});
     } catch (err) {
       console.error(err);
+      if(err.response) {
+        console.log("datos que llego? otra ve?", err.response.data);
+      }
       setError("Error al crear la facultad");
+      window.scrollTo({ top: 0, behavior: "smooth"});
     } finally {
       setLoading(false);
     }
@@ -71,7 +77,9 @@ const AltaFacultad = () => {
 
         <form onSubmit={handleSubmit} className="alta-facultad-form">
           <TextField
+            className="fieldForm"
             label="Nombre"
+            name="nombre"
             value={facultad.nombre}
             onChange={handleChange}
             fullWidth
@@ -79,14 +87,18 @@ const AltaFacultad = () => {
             sx={{ mb: 2 }}
           />
           <TextField
-            label="Acronimo"
-            value={facultad.acronimo}
+            className="fieldForm"
+            label="Abreviatura"
+            name="abreviatura"
+            value={facultad.abreviatura}
             onChange={handleChange}
             fullWidth
             required
             sx={{ mb: 2 }}
           />
           <TextField
+            className="fieldForm"
+            name="telefono"
             label="Telefono"
             value={facultad.telefono}
             onChange={handleChange}
@@ -95,6 +107,8 @@ const AltaFacultad = () => {
             sx={{ mb: 2 }}
           />
           <TextField
+            className="fieldForm"
+            name="correo"
             label="Correo"
             value={facultad.correo}
             onChange={handleChange}
@@ -103,6 +117,8 @@ const AltaFacultad = () => {
             sx={{ mb: 2 }}
           />
           <TextField
+            className="fieldForm"
+            name="descripcion"
             label="Descripcion"
             value={facultad.descripcion}
             onChange={handleChange}
@@ -111,6 +127,8 @@ const AltaFacultad = () => {
             sx={{ mb: 2 }}
           />
           <TextField
+            className="fieldForm"
+            name="direccion"
             label="Dirección"
             value={facultad.direccion}
             onChange={handleChange}
@@ -119,6 +137,8 @@ const AltaFacultad = () => {
             sx={{ mb: 2 }}
           />
           <TextField
+            className="fieldForm"
+            name="localidad"
             label="Localidad"
             value={facultad.localidad}
             onChange={handleChange}
@@ -127,6 +147,8 @@ const AltaFacultad = () => {
             sx={{ mb: 2 }}
           />
           <TextField
+            className="fieldForm"
+            name="provincia"
             label="Provincia"
             value={facultad.provincia}
             onChange={handleChange}
@@ -135,6 +157,8 @@ const AltaFacultad = () => {
             sx={{ mb: 2 }}
           />
           <TextField
+            className="fieldForm"
+            name="imagen"
             label="URL de Imagen"
             value={facultad.imagen}
             onChange={handleChange}
@@ -142,6 +166,8 @@ const AltaFacultad = () => {
             sx={{ mb: 2 }}
           />
           <TextField
+            className="fieldForm"
+            name="url"
             label="URL del sitio oficial"
             value={facultad.url}
             onChange={handleChange}
@@ -149,21 +175,43 @@ const AltaFacultad = () => {
             sx={{ mb: 2 }}
           />
           <FormControl fullWidth sx={{ mb: 2 }}>
-            <InputLabel id="publica-label">Tipo</InputLabel>
+            <InputLabel 
+              id="publica-label" 
+              sx={{ color: 'var(--color-texto)' }} // color del label
+            >
+              Tipo
+            </InputLabel>
             <Select
               labelId="publica-label"
               name="publica"
-              value={facultad.publica ? "true" : "false"} // value como string
+              value={facultad.publica ? "true" : "false"}
               label="Tipo"
-              onChange={(e) => setFacultad(prev => ({
-                ...prev,
-                publica: e.target.value === "true" // convertir a boolean
-              }))}
+              onChange={(e) =>
+                setFacultad(prev => ({
+                  ...prev,
+                  publica: e.target.value === "true"
+                }))
+              }
+              sx={{
+                backgroundColor: 'var(--primaryColor-default)', // fondo del select
+                color: 'var(--color-texto)', // texto
+                '& .MuiSelect-icon': {
+                  color: 'var(--primaryColor-white)' // color del triangulito
+                }
+              }}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    backgroundColor: 'var(--primaryColor-default)',
+                    color: 'var(--color-texto)',
+                  }
+                }
+              }}
             >
-              <MenuItem value="true">Pública</MenuItem>
-              <MenuItem value="false">Privada</MenuItem>
-            </Select>
-          </FormControl>
+            <MenuItem value="true">Pública</MenuItem>
+            <MenuItem value="false">Privada</MenuItem>
+          </Select>
+        </FormControl>
 
           <Button 
             type="submit"
