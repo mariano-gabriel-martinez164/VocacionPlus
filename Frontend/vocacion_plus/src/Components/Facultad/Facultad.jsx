@@ -5,7 +5,9 @@ import { useLocation } from "react-router-dom";
 // Importamos el componente VerFacultades (que ahora internamente usa FacultadCard)
 import VerFacultades from './VerFacultad'; // Asegúrate de que la ruta sea correcta
 import FacultadCard from './FacultadCard'; // Importa el card directamente
+import FABButton from '../boton/alta';
 import '../../App.css';
+import { jwtDecode } from 'jwt-decode';
 
 const FacultadList = () => {
   const location = useLocation();
@@ -73,15 +75,28 @@ const FacultadList = () => {
     </Box>
   );
 
+  const token = localStorage.getItem("token");
+  const user = token ? jwtDecode(token) : null;
+  const rol = user?.role || null; 
+
   return (
     <Box sx= {{ background: 'linear-gradient(180deg, var(--primaryColor-default) 0%, var(--backgroundColor-default) 100%)'}}>
       <FacultadCard facultades={facultades} Eliminar={handleEliminarFacultad} />
+      { rol === "Admin" && <FABButton ruta="/alta-facultad" />}
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
         <Pagination
           count={Math.ceil(totalItems / pageSize)} 
           page={page}
           onChange={(event, value) => setPage(value)}
-          color="primary"
+          sx={{
+            '& .MuiPaginationItem-root': {
+              color: 'var(--primaryColor-white)', // color de los números y flechas
+            },
+            '& .MuiPaginationItem-root.Mui-selected': {
+              backgroundColor: 'var(--primaryColor-light)',
+              color: '#fff',
+            },
+          }}
         />
       </Box>
     </Box>

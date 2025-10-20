@@ -57,3 +57,10 @@ export const eliminarFacultad = async (facultadId) => {
     throw error; // opcional, si quieres que el componente maneje el error
     }
 };
+
+export const crearFacultad = async (data) => {
+    const token = localStorage.getItem("token");
+    return await axios.post(url, data, {
+        headers: {Authorization: `Bearer ${token}`},
+    });
+};

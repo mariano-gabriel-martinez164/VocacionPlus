@@ -14,6 +14,7 @@ import Contacto from "./Components/Footer/Contactos";
 import PoliticaPrivacidad from "./Components/Footer/PoliticaPrivacidad"
 import Terminos from "./Components/Footer/Terminos"
 import { Box } from "@mui/system"
+import AltaFacultad from "./Components/Facultad/AltaFacultad";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Box sx= {{ flexGrow: 1, alignItems: 'start' }}>
           <Routes>
             <Route path="/" element={<FacultadList />} />
+            <Route path="/alta-facultad" element={<AltaFacultad />} />
             <Route path="/carrera" element={<Carreras />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

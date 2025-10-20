@@ -1,121 +1,187 @@
-import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import Bar from '../Bar/Bar';
-function AltaFacultad() {
-    const [accesibilidad, setAccesibilidad] = React.useState('');
-  React.useEffect(() => {
-    document.body.style.backgroundColor = '#1A1A1A';
-    return () => {
-      document.body.style.backgroundColor = '';
-    };
-  }, []);
+import React, { useState } from "react";
+import { 
+  Box, 
+  TextField, 
+  Button, 
+  Typography,
+  CircularProgress,
+  Alert,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
+} from "@mui/material";
+import { crearFacultad } from "../../services/facultadService"; // tu servicio
+import '../../App.css';
+import './AltaFacultad.css';
+
+const AltaFacultad = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [facultad, setFacultad] = useState({
+    nombre: "",
+    imagen: "",
+    acronimo: "",
+    telefono: "",
+    correo: "",
+    publica: true,
+    descripcion: "",
+    direccion: "",
+    localidad: "",
+    provincia: "",
+    url: ""
+  });
+  
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFacultad(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setSuccess("");
+
+    try {
+      await crearFacultad(facultad);
+      setSuccess("Facultad creada correctamente");
+     
+    } catch (err) {
+      console.error(err);
+      setError("Error al crear la facultad");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-      <React.Fragment>
-        <Bar/>
-        <h1 style={{color: '#BA2C39', marginTop:'5rem', marginBottom:'-0.5rem', marginLeft:'13rem', fontSize:'4rem'}}>Crear Facultad</h1>
-      <CssBaseline />
-      <Container fixed sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center',marginTop:'0rem', justifyContent: 'center' }}>
-        <Box sx={{ bgcolor: '#381518', width: '100%', minHeight: '109vh', borderRadius: 2, boxShadow: 3, padding: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-<TextField
+    <Box className="alta-facultad-screen">
+      <Box className="alta-facultad-box">
+        <Typography variant="h5" sx={{ mb: 3, color: "#fff" }}>
+          Alta de Facultad
+        </Typography>
+
+        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+        {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
+
+        <form onSubmit={handleSubmit} className="alta-facultad-form">
+          <TextField
             label="Nombre"
-            variant="outlined"
+            value={facultad.nombre}
+            onChange={handleChange}
             fullWidth
-            InputLabelProps={{ style: { color: '#fff' } }}
-            InputProps={{ style: { color: '#fff' } }}
-            sx={{ backgroundColor:'#BA2C39', input: { color: '#fff' }, marginBottom:'2rem', marginTop:'2rem', label: { color: '#fff' }, borderRadius: 2, boxShadow: 3 }}
+            required
+            sx={{ mb: 2 }}
           />
           <TextField
-            label="Descripción"
-            variant="outlined"
+            label="Acronimo"
+            value={facultad.acronimo}
+            onChange={handleChange}
             fullWidth
-            multiline
-            minRows={3}
-            sx={{ backgroundColor:'#BA2C39', input: { color: '#fff' }, marginBottom:'2rem', label: { color: '#fff' }, borderRadius: 2, boxShadow: 3 }}
+            required
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            label="Telefono"
+            value={facultad.telefono}
+            onChange={handleChange}
+            fullWidth
+            required
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            label="Correo"
+            value={facultad.correo}
+            onChange={handleChange}
+            fullWidth
+            required
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            label="Descripcion"
+            value={facultad.descripcion}
+            onChange={handleChange}
+            fullWidth
+            required
+            sx={{ mb: 2 }}
           />
           <TextField
             label="Dirección"
-            variant="outlined"
+            value={facultad.direccion}
+            onChange={handleChange}
             fullWidth
-            InputLabelProps={{ style: { color: '#fff' } }}
-            InputProps={{ style: { color: '#fff' } }}
-            sx={{ backgroundColor:'#BA2C39', input: { color: '#fff' }, marginBottom:'2rem', label: { color: '#fff' }, borderRadius: 2, boxShadow: 3 }}
+            required
+            sx={{ mb: 2 }}
           />
-          <FormControl fullWidth>
-            <InputLabel id="accesibilidad-label" sx={{ color: '#fff' }}>Accesibilidad</InputLabel>
+          <TextField
+            label="Localidad"
+            value={facultad.localidad}
+            onChange={handleChange}
+            fullWidth
+            required
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            label="Provincia"
+            value={facultad.provincia}
+            onChange={handleChange}
+            fullWidth
+            required
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            label="URL de Imagen"
+            value={facultad.imagen}
+            onChange={handleChange}
+            fullWidth
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            label="URL del sitio oficial"
+            value={facultad.url}
+            onChange={handleChange}
+            fullWidth
+            sx={{ mb: 2 }}
+          />
+          <FormControl fullWidth sx={{ mb: 2 }}>
+            <InputLabel id="publica-label">Tipo</InputLabel>
             <Select
-              labelId="accesibilidad-label"
-              id="accesibilidad"
-              value={accesibilidad}
-              label="Accesibilidad"
-              onChange={e => setAccesibilidad(e.target.value)}
-              sx={{backgroundColor:'#BA2C39', marginBottom:'2rem', color: '#fff', '.MuiOutlinedInput-notchedOutline': { borderColor: '#fff' }, borderRadius: 2, boxShadow: 3 }}
+              labelId="publica-label"
+              name="publica"
+              value={facultad.publica ? "true" : "false"} // value como string
+              label="Tipo"
+              onChange={(e) => setFacultad(prev => ({
+                ...prev,
+                publica: e.target.value === "true" // convertir a boolean
+              }))}
             >
-              <MenuItem value="publica">Pública</MenuItem>
-              <MenuItem value="privada">Privada</MenuItem>
+              <MenuItem value="true">Pública</MenuItem>
+              <MenuItem value="false">Privada</MenuItem>
             </Select>
           </FormControl>
 
-            <TextField
-            label="Acceso Directo"
-            variant="outlined"
+          <Button 
+            type="submit"
+            variant="contained"
             fullWidth
-            InputLabelProps={{ style: { color: '#fff' } }}
-            InputProps={{ style: { color: '#fff' } }}
-            sx={{ backgroundColor:'#BA2C39', input: { color: '#fff' }, marginBottom:'2rem', label: { color: '#fff' }, borderRadius: 2, boxShadow: 3 }}
-          />
-          <TextField
-            label="Correo Electrónico"
-            variant="outlined"
-            fullWidth
-            type="email"
-            InputLabelProps={{ style: { color: '#fff' } }}
-            InputProps={{ style: { color: '#fff' } }}
-            sx={{ backgroundColor:'#BA2C39', input: { color: '#fff' }, marginBottom:'2rem', label: { color: '#fff' }, borderRadius: 2, boxShadow: 3 }}
-          />
-          <Button
-            variant="outlined"
-            component="label"
-            sx={{ backgroundColor:'#BA2C39', height: '5rem', width:'10rem',color: '#fff', borderColor: '#BA2C39', marginBottom:'2rem', '&:hover': { borderColor: '#fff' }, borderRadius: 2, boxShadow: 3 }}
+            sx={{
+              backgroundColor: "var(--primaryColor-light)",
+              "&:hover": { backgroundColor: "var(--primaryColor-lighter)" },
+              fontWeight: "bold"
+            }}
+            disabled={loading}
           >
-            Subir Imagen
-            <input type="file" hidden />
+            {loading ? <CircularProgress size={24} /> : "Guardar"}
           </Button>
-          <Box sx={{ display: 'flex', width: '100%', justifyContent: 'flex-end', gap: 2 }}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              sx={{
-                backgroundColor: '#fff',
-                color: '#BA2C39',
-                borderColor: '#BA2C39',
-                height: '5rem',
-                width: '10rem',
-                borderRadius: 2,
-                fontWeight: 'bold',
-                boxShadow: 3,
-                mr: 2,
-                '&:hover': { borderColor: '#BA2C39', backgroundColor: '#f5f5f5' }
-              }}
-            >
-              Cancelar
-            </Button>
-            <Button variant="contained" color="primary" sx={{ bgcolor: '#BA2C39', height: '5rem', width:'10rem',fontWeight: 'bold', borderRadius: 2, boxShadow: 3 }}>
-              Crear
-            </Button>
-          </Box>
-        </Box>
-      </Container>
-    </React.Fragment>
+        </form>
+      </Box>
+    </Box>
   );
-}
+};
 
-export default AltaFacultad
+export default AltaFacultad;
