@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-export default function PasswordField({ label, value, onChange }) {
+export default function PasswordField({ label, value, onChange, error, helperText }) {
   const [showPassword, setShowPassword] = React.useState(false);
 
   return (
@@ -15,6 +15,8 @@ export default function PasswordField({ label, value, onChange }) {
       type={showPassword ? 'text' : 'password'}
       value={value}
       onChange={onChange}
+      error={!!error}
+      helperText={helperText}
       variant="filled"
       InputProps={{
         endAdornment: (

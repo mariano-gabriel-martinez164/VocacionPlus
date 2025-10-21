@@ -8,25 +8,42 @@ import Typography from '@mui/material/Typography';
 import "./form.css"
 
 export default function RegisterForm({ onSubmit }) {
+  const [errors, setErrors] = React.useState({});
   const [age, setAge] = React.useState("");
   const [nombre, setNombre] = React.useState("");
   const [apellido, setApellido] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [correo, setCorreo] = React.useState("");
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password !== confirmPassword){
-      alert("Las contraseñas no coinciden");
-      return;
-    }
+     let newErrors = {};
+    
+    if (!nombre.trim()) newErrors.nombre = "El nombre es obligatorio";
+    else if (nombre.length < 4 ) newErrors.nombre = "El nombre debe tener al menos 4 caracteres";
+
+    if (!apellido.trim()) newErrors.apellido = "El apellido es obligatorio";
+    else if (apellido.length < 4 ) newErrors.apellido = "El apellido debe tener al menos 4 caracteres";
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!correo.trim()) newErrors.correo = "El correo es obligatorio";
+    else if (!emailRegex.test(correo)) newErrors.correo = "Correo formato no valido!";
+
+    if(!password.trim()) newErrors.password = "La contraseña es obligatoria!";
+    if(password.length < 6 ) newErrors.password = "La contraseña debe tener al menos 6 caracteres";
+    if (password !== confirmPassword) newErrors.password = "las contraseñas no coinciden";
+
     const ageNumber = Number(age);
-    if (ageNumber < 7 || ageNumber > 100){
-      alert("la edad debe estar entre 7 y 100 años");
-      return 
+    if (ageNumber < 10 || ageNumber > 80){
+      newErrors.age = "la edad debe estar entre 10 y 80 años";
     }
-    console.log({nombre, apellido, correo, password, age});
+
+    setErrors(newErrors);
+
+    if(Object.keys(newErrors).length > 0) return;
+
     if(onSubmit) { onSubmit({ nombre, apellido, correo, password, age: ageNumber }); }
   }
 
@@ -82,6 +99,8 @@ export default function RegisterForm({ onSubmit }) {
             value={nombre}
             variant="filled"
             type="text"
+            error={!!errors.nombre}
+            helperText={errors.nombre}
             onChange={e => setNombre(e.target.value)}
           />
           <TextField
@@ -90,6 +109,8 @@ export default function RegisterForm({ onSubmit }) {
             value={apellido}
             variant="filled"
             type="text"
+            error={!!errors.apellido}
+            helperText={errors.apellido}
             onChange={e => setApellido(e.target.value)}
           />
           <TextField
@@ -98,24 +119,31 @@ export default function RegisterForm({ onSubmit }) {
             type="email"
             variant="filled"
             value={correo}
+            error={!!errors.correo}
+            helperText={errors.correo}
             onChange={e => setCorreo(e.target.value)}
           />
           <PasswordField
             label="Contraseña"
             value={password}
             onChange={e => setPassword(e.target.value)}
+            error={!!errors.password}
+            helperText={errors.password}
           />
           <PasswordField
             label="Repetir contraseña"
             value={confirmPassword}
             onChange={e => setConfirmPassword(e.target.value)}
+            error={!!errors.confirmPassword}
+            helperText={errors.confirmPassword}
           />
           <TextField
             label="Edad"
             type="number"
             value={age}
             onChange={ e => setAge(e.target.value)}
-            inputProps={{ min: 7, max: 100 }}
+            error={!!errors.age}
+            helperText={errors.age}
             variant="filled"
           />
           <Typography variant="body2" sx={{ mt: 2, mb: 1, textAlign: 'center' }}>
