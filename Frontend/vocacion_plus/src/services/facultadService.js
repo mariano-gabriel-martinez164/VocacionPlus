@@ -2,15 +2,28 @@ import axios from 'axios';
 
 const url = 'http://localhost:5073/facultad';
 
-export const getFacultades = async (page, pageSize = 9) => {
+export const buscarFacultadPorNombre = async (nombre, page = 1, pageSize = 9) => {
+    try {
+        const response = await axios.get(`${url}/buscar`, {
+            params: { nombre, page, pageSize }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("error busdcando por nombre :", error);
+        throw error;
+    }
+};
+
+export const getFacultades = async (page, pageSize) => {
     try {
         const response = await axios.get(url, {
             params: { page, pageSize},
         });
+        console.log("aca en el axios: ", response.data);
         return {
             facultades: response.data.data,
-            totalItems: response.data.TotalItems,
-            totalPages: response.data.TotalPages,
+            totalItems: response.data.totalItems,
+            totalPages: response.data.totalPages,
             currentPage: response.data.currentPage,
         };
     } catch (error) {

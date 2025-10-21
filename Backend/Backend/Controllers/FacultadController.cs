@@ -53,7 +53,8 @@ namespace VocacionPlus.Controllers
                 return BadRequest("debe especificar un nombre.");
 
             var query = _context.facultades
-            .Where(f => f.Nombre.ToLower().Contains(nombre.ToLower()));
+                .Where(f => f.Nombre.ToLower().Contains(nombre.ToLower())
+                || f.Abreviatura.ToLower().Contains(nombre.ToLower()));
 
             var total = await query.CountAsync();
             var facultades = await query
