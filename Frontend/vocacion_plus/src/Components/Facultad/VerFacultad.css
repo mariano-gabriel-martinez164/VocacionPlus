@@ -1,0 +1,46 @@
+.ver-facultad-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 90vh;
+  padding: 30px;
+  gap: 4;
+}
+
+.ver-facultad-card {
+  width: 90%;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.ver-facultad-img {
+  object-fit: cover;
+}
+
+.ver-facultad-content {
+  padding: 25px;
+}
+
+.ver-facultad-nombre {
+  color: var(--color-texto);
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.ver-facultad-descripcion {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: var(--color-texto);
+  line-height: 1.5;
+}
+
+.ver-facultad-link {
+  color: var(--primaryColor-white);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.ver-facultad-link:hover {
+  text-decoration: underline;
+}

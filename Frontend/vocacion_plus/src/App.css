@@ -1,0 +1,54 @@
+:root {
+  /* Gama principal de rojos oscuros */
+  --primaryColor-white: #D64350;      /* el más claro */
+  --primaryColor-lighter: #BA2C39;
+  --primaryColor-light: #8F242D;
+  --primaryColor-default: #5A2328;
+  --primaryColor-dark: #381518;
+  --primaryColor-darker: #260D0F;
+  --backgroundColor-default: #1A1A1A;        /* el más oscuro */
+
+  /* Otros colores de soporte (ej. textos, fondo contraste) */
+  --color-fondo: var(--backgroundColor-default);
+  --color-texto: #FFFFFF;
+}
+
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
