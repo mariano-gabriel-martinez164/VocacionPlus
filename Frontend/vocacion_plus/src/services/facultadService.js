@@ -2,14 +2,25 @@ import axios from 'axios';
 
 const url = 'http://localhost:5073/facultad';
 
-export const buscarFacultadPorNombre = async (nombre, page = 1, pageSize = 9) => {
+export const buscarFacultadPorNombre = async (
+    nombre, 
+    localidad,
+    provincia,
+    page = 1,
+     pageSize = 9
+    ) => {
     try {
         const response = await axios.get(`${url}/buscar`, {
-            params: { nombre, page, pageSize }
+            params: { 
+                nombre: nombre || '',
+                localidad: localidad || '',
+                provincia: provincia || '', 
+                page, 
+                pageSize }
         });
         return response.data;
     } catch (error) {
-        console.error("error busdcando por nombre :", error);
+        console.error("error busdcando facultades :", error);
         throw error;
     }
 };

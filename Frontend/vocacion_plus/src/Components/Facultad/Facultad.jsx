@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'; // Agregamos useEffect por si quieres cargar IDs dinámicamente
-import { Box, CircularProgress, Alert, Pagination, TextField, Button, IconButton  } from '@mui/material';
+import { Box, CircularProgress, Alert, Pagination, TextField, Button, IconButton, Collapse  } from '@mui/material';
 import { eliminarFacultad, getCarrerasEnFacultadCard, getFacultades, buscarFacultadPorNombre } from '../../services/facultadService';
-// Importamos el componente VerFacultades (que ahora internamente usa FacultadCard)
-import VerFacultades from './VerFacultad'; // Asegúrate de que la ruta sea correcta
 import FacultadCard from './FacultadCard'; // Importa el card directamente
 import FABButton from '../boton/alta';
 import SearchIcon from '@mui/icons-material/Search';
@@ -11,13 +9,16 @@ import { jwtDecode } from 'jwt-decode';
 
 const FacultadList = () => {
   const [page, setPage] = useState(1);
+  const [mostrarFiltros, setMostrarFiltros] = useState(false);
   const [totalItems, setTotalItems] = useState(0);
   const [pageSize] = useState(9);
   const [facultades, setFacultades ] = useState([]);
   const [loading, setLoading ] = useState(true);
+  const [localidad, setLocalidad] = useState('');
+  const [provincia, setProvincia] = useState('');
   const [error, setError] = useState(null);
   const [ search , setSearch] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [ filtros, setFiltros] = useState({nombre: '', localidad: '', provincia: ''});
   const [searchLoading, setSearchLoading] = useState(false);
   const token = localStorage.getItem("token");
   const user = token ? jwtDecode(token) : null;
@@ -38,7 +39,11 @@ const FacultadList = () => {
 
       try {
         let data; 
-        if (searchTerm.trim() === '') {
+        if (
+          !filtros.nombre.trim() &&
+          !filtros.localidad.trim() &&
+          !filtros.provincia.trim()
+        ) {
           data = await getFacultades(page, pageSize);
           
           const facultadesBase = data.facultades || data.data || [];
@@ -53,7 +58,11 @@ const FacultadList = () => {
           setFacultades(facultadesConCarreras);
           setTotalItems(total);
         } else {
-          data = await buscarFacultadPorNombre(searchTerm, page, pageSize);
+          data = await buscarFacultadPorNombre(
+            filtros.nombre,
+            filtros.localidad,
+            filtros.provincia,
+            page, pageSize);
           const resultados = data.results || [];
           const total = data.total || 0;
           const facultadesConCarreras = await Promise.all(
@@ -73,12 +82,16 @@ const FacultadList = () => {
       }
     };
     fetchFacultades();
-  }, [page, searchTerm]);
+  }, [page, filtros]);
 
 // Handler de búsqueda
   const handleSearch = async () => {
     setPage(1);
-    setSearchTerm(search);
+    setFiltros({
+      nombre: search,
+      localidad,
+      provincia
+    });
   };
 
   if (loading || searchLoading) return (
@@ -107,13 +120,22 @@ const FacultadList = () => {
       <Box
         sx={{
           display: 'flex',
+          flexDirection: 'column',
           gap: 1,
           mb: 3,
           justifyContent: 'center',
           pt: 2,
-        }}
-      >
-        {/* Input de búsqueda */}
+          alignItems: 'center',
+        }}>
+      {/* Línea principal: buscador + botón de filtros + buscar */}
+      <Box
+        sx={{
+          display: 'flex',
+          gap: 1,
+          justifyContent: 'center',
+          width: '100%',
+          maxWidth: '80%',
+        }}>
       <TextField
         onKeyDown={e => { if (e.key === 'Enter') handleSearch(); }}
         placeholder="Buscar facultad..."
@@ -122,15 +144,14 @@ const FacultadList = () => {
         variant="filled"
         sx={{
           flex: 1,
-          maxWidth: '80%',
           borderRadius: 4,
           backgroundColor: 'var(--primaryColor-light)',
           '& .MuiInputBase-input': {
-            color:'#fff',
+            color: '#fff',
             fontWeight: 700,
-            fontSize: '1.1rem',     
-            paddingTop: '12px',      
-            paddingBottom: '12px',   
+            fontSize: '1.1rem',
+            paddingTop: '12px',
+            paddingBottom: '12px',
           },
           '& .MuiInputBase-root:before, & .MuiInputBase-root:after': {
             borderBottom: 'none',
@@ -138,12 +159,9 @@ const FacultadList = () => {
           '& .MuiInputBase-root:hover': {
             backgroundColor: 'var(--primaryColor-lighter)',
           },
-          '& .MuiInputLabel-root': {
-            color: '#fff',
-            top: '50%',             
-            transform: 'translateY(-50%)',
-          }
-        }}/>
+        }}
+      />
+    
       <IconButton
         onClick={handleSearch}
         sx={{
@@ -153,10 +171,56 @@ const FacultadList = () => {
           width: 50,
           height: 50,
           borderRadius: '50%',
-          boxShadow: '0 4px 10px rgba(0,0,0,0.3)'
-        }}>
+          boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
+        }}
+      >
         <SearchIcon />
       </IconButton>
+    </Box>
+      <Button
+        variant="text"
+        onClick={() => setMostrarFiltros(prev => !prev)}
+        sx={{
+          color: '#fff',
+          fontWeight: 700,
+          textTransform: 'none',
+          mt: 1,
+          backgroundColor: 'transparent',
+          '&:hover': {
+            backgroundColor: 'rgba(255,255,255,0.1)',
+          },
+        }}
+      >
+        {mostrarFiltros ? 'Ocultar filtros ▲' : 'Mostrar filtros ▼'}
+      </Button>
+        <Collapse in={mostrarFiltros} sx={{ width: '80%', mt: 1 }}>
+          <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
+            <TextField
+              placeholder="Provincia..."
+              value={provincia}
+              onChange={e => setProvincia(e.target.value)}
+              variant="filled"
+              sx={{
+                flex: 1,
+                borderRadius: 4,
+                backgroundColor: 'var(--primaryColor-light)',
+                '& .MuiInputBase-input': { color: '#fff', fontWeight: 700 },
+              }}
+            />
+
+            <TextField
+              placeholder="Localidad..."
+              value={localidad}
+              onChange={e => setLocalidad(e.target.value)}
+              variant="filled"
+              sx={{
+                flex: 1,
+                borderRadius: 4,
+                backgroundColor: 'var(--primaryColor-light)',
+                '& .MuiInputBase-input': { color: '#fff', fontWeight: 700 },
+              }}/>
+          </Box>
+        </Collapse>
       </Box>
 
       <FacultadCard facultades={facultades} Eliminar={handleEliminarFacultad} />

@@ -45,16 +45,25 @@ namespace VocacionPlus.Controllers
         // get: /facultad/{facultad_nombre}/
         [HttpGet("buscar")]
         public async Task<IActionResult> GetFacultadByName(
-            [FromQuery] string nombre,
+            [FromQuery] string? nombre,
+            [FromQuery] string? provincia,
+            [FromQuery] string? localidad,
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10)
         {
-            if (string.IsNullOrWhiteSpace(nombre))
-                return BadRequest("debe especificar un nombre.");
+            
+            var query = _context.facultades.AsQueryable();
+               
+            if (!string.IsNullOrWhiteSpace(nombre))
+                query = query.Where(f => 
+                    f.Nombre.ToLower().Contains(nombre.ToLower()) ||
+                    f.Abreviatura.ToLower().Contains(nombre.ToLower()));
 
-            var query = _context.facultades
-                .Where(f => f.Nombre.ToLower().Contains(nombre.ToLower())
-                || f.Abreviatura.ToLower().Contains(nombre.ToLower()));
+            if (!string.IsNullOrWhiteSpace(provincia))
+                query = query.Where(f => f.Provincia.ToLower().Contains(provincia.ToLower()));
+
+            if (!string.IsNullOrWhiteSpace(localidad))
+                query = query.Where(f => f.Localidad.ToLower().Contains(localidad.ToLower()));
 
             var total = await query.CountAsync();
             var facultades = await query
