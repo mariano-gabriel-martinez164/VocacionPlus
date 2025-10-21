@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
-import SchoolIcon from '@mui/icons-material/School'; // icono para facultad
-import HistoryEduIcon from '@mui/icons-material/HistoryEdu'; // icono para carrera
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import "./Bar.css";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,16 +11,16 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { Drawer, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
-import { red } from "@mui/material/colors";
-import { borderBottom, color, fontSize, height } from "@mui/system";
 import { jwtDecode } from "jwt-decode";
 import '../../App.css';
+import "./Bar.css";
 
 export default function Bar() {
- 
+  const [rol, setRol ] = useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = useState(false);
   const [isLoggedIn, setLogin] = useState(false);
+  const token = localStorage.getItem("token");
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -35,15 +32,15 @@ export default function Bar() {
     setOpen(newOpen);
   };
 
-  const token = localStorage.getItem("token");
-  let decoded = null;
-  let rol = null; 
+
+
 
   useEffect(() => {
     if(token) {
       try {
-        jwtDecode(token);
+        const decodedToken = jwtDecode(token);
         setLogin(true);
+        setRol(decodedToken.role)
       }catch(error) {
         console.error("token vencido:", error);
         localStorage.removeItem("token");
@@ -56,9 +53,9 @@ export default function Bar() {
    
    const routes = rol === "Admin" 
    ? [
-      { text: " Gestionar Facultades", path: "/" },
+      { text: "Gestionar Facultades", path: "/" },
       { text: "Gestionar Carreras", path: "/carrera" },
-       { text: "Gestionar Usuarios", path: "/carrera" },
+      { text: "Gestionar Usuarios", path: "/usuarios" },
     ]
     : [
         { text: "Buscar Facultades", path: "/" },

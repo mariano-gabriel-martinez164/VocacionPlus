@@ -18,6 +18,8 @@ namespace VocacionPlus.Models.DTOs
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string Correo { get; set; }
+
+        public bool Honor { get; set;  }
     }
     public class ChangePasswordRequest
     {

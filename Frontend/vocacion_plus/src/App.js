@@ -17,6 +17,7 @@ import { Box } from "@mui/system"
 import AltaFacultad from "./Components/Facultad/AltaFacultad";
 import EditarFacultad from "./Components/Facultad/ModificarFacultad";
 import VerFacultad from "./Components/Facultad/VerFacultad";
+import ListaUsuarios from "./pages/Usuario/ListaUsuarios";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route path="/alta-facultad" element={<AltaFacultad />} />
             <Route path="/editar-facultad/:id" element={<EditarFacultad />} />
             <Route path="/facultad/:id" element={<VerFacultad />} />
+            <Route path="/usuarios" element={<ListaUsuarios/>} />
             <Route path="/carrera" element={<Carreras />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
