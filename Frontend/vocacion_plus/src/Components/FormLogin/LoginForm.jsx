@@ -7,17 +7,34 @@ import { Link } from 'react-router-dom';
 import PasswordField from '../FormRegister/password';
 import "../FormRegister/form.css"; // usamos los mismos estilos que RegisterForm
 
-
 export default function LoginForm({ onSubmit }) {
   const [correo, setCorreo] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [errores, setErrores] = React.useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(onSubmit) { 
-      onSubmit({ correo, password }); 
+
+    const nuevosErrores = {};
+
+    // Validaciones rápidas
+    if (!correo.trim()) {
+      nuevosErrores.correo = "El correo es obligatorio";
+    } else if (!/\S+@\S+\.\S+/.test(correo)) {
+      nuevosErrores.correo = "El correo no tiene un formato válido";
     }
-  }
+
+    if (!password.trim()) {
+      nuevosErrores.password = "La contraseña es obligatoria";
+    }
+
+    setErrores(nuevosErrores);
+
+    // Solo enviamos si no hay errores
+    if (Object.keys(nuevosErrores).length === 0 && onSubmit) {
+      onSubmit({ correo, password });
+    }
+  };
 
   return (
     <Box
@@ -25,7 +42,7 @@ export default function LoginForm({ onSubmit }) {
       onSubmit={handleSubmit}
       noValidate
       autoComplete="off"
-      className='register-form' 
+      className='register-form'
       sx={{ gap: 1, p: 2, maxWidth: 360, maxHeight: 380 }}
     >
       <Typography variant="h5" sx={{ mb: 2, color: 'var(--color-texto)' }}>
@@ -40,13 +57,18 @@ export default function LoginForm({ onSubmit }) {
         variant="filled"
         value={correo}
         onChange={e => setCorreo(e.target.value)}
+        error={!!errores.correo}
+        helperText={errores.correo}
       />
+
       <PasswordField
-            label="Contraseña"
-            className='loginPass'
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-        />
+        label="Contraseña"
+        className='loginPass'
+        value={password}
+        onChange={e => setPassword(e.target.value)}
+        error={!!errores.password}
+        helperText={errores.password}
+      />
 
       <Typography variant="body2" sx={{ mt: 2, mb: 1, textAlign: 'center' }}>
         ¿No tienes cuenta?{' '}
@@ -65,5 +87,5 @@ export default function LoginForm({ onSubmit }) {
         </Button>
       </Box>
     </Box>
-  )
+  );
 }
