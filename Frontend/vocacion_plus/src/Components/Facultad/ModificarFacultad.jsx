@@ -5,7 +5,7 @@ import {
   FormControl, InputLabel, Select, MenuItem
 } from "@mui/material";
 import { getFacultadById, editarFacultad } from "../../services/facultadService";
-import { useParams } from "react-router-dom";
+import { useParams, useSubmit } from "react-router-dom";
 import '../../App.css';
 import './AltaFacultad.css';
 
@@ -13,6 +13,7 @@ const EditarFacultad = () => {
   const { id } = useParams(); // id de la facultad a editar
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [errores, setErrores] = useState({});
   const [success, setSuccess] = useState("");
   const [facultad, setFacultad] = useState({
     nombre: "",
@@ -57,10 +58,41 @@ const EditarFacultad = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let nuevosErrores = {};
     setLoading(true);
     setError("");
     setSuccess("");
 
+    if(!facultad.nombre.trim()) nuevosErrores.nombre = "El nombre es obligatorio";
+    if(facultad.nombre.length < 4) nuevosErrores.nombre = "El nombre debe tener mas de 4 caracteres";
+
+    if(!facultad.abreviatura.trim()) nuevosErrores.abreviatura = "La abreviatura es obligatoria";
+    if(facultad.abreviatura.length < 2) nuevosErrores.abreviatura ="La abreviatura debe tener mas de 2 caracteres";
+
+    if(!facultad.telefono.trim()) nuevosErrores.telefono = "El telefono es obligatorio";
+    if(facultad.nombre.length < 5) nuevosErrores.telefono = "El telefono debe tener mas de 5 caracteres";
+
+    if(!facultad.correo.trim()) {
+      nuevosErrores.correo = "El correo es obligatorio";
+    } else if (!/\S+@\S+\.\S+/.test(facultad.correo)) {
+      nuevosErrores.correo = "El correo no tiene un formato valido";
+    }
+    
+    if(!facultad.direccion.trim()) nuevosErrores.direccion = "La direccion es obligatoria";
+    if(facultad.direccion.length < 4) nuevosErrores.direccion = "La direccion debe tener mas de 4 caracteres";
+    
+    if(!facultad.localidad.trim()) nuevosErrores.localidad = "La localidad es obligatorio";
+    if(facultad.localidad.length < 4) nuevosErrores.localidad = "La localidad debe tener mas de 4 caracteres";
+
+    if(!facultad.provincia.trim()) nuevosErrores.provincia = "La provincia es obligatoria";
+    if(facultad.provincia.length < 4) nuevosErrores.provincia = "La provincia debe tener mas de 4 caracteres";
+
+    setErrores(nuevosErrores);
+    if(Object.keys(nuevosErrores).length > 0) {
+      setLoading(false)
+      return; 
+    }
+    
     try {
       await editarFacultad(id, facultad);
       setSuccess("Facultad actualizada correctamente");
@@ -73,7 +105,6 @@ const EditarFacultad = () => {
       setLoading(false);
     }
   }
-
   return (
     <Box className="alta-facultad-screen">
       <Box className="alta-facultad-box">
@@ -92,6 +123,8 @@ const EditarFacultad = () => {
             name="nombre"
             value={facultad.nombre}
             onChange={handleChange}
+            error={!!errores.nombre}
+            helperText={errores.nombre}
             fullWidth
             required
             sx={{ mb: 2 }}
@@ -102,6 +135,8 @@ const EditarFacultad = () => {
             name="abreviatura"
             value={facultad.abreviatura}
             onChange={handleChange}
+            error={!!errores.abreviatura}
+            helperText={errores.abreviatura}
             fullWidth
             required
             sx={{ mb: 2 }}
@@ -112,6 +147,8 @@ const EditarFacultad = () => {
             name="telefono"
             value={facultad.telefono}
             onChange={handleChange}
+            error={!!errores.telefono}
+            helperText={errores.telefono}
             fullWidth
             required
             sx={{ mb: 2 }}
@@ -122,6 +159,8 @@ const EditarFacultad = () => {
             name="correo"
             value={facultad.correo}
             onChange={handleChange}
+            error={!!errores.correo}
+            helperText={errores.correo}
             fullWidth
             required
             sx={{ mb: 2 }}
@@ -145,6 +184,8 @@ const EditarFacultad = () => {
             name="direccion"
             value={facultad.direccion}
             onChange={handleChange}
+            error={!!errores.direccion}
+            helperText={errores.direccion}
             fullWidth
             required
             sx={{ mb: 2 }}
@@ -155,6 +196,8 @@ const EditarFacultad = () => {
             name="localidad"
             value={facultad.localidad}
             onChange={handleChange}
+            error={!!errores.localidad}
+            helperText={errores.localidad}
             fullWidth
             required
             sx={{ mb: 2 }}
@@ -165,6 +208,8 @@ const EditarFacultad = () => {
             name="provincia"
             value={facultad.provincia}
             onChange={handleChange}
+            error={!!errores.provincia}
+            helperText={errores.provincia}
             fullWidth
             required
             sx={{ mb: 2 }}
