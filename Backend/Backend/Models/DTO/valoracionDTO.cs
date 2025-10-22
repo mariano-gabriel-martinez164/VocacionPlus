@@ -10,6 +10,7 @@ namespace VocacionPlus.Models.DTOs
         public int AutorId { get; set; }
         public string? AutorNombre { get; set; }
         public int CarreraId { get; set; }
+        public string? CarreraNombre { get; set; }
     }
     public class CrearValoracionDTO
     {

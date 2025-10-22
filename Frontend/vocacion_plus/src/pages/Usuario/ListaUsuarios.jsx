@@ -13,6 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import RestoreIcon from '@mui/icons-material/Restore';
 import ListIcon from '@mui/icons-material/List';
 import { banearUsuario, buscarUsuarios, activarUsuario } from '../../services/userService';
+import MisValoracionesModal from '../../Components/modalValo/modalValoAutor';
 import './ListaUsuarios.css';
 import '../../index.css';
 
@@ -25,6 +26,8 @@ const ListaUsuarios = () => {
   const [page, setPage] = useState(1);
   const [pageSize] = useState(10);
   const [totalItems, setTotalItems] = useState(0);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedUserId, setSelect] = useState(null);
 
   useEffect(() => {
     const fetchUsuarios = async () => {
@@ -70,6 +73,15 @@ const ListaUsuarios = () => {
     }
   };
 
+  const handleOpenModal = (userId) => {
+    setSelect(userId);
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    setSelect(null);
+  };
 
   if (loading)
     return (
@@ -150,7 +162,7 @@ const ListaUsuarios = () => {
             </Box>
 
             <Box>
-              <IconButton sx={{color: 'var(--color-texto)'}}>
+              <IconButton sx={{color: 'var(--color-texto)'}} onClick={() => handleOpenModal(u.id)}>
                 <ListIcon />
               </IconButton>
               <IconButton color={u.honor ? "error" : "success"} onClick={() => handleBanear(u.id, u.honor)}
@@ -188,6 +200,11 @@ const ListaUsuarios = () => {
           />
         </Box>
       )}
+      <MisValoracionesModal
+        autorId={selectedUserId}
+        open={openModal}
+        onClose={handleCloseModal}
+      />
     </Box>
   );
 };
