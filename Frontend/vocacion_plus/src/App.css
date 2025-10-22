@@ -1,16 +1,38 @@
 :root {
   /* Gama principal de rojos oscuros */
-  --primaryColor-white: #D64350;      /* el más claro */
+  --primaryColor-white: #D64350;
+  /* el más claro */
   --primaryColor-lighter: #BA2C39;
   --primaryColor-light: #8F242D;
   --primaryColor-default: #5A2328;
   --primaryColor-dark: #381518;
   --primaryColor-darker: #260D0F;
-  --backgroundColor-default: #1A1A1A;        /* el más oscuro */
+  --backgroundColor-default: #1A1A1A;
+  /* el más oscuro */
 
   /* Otros colores de soporte (ej. textos, fondo contraste) */
   --color-fondo: var(--backgroundColor-default);
   --color-texto: #FFFFFF;
+
+  --primary-100: #e15056;
+  --primary-200: #c3353d;
+  --primary-300: #8c242f;
+  --primary-400: #63232a;
+  --primary-500: #43191f;
+  --primary-600: #2a0f12;
+
+  /* Secondary (azules) */
+  --secondary-100: #afc4d3;
+  --secondary-200: #709bbd;
+  --secondary-300: #487ba6;
+  --secondary-400: #355d81;
+  --secondary-500: #223c50;
+  --secondary-600: #162430;
+
+  /* Extras */
+  --white: #ffffff;
+  --black: #000000;
+  --gray-light: #1A1A1A;
 }
 
 
@@ -48,6 +70,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

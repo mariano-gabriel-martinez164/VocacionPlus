@@ -3,12 +3,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './App.css';
 
 // Importá tus componentes (pantallas)
-import FacultadList from "./Components/Facultad/Facultad";
+import Facultad from "./Components/Facultad/Facultad";
 import Carreras from "./Components/Carreras/Carreras";
 import VerCarrera from "./Components/Carreras/VerCarrera";
-import Usuario from "./Components/Usuario/Usuario";
-import Login from "./Components/Usuario/Login";
-import Register from "./Components/Usuario/Registro";
+import Usuario from "./pages/Usuario/Usuario";
+import Login from "./pages/Usuario/Login";
+import Register from "./pages/Usuario/Register";
 import Bar from "./Components/Bar/Bar";
 import { Box } from "@mui/system";
 import Footer from "./Components/Footer/Footer";
