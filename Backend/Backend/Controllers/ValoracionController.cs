@@ -56,13 +56,25 @@ namespace VocacionPlus.Controllers
         public async Task<IActionResult> GetValoracionesAutor(int autor_id, int page = 1, int pageSize = 10)
         {
             var query = _context.valoraciones
-                .Where(v => v.AutorId == autor_id);
+                .Where(v => v.AutorId == autor_id)
+                .Include(v => v.Carrera)
+                .Include(v => v.Autor);
 
             var total = await query.CountAsync();
 
             var valoraciones = await query
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
+                .Select(v => new ValoracionDTO
+                {
+                    Id = v.Id,
+                    Comentario = v.Comentario,
+                    Puntuacion = v.Puntuacion,
+                    AutorId = v.AutorId,
+                    AutorNombre = v.Autor.Nombre,
+                    CarreraId = v.CarreraId,
+                    CarreraNombre = v.Carrera.Nombre
+                })
                 .ToListAsync();
 
             return Ok(new
