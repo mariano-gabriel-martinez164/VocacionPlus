@@ -70,7 +70,7 @@ export default function TestVocacionalModal({ onSubmit, onClose }) {
 
           <FormControl fullWidth sx={{ mb: 3 }} className="pregunta">
             <InputLabel sx={{ fontSize: '24px'}}>¿Disfrutarias reparar objetos mecanicos o electronicos?</InputLabel>
-            <Select name="Realista 1" sx={{ m: 3 }} value={respuestas.R1} onChange={handleChange}>
+            <Select name="R1" sx={{ m: 3 }} value={respuestas.R1} onChange={handleChange}>
               <MenuItem value={0}>Nada</MenuItem>
               <MenuItem value={3}>Poco</MenuItem>
               <MenuItem value={5}>Mucho</MenuItem>
@@ -78,7 +78,7 @@ export default function TestVocacionalModal({ onSubmit, onClose }) {
           </FormControl>
           <FormControl fullWidth sx={{ mb: 3 }} className="pregunta">
             <InputLabel sx={{ fontSize: '24px'}}>¿Preferis actividades que te permitan trabajar al aire libre o con tus manos?</InputLabel>
-            <Select name="Realista 2" sx={{ m: 3 }} value={respuestas.R2} onChange={handleChange}>
+            <Select name="R2" sx={{ m: 3 }} value={respuestas.R2} onChange={handleChange}>
               <MenuItem value={0}>Ninguna</MenuItem>
               <MenuItem value={3}>aire libre</MenuItem>
               <MenuItem value={5}>mis manos</MenuItem>
@@ -87,7 +87,7 @@ export default function TestVocacionalModal({ onSubmit, onClose }) {
 
           <FormControl fullWidth sx={{ mb: 3 }} className="pregunta">
             <InputLabel sx={{fontSize: '24px'}}>¿te atrae resolver problemas complejos o entender como funcionan las cosas?</InputLabel>
-            <Select name="Investigador 1" sx={{ m: 3 }} value={respuestas.I1} onChange={handleChange}>
+            <Select name="I1" sx={{ m: 3 }} value={respuestas.I1} onChange={handleChange}>
               <MenuItem value={0}>Ninguno</MenuItem>
               <MenuItem value={3}>Problemas complejos</MenuItem>
               <MenuItem value={5}>Entender las cosas</MenuItem>
@@ -95,7 +95,7 @@ export default function TestVocacionalModal({ onSubmit, onClose }) {
           </FormControl>
           <FormControl fullWidth sx={{ mb: 3 }} className="pregunta">
             <InputLabel sx={{ fontSize: '24px' }}>¿Disfrutas aprender sobre temas cientificos o tecnologicos por tu cuenta?</InputLabel>
-            <Select name="Investigador 2"  sx={{ m: 3 }} value={respuestas.I2} onChange={handleChange}>
+            <Select name="I2"  sx={{ m: 3 }} value={respuestas.I2} onChange={handleChange}>
               <MenuItem value={0}>Nunca</MenuItem>
               <MenuItem value={3}>aveces</MenuItem>
               <MenuItem value={5}>Obvio</MenuItem>
@@ -104,7 +104,7 @@ export default function TestVocacionalModal({ onSubmit, onClose }) {
 
           <FormControl fullWidth sx={{ mb: 3 }} className="pregunta">
             <InputLabel sx={{ fontSize: '24px'}}>¿Te gusta expresarte mediante el arte, musica o escritura?</InputLabel>
-            <Select name="Artistico 1"  sx={{ m: 3 }} value={respuestas.A1} onChange={handleChange}>
+            <Select name="A1"  sx={{ m: 3 }} value={respuestas.A1} onChange={handleChange}>
               <MenuItem value={0}>No</MenuItem>
               <MenuItem value={3}>aveces</MenuItem>
               <MenuItem value={5}>Obvio</MenuItem>
@@ -112,7 +112,7 @@ export default function TestVocacionalModal({ onSubmit, onClose }) {
           </FormControl>
           <FormControl fullWidth sx={{ mb: 3 }} className="pregunta">
             <InputLabel sx={{ fontSize: '24px' }}>¿Preferis trabajos donde puedas crear cosas nuevas sin seguir reglas?</InputLabel>
-            <Select name="Artistico 2" sx={{ m: 3 }} value={respuestas.A2} onChange={handleChange}>
+            <Select name="A2" sx={{ m: 3 }} value={respuestas.A2} onChange={handleChange}>
               <MenuItem value={0}>sigo las reglas</MenuItem>
               <MenuItem value={3}>aveces pienso que algunas reglas sobran</MenuItem>
               <MenuItem value={5}>normalmente sigo mis propias reglas</MenuItem>
@@ -121,7 +121,7 @@ export default function TestVocacionalModal({ onSubmit, onClose }) {
 
           <FormControl fullWidth sx={{ mb: 3 }} className="pregunta">
             <InputLabel sx={{ fontSize: '24px' }}>¿te resulta agradable ayudar a otras personas con sus problemas?</InputLabel>
-            <Select name="Social 1" sx={{ m: 3 }} value={respuestas.S1} onChange={handleChange}>
+            <Select name="S1" sx={{ m: 3 }} value={respuestas.S1} onChange={handleChange}>
               <MenuItem value={0}>no me meto en conflictos ajenos</MenuItem>
               <MenuItem value={3}>si me siento seguro en el tema, ayudo</MenuItem>
               <MenuItem value={5}>me encanta darle una mano a los demas</MenuItem>
@@ -129,7 +129,7 @@ export default function TestVocacionalModal({ onSubmit, onClose }) {
           </FormControl>
           <FormControl fullWidth sx={{ mb: 3 }} className="pregunta">
             <InputLabel sx={{fontSize: '24px'}}>¿Te interesa orientar o explicar a los demas en su crecimiento?</InputLabel>
-            <Select name="Social 2" sx={{ m: 3 }} value={respuestas.S2} onChange={handleChange}>
+            <Select name="S2" sx={{ m: 3 }} value={respuestas.S2} onChange={handleChange}>
               <MenuItem value={0}>No es mi responsabilidad</MenuItem>
               <MenuItem value={3}>si la persona me importa, si</MenuItem>
               <MenuItem value={5}>creo que todos deberian recibir apoyo para crecer</MenuItem>
@@ -138,7 +138,7 @@ export default function TestVocacionalModal({ onSubmit, onClose }) {
 
           <FormControl fullWidth sx={{ mb: 3 }} className="pregunta">
             <InputLabel sx={{fontSize: '24px' }}>¿Te sentis comodo liderando grupos o tomando decisiones importantes?</InputLabel>
-            <Select name="Emprendedor 1" sx={{ m: 3 }} value={respuestas.E1} onChange={handleChange}>
+            <Select name="E1" sx={{ m: 3 }} value={respuestas.E1} onChange={handleChange}>
               <MenuItem value={0}>Lo detesto</MenuItem>
               <MenuItem value={3}>si no queda de otra, lo hago</MenuItem>
               <MenuItem value={5}>Siento que soy el mas capacitado o responsable del rumbo del equipo</MenuItem>
@@ -146,7 +146,7 @@ export default function TestVocacionalModal({ onSubmit, onClose }) {
           </FormControl>
           <FormControl fullWidth sx={{ mb: 3 }} className="pregunta">
             <InputLabel sx={{fontSize: '24px' }}>¿Disfrutas convencer o motivar a otros para llegar a un objetivo?</InputLabel>
-            <Select name="Emprendedor 2" sx={{ m: 3 }} value={respuestas.E2} onChange={handleChange}>
+            <Select name="E2" sx={{ m: 3 }} value={respuestas.E2} onChange={handleChange}>
               <MenuItem value={0}>Soy muy timido/a para eso</MenuItem>
               <MenuItem value={3}>Prefiero que otro tome ese rol, pero no me disgusta</MenuItem>
              <MenuItem value={5}>Me siento muy comodo cuando mis palabras guian al grupo</MenuItem>
@@ -155,7 +155,7 @@ export default function TestVocacionalModal({ onSubmit, onClose }) {
 
           <FormControl fullWidth sx={{ mb: 3 }} className="pregunta">
             <InputLabel sx={{fontSize: '24px' }}>¿Te gusta mantener el orden yi seguir procedimientos establecidos?</InputLabel>
-            <Select name="Convencional 1" sx={{ m: 3 }} value={respuestas.C1} onChange={handleChange}>
+            <Select name="C1" sx={{ m: 3 }} value={respuestas.C1} onChange={handleChange}>
               <MenuItem value={0}>me da igual el orden y pasos a seguir</MenuItem>
               <MenuItem value={3}>me ayudan a orientarme y mejorar</MenuItem>
               <MenuItem value={5}>considero vital un buen plan detallado</MenuItem>
@@ -164,7 +164,7 @@ export default function TestVocacionalModal({ onSubmit, onClose }) {
 
           <FormControl fullWidth sx={{ mb: 3 }} className="pregunta">
             <InputLabel sx={{ fontSize: '24px' }}>¿Preferis tareas que impliquen organizacion, planificacion, o manejo de datos?</InputLabel>
-            <Select name="Convencional 2" sx={{ m: 3 }} value={respuestas.C2} onChange={handleChange}>
+            <Select name="C2" sx={{ m: 3 }} value={respuestas.C2} onChange={handleChange}>
               <MenuItem value={0}>odio eso</MenuItem>
               <MenuItem value={3}>Lo hago pero no me genera nada</MenuItem>
               <MenuItem value={5}>Disfruto cuando todo fluye y conecta como corresponde</MenuItem>
