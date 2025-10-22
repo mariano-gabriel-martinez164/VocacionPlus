@@ -1,0 +1,65 @@
+.register-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 420px;
+  margin: 0;
+  padding: 25px 20px;
+  background-color: var(--primaryColor-darker);
+  color: var(--color-texto);
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+}
+
+.register-form .MuiTextField-root {
+  margin: 0;
+  width: 100%;
+}
+
+.register-form .MuiFilledInput-root {
+  background-color: var(--primaryColor-light);
+}
+
+.register-form .MuiFilledInput-root:hover {
+  background-color: var(--primaryColor-light);
+}
+
+.register-form .MuiFormLabel-root,
+.register-form .MuiInputBase-input {
+  color: var(--color-texto);
+}
+
+.register-form .MuiButton-containedPrimary {
+  background-color: var(--primaryColor-white);
+  color: white;
+}
+.logincorreo .MuiFilledInput-root,
+.loginpass .MuiFilledInput-root {
+  background-color: var(--primaryColor-dark) !important;
+  border-radius: 8px !important;
+  transition: background-color 0.2s ease;
+}
+
+.logincorreo .MuiFilledInput-root:hover,
+.loginpass .MuiFilledInput-root:hover {
+  background-color: var(--primaryColor-light) !important;
+}
+
+.logincorreo .MuiFilledInput-root.Mui-focused,
+.loginpass .MuiFilledInput-root.Mui-focused {
+  background-color: var(--primaryColor-lighter) !important;
+}
+
+.logincorreo .MuiFilledInput-input,
+.loginpass .MuiFilledInput-input {
+  color: white !important;
+  background-color: transparent !important;
+}
+
+.logincorreo .MuiFilledInput-root::before,
+.loginpass .MuiFilledInput-root::before,
+.logincorreo .MuiFilledInput-root::after,
+.loginpass .MuiFilledInput-root::after {
+  border-bottom: none !important;
+}
+

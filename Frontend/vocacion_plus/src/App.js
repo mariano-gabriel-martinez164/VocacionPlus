@@ -1,9 +1,9 @@
-// App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import './App.css';
 
 // Importá tus componentes (pantallas)
-import Facultad from "./Components/VerFacultad/Facultad";
+import FacultadList from "./Components/Facultad/Facultad";
 import Carreras from "./Components/Carreras/Carreras";
 import VerCarrera from "./Components/Carreras/VerCarrera";
 import Usuario from "./Components/Usuario/Usuario";

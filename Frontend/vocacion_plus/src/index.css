@@ -11,26 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-:root {
-  /* Primary (rojos) */
-  --primary-100: #e15056;
-  --primary-200: #c3353d;
-  --primary-300: #8c242f;
-  --primary-400: #63232a;
-  --primary-500: #43191f;
-  --primary-600: #2a0f12;
-
-  /* Secondary (azules) */
-  --secondary-100: #afc4d3;
-  --secondary-200: #709bbd;
-  --secondary-300: #487ba6;
-  --secondary-400: #355d81;
-  --secondary-500: #223c50;
-  --secondary-600: #162430;
-
-  /* Extras */
-  --white: #ffffff;
-  --black: #000000;
-  --gray-light: #1A1A1A;
-}

@@ -1,0 +1,66 @@
+/* Contenedor principal ocupa toda la pantalla */
+.alta-facultad-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--color-fondo); /* Fondo general de la pantalla */
+  padding: 20px;
+}
+
+/* Caja del formulario centrada */
+.alta-facultad-box {
+  width: 100%;
+  max-width: 80%;
+  padding: 25px 20px;
+  background-color: var(--primaryColor-darker);
+  color: var(--color-texto);
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.alta-facultad-box h5 {
+  color: var(--color-texto);
+  margin-bottom: 10px;
+}
+
+.alta-facultad-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.alta-facultad-form .MuiTextField-root,
+.alta-facultad-form .MuiFormControl-root {
+  width: 100%;
+  background-color: var(--primaryColor-default);
+  border-radius: 7px;
+}
+
+
+.fieldForm {
+  background-color: var(--primaryColor-default);
+  border-radius: 7px;
+}
+
+.alta-facultad-form .MuiFilledInput-root:hover {
+  background-color: var(--primaryColor-lighter);
+}
+
+.alta-facultad-form .MuiFormLabel-root,
+.alta-facultad-form .MuiInputBase-input {
+  color: var(--color-texto);
+}
+
+.alta-facultad-form .MuiButton-contained {
+  background-color: var(--primaryColor-white) !important;
+  color: var(--primaryColor-dark) !important;
+  font-weight: bold;
+}
+
+.alta-facultad-form .MuiButton-contained:hover {
+  background-color: var(--primaryColor-lighter) !important;
+}

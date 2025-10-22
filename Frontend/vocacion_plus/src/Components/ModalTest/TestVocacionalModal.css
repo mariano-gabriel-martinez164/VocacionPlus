@@ -1,0 +1,61 @@
+:root {
+  /* Gama principal de rojos oscuros */
+  --primaryColor-white: #D64350;      /* el más claro */
+  --primaryColor-lighter: #BA2C39;
+  --primaryColor-light: #8F242D;
+  --primaryColor-default: #5A2328;
+  --primaryColor-dark: #381518;
+  --primaryColor-darker: #260D0F;
+  --backgroundColor-default: #1A1A1A;        /* el más oscuro */
+
+  /* Otros colores de soporte (ej. textos, fondo contraste) */
+  --color-fondo: var(--backgroundColor-default);
+  --color-texto: #FFFFFF;
+}
+
+
+.pregunta .MuiInputLabel-root {
+  color: var(--primaryColor-lighter);
+  font-weight: 500;
+}
+
+.pregunta .MuiInputLabel-root.Mui-focused {
+  color: var(--primaryColor-white);
+}
+
+.pregunta .MuiSelect-select {
+  background-color: var(--primaryColor-darker);
+  color: var(--color-texto);
+  border-radius: 6px;
+}
+
+.pregunta .MuiSelect-select:hover {
+  background-color: var(--primaryColor-dark);
+}
+
+.pregunta .MuiSelect-icon {
+  color: var(--primaryColor-white);
+}
+
+.test-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.test-content {
+  padding: 20px;
+  border-radius: 10px;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+

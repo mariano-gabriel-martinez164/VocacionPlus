@@ -31,6 +31,10 @@ namespace VocacionPlus.Database
                 .WithOne(s => s.Facultad)
                 .HasForeignKey(s => s.FacultadId)
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Carrera>()
+            .HasMany(c => c.Tags)
+            .WithMany(t => t.Carreras)
+            .UsingEntity(j => j.ToTable("CarreraTags")); // opcional, nombre de tabla puente
         }
     }
 }
