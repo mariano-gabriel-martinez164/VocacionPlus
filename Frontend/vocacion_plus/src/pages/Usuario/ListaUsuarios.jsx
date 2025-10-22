@@ -14,7 +14,7 @@ import RestoreIcon from '@mui/icons-material/Restore';
 import ListIcon from '@mui/icons-material/List';
 import { banearUsuario, buscarUsuarios, activarUsuario } from '../../services/userService';
 import './ListaUsuarios.css';
-import '../../App.css';
+import '../../index.css';
 
 const ListaUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -86,7 +86,7 @@ const ListaUsuarios = () => {
     );
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ p: 3, minHeight:'100vh', color:'var(--color-texto)' }}>
       {/* 🔍 Barra de búsqueda */}
       <Box sx={{ display: 'flex', gap: 1, mb: 3, justifyContent: 'center' }}>
         <TextField
@@ -97,9 +97,18 @@ const ListaUsuarios = () => {
           onKeyDown={(e) => {
             if (e.key === 'Enter') handleSearch();
           }}
-          sx={{ flex: 1, maxWidth: '400px' }}
+          sx={{ flex: 1, maxWidth: '70%', backgroundColor: 'var(--color-fondo)', input: { color: 'var(--color-texto)'},
+        '& .MuiFilledInput-root':{
+          borderRadius: '8px',
+          backgroundColor: 'var(--primaryColor-dark)',
+          '&:hover' : {backgroundColor: 'var(--primaryColor-default)'},
+          '&:before, &:after' : {border: 'none' },
+        } }}
         />
-        <IconButton onClick={handleSearch}>
+        <IconButton onClick={handleSearch} sx={{backgroundColor: 'var(--primaryColor-lighter)',
+          color: 'var(--color-texto)',
+          '&:hover' : {backgroundColor: 'var(--primaryColor-light)'},
+        }}>
           <SearchIcon />
         </IconButton>
       </Box>
@@ -109,20 +118,29 @@ const ListaUsuarios = () => {
             key={u.id}
             sx={{
               p: 2,
-              border: '1px solid #ccc',
+              border: '1px solid var(--primaryColor-default)',
               borderRadius: 2,
               display: 'flex',
               justifyContent: 'space-between',
-              alignItems: 'center'
+              alignItems: 'center',
+              backgroundColor: 'var(--primaryColor-darker)',
+              '&:hover' : {
+                backgroundColor: 'var(--primaryColor-dark)',
+                transform: 'scale(1.01)',
+                transition: '0.2s',
+              },
             }}
           >
             <Box>
-              <strong>{u.nombre} {u.apellido}</strong> - {u.correo}
+              <Typography sx={{ fontWeight: 'bold', color: 'var(--color-texto)'}}>
+                {u.nombre} {u.apellido} 
+              </Typography>
+              <Typography sx={{color: '#ccc'}}> {u.correo} </Typography>
               <Box
                 component="span"
                 sx={{
                   ml: 1,
-                  color: u.honor ? 'green' : 'red',
+                  color: u.honor ? 'green' : 'var(--primaryColor-white)',
                   fontWeight: 'bold',
                   textTransform: 'uppercase'
                 }}
@@ -132,10 +150,18 @@ const ListaUsuarios = () => {
             </Box>
 
             <Box>
-              <IconButton color="primary">
+              <IconButton sx={{color: 'var(--color-texto)'}}>
                 <ListIcon />
               </IconButton>
-              <IconButton color={u.honor ? "error" : "success"} onClick={() => handleBanear(u.id, u.honor)}>
+              <IconButton color={u.honor ? "error" : "success"} onClick={() => handleBanear(u.id, u.honor)}
+                sx={{
+                  ml:1,
+                  backgroundColor: u.honor ? 'var(--colorPrimary-light)' : 'green',
+                  color: 'white',
+                  '&:hover' : {
+                    backgroundColor: u.honor ? 'var(--primaryColor-lighter)' : '#4CAF50',
+                  },
+                }}>
                 {u.honor ? <DeleteIcon />: <RestoreIcon />}
               </IconButton>
             </Box>
@@ -150,6 +176,15 @@ const ListaUsuarios = () => {
             count={Math.ceil(totalItems / pageSize)}
             page={page}
             onChange={(e, value) => setPage(value)}
+             sx={{
+              '& .MuiPaginationItem-root': {
+                color: 'var(--color-texto)',
+                '&.Mui-selected': {
+                  backgroundColor: 'var(--primaryColor-lighter)',
+                  color: 'white',
+                },
+              },
+            }}
           />
         </Box>
       )}

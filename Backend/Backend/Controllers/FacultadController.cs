@@ -48,12 +48,14 @@ namespace VocacionPlus.Controllers
             [FromQuery] string? nombre,
             [FromQuery] string? provincia,
             [FromQuery] string? localidad,
+            [FromQuery] bool? accesibilidad, 
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10)
         {
-            
+
             var query = _context.facultades.AsQueryable();
-               
+
+           
             if (!string.IsNullOrWhiteSpace(nombre))
                 query = query.Where(f => 
                     f.Nombre.ToLower().Contains(nombre.ToLower()) ||
@@ -64,6 +66,10 @@ namespace VocacionPlus.Controllers
 
             if (!string.IsNullOrWhiteSpace(localidad))
                 query = query.Where(f => f.Localidad.ToLower().Contains(localidad.ToLower()));
+
+            if (accesibilidad.HasValue)
+                query = query.Where(f => f.Accesibilidad == accesibilidad.Value);
+                   
 
             var total = await query.CountAsync();
             var facultades = await query
