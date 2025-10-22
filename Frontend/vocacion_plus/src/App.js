@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Importá tus componentes (pantallas)
 import Facultad from "./Components/VerFacultad/Facultad";
 import Carreras from "./Components/Carreras/Carreras";
-import VerCarrera from "./Components/Carreras/VerCarrera";
+import DetalleCarrera from "./Components/Carreras/DetalleCarrera";
 import Usuario from "./Components/Usuario/Usuario";
 import Login from "./Components/Usuario/Login";
 import Register from "./Components/Usuario/Registro";
@@ -15,6 +15,7 @@ import Footer from "./Components/Footer/Footer";
 import Contacto from "./Components/Footer/Contactos";
 import PoliticaPrivacidad from "./Components/Footer/PoliticaPrivacidad"
 import Terminos from "./Components/Footer/Terminos"
+import AltaCarrera from "./Components/Carreras/AltaCarrera"
 
 function App() {
   return (
@@ -30,7 +31,8 @@ function App() {
           <Routes>
             <Route path="/facultad" element={<Facultad />} />
             <Route path="/carrera" element={<Carreras />} />
-            <Route path="/carrera/:nombre" element={<VerCarrera />} />
+            <Route path="/carrera/:nombre" element={<DetalleCarrera />} />
+            <Route path="/carrera/alta-carrera" element={<AltaCarrera />} />
             <Route path="/usuario" element={<Usuario />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

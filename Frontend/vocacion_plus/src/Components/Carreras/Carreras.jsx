@@ -4,6 +4,8 @@ import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import CarreraCard from "./CarreraCard";
 import AddIcon from '@mui/icons-material/Add';
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CustomPagination = styled(Pagination)(({ theme }) => ({
   "& .MuiPaginationItem-root": {
@@ -111,7 +113,11 @@ const Carrera = () => {
       "nombre": "Facultad de Ciencias Sociales y Comunicación"
     }
   ];
-
+ 
+  const navigate = useNavigate();
+  const handleOnClick = () => {
+    navigate("carrera/alta-carrera");
+  }
   return (
     <Box display="flex" flexDirection="column" sx={{
       backgroundColor: "var(--gray-light)",
@@ -183,7 +189,7 @@ const Carrera = () => {
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
       }}>
-        <Fab aria-label="add" sx={{
+        <Fab aria-label="add" onClick={handleOnClick} sx={{
           color: "var(--primary-200)",
           bgcolor: "var(--gray-light)",
           border: 2,
