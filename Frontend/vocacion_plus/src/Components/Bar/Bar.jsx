@@ -32,6 +32,7 @@ export default function Bar() {
     setOpen(newOpen);
   };
 
+<<<<<<< HEAD
 
 
 
@@ -63,6 +64,36 @@ export default function Bar() {
     ];
 
 
+=======
+  useEffect(() => {
+    if(token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        setLogin(true);
+        setRol(decodedToken.role)
+      }catch(error) {
+        console.error("token vencido:", error);
+        localStorage.removeItem("token");
+        setLogin(false);
+      }
+    } else {
+      setLogin(false);
+    }
+  }, [token]);
+   
+   const routes = rol === "Admin" 
+   ? [
+      { text: "Gestionar Facultades", path: "/" },
+      { text: "Gestionar Carreras", path: "/carrera" },
+      { text: "Gestionar Usuarios", path: "/usuarios" },
+    ]
+    : [
+        { text: "Buscar Facultades", path: "/" },
+        { text: "Buscar Carreras", path: "/carrera" },
+    ];
+
+
+>>>>>>> 47a3dcd5efa66da4e55b80c6dc3bdacddae8169d
   return (
     <Box sx={{ flexGrow: 1 }} className="box">
       <AppBar position="static" className="bar">

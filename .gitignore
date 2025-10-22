@@ -8,4 +8,6 @@ logs/
 .vscode/
 appsettings.User.json
 .env
-Backend/Backend/VocacionPlus.db
+fixFacultad.py
+scrapingFacultades.py
+/Backend/Backend/VocacionPlus.db 
