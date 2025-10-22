@@ -28,7 +28,7 @@ function App() {
         <Bar />
         <Box sx={{ flexGrow: 1, alignItems: 'start' }}>
           <Routes>
-            <Route path="/facultad" element={<Facultad />} />
+            <Route path="/" element={<Facultad />} />
             <Route path="/carrera" element={<Carreras />} />
             <Route path="/carrera/:nombre" element={<VerCarrera />} />
             <Route path="/usuario" element={<Usuario />} />
