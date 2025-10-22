@@ -6,6 +6,7 @@ export const buscarFacultadPorNombre = async (
     nombre, 
     localidad,
     provincia,
+    accesibilidad, 
     page = 1,
      pageSize = 9
     ) => {
@@ -14,10 +15,13 @@ export const buscarFacultadPorNombre = async (
             params: { 
                 nombre: nombre || '',
                 localidad: localidad || '',
-                provincia: provincia || '', 
+                provincia: provincia || '',
+                accesibilidad: accesibilidad ?? '', 
                 page, 
                 pageSize }
         });
+        console.log("supuestamente llego esto?", accesibilidad)
+        console.log("el back responde... ? ", response.data)
         return response.data;
     } catch (error) {
         console.error("error busdcando facultades :", error);

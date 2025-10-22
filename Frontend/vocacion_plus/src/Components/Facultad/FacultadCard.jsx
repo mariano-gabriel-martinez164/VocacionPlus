@@ -19,7 +19,8 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
+  Chip
 } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School'; // Main icon for the faculty
 import LocationOnIcon from '@mui/icons-material/LocationOn'; // Icon for location
@@ -106,9 +107,41 @@ const FacultadCard = ({facultades, Eliminar }) => {
             />
           )}
           <CardContent sx={{ flexGrow: 1, overflow: 'hidden', p: 2 }}>
-            <Typography variant="h5" sx={{ color: '#ffffff', fontWeight: 'bold', mb: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {facultad.abreviatura}
-            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                mb: 1,
+                pb: 2,
+                borderBottom: '2px solid var(--primaryColor-white)',
+                width: '95%',
+                mx: 'auto',
+              }}
+            >
+              <Typography
+                variant="h5"
+                sx={{
+                  color: '#ffffff',
+                  fontWeight: 'bold',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                {facultad.abreviatura}
+              </Typography>
+
+              <Chip
+                label={facultad.accesibilidad ? 'Pública' : 'Privada'}
+                color={facultad.accesibilidad ? 'success' : 'warning'}
+                sx={{
+                  fontWeight: 'bold',
+                  textTransform: 'uppercase',
+                }}
+              />
+            </Box>
+
             <Typography variant="subtitle2" sx={{ color: '#bdbdbd', mt: 2 }}>
               {facultad.nombre}
             </Typography>

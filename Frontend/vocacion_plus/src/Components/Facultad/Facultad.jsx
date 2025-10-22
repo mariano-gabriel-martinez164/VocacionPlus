@@ -18,7 +18,7 @@ const FacultadList = () => {
   const [provincia, setProvincia] = useState('');
   const [error, setError] = useState(null);
   const [ search , setSearch] = useState('');
-  const [ filtros, setFiltros] = useState({nombre: '', localidad: '', provincia: ''});
+  const [ filtros, setFiltros] = useState({nombre: '', localidad: '', provincia: '', accesibilidad: ''});
   const [searchLoading, setSearchLoading] = useState(false);
   const token = localStorage.getItem("token");
   const user = token ? jwtDecode(token) : null;
@@ -33,6 +33,7 @@ const FacultadList = () => {
     }
   };
   useEffect(() => {
+    console.log('ahora si?..', filtros.accesibilidad)
     const fetchFacultades = async () => {
       setLoading(true);
       setError(null);
@@ -42,7 +43,8 @@ const FacultadList = () => {
         if (
           !filtros.nombre.trim() &&
           !filtros.localidad.trim() &&
-          !filtros.provincia.trim()
+          !filtros.provincia.trim() &&
+          !filtros.accesibilidad.trim()
         ) {
           data = await getFacultades(page, pageSize);
           
@@ -62,6 +64,7 @@ const FacultadList = () => {
             filtros.nombre,
             filtros.localidad,
             filtros.provincia,
+            filtros.accesibilidad,
             page, pageSize);
           const resultados = data.results || [];
           const total = data.total || 0;
@@ -90,9 +93,12 @@ const FacultadList = () => {
     setFiltros({
       nombre: search,
       localidad,
-      provincia
+      provincia,
+      accesibilidad: filtros.accesibilidad
     });
   };
+  
+  console.log('ok supuestamente buscamos...', filtros.accesibilidad)
 
   if (loading || searchLoading) return (
     <Box sx={{
@@ -219,6 +225,27 @@ const FacultadList = () => {
                 backgroundColor: 'var(--primaryColor-light)',
                 '& .MuiInputBase-input': { color: '#fff', fontWeight: 700 },
               }}/>
+               <TextField
+                  select
+                  label="Accesibilidad"
+                  value={filtros.accesibilidad || ''}
+                  onChange={e => setFiltros(prev => ({ ...prev, accesibilidad: e.target.value }))}
+                  SelectProps={{ native: true }}
+                  variant="filled"
+                  sx={{
+                    flex: 1,
+                    minWidth: 150,
+                    borderRadius: 4,
+                    p: 4,
+                    backgroundColor: 'var(--primaryColor-light)',
+                    '& .MuiInputBase-input': { color: '#fff', fontWeight: 700 },
+                    '& .MuiInputLabel-root': { color: '#fff' },
+                  }}
+                >
+                  <option sx={{p : 1}}value="">Todos</option>
+                  <option sx={{p : 1}}value="true">Pública</option>
+                  <option sx={{p : 1}}value="false">Privada</option>
+                </TextField>
           </Box>
         </Collapse>
       </Box>
