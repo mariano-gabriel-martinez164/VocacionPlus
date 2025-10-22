@@ -116,7 +116,7 @@ const Carrera = () => {
  
   const navigate = useNavigate();
   const handleOnClick = () => {
-    navigate("carrera/alta-carrera");
+    navigate("./alta-carrera");
   }
   return (
     <Box display="flex" flexDirection="column" sx={{
