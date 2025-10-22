@@ -3,8 +3,9 @@ import { Box } from "@mui/system";
 import React from "react";
 import { Link as RouterLink, Router, useParams } from "react-router-dom";
 import ListaFacultades from "./ListaFacultades";
+import CareerRatingForm from "./CareerRatingForm";
 
-const VerCarrera = () => {
+const DetalleCarrera = () => {
   const parametro = useParams();
   const carrera = parametro.nombre; // con esto busco la carrera
   console.log(carrera)
@@ -19,6 +20,15 @@ const VerCarrera = () => {
     'nombre - ciudad',
     'nombre - ciudad',
   ];
+
+  const careerId = 'ingenieria-informatica-unlp';
+
+  const handleNewComment = () => {
+    console.log('Nuevo comentario enviado. Recargando la lista de opiniones...');
+    // Aquí puedes añadir la lógica para recargar los comentarios de la carrera,
+    // de modo que la nueva opinión aparezca sin necesidad de recargar la página.
+  };
+
   return (
     <Box>
       <Breadcrumbs sx={{
@@ -47,8 +57,10 @@ const VerCarrera = () => {
       <Grid container >
       </Grid>
       <ListaFacultades facultades={facultades} />
+      <CareerRatingForm careerId={careerId}
+        onCommentSubmitted={handleNewComment} />
     </Box>
   );
 }
 
-export default VerCarrera;
+export default DetalleCarrera;
