@@ -32,9 +32,6 @@ export default function Bar() {
     setOpen(newOpen);
   };
 
-
-
-
   useEffect(() => {
     if(token) {
       try {
@@ -49,7 +46,7 @@ export default function Bar() {
     } else {
       setLogin(false);
     }
-  }, []);
+  }, [token]);
    
    const routes = rol === "Admin" 
    ? [
