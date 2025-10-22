@@ -13,8 +13,9 @@ import Bar from "./Components/Bar/Bar";
 import { Box } from "@mui/system";
 import Footer from "./Components/Footer/Footer";
 import Contacto from "./Components/Footer/Contactos";
-import PoliticaPrivacidad from "./Components/Footer/PoliticaPrivacidad"
-import Terminos from "./Components/Footer/Terminos"
+import PoliticaPrivacidad from "./Components/Footer/PoliticaPrivacidad";
+import Terminos from "./Components/Footer/Terminos";
+import VerFacultad from './Components/Facultad/VerFacultad';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Box sx={{ flexGrow: 1, alignItems: 'start' }}>
           <Routes>
             <Route path="/" element={<Facultad />} />
+            <Route path="/facultad/:facultadId" element={<VerFacultad />} />
             <Route path="/carrera" element={<Carreras />} />
             <Route path="/carrera/:nombre" element={<VerCarrera />} />
             <Route path="/usuario" element={<Usuario />} />
