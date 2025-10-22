@@ -47,6 +47,7 @@ export default function Bar() {
       setLogin(false);
     }
   }, [token]);
+
    
    const routes = rol === "Admin" 
    ? [
@@ -58,8 +59,7 @@ export default function Bar() {
         { text: "Buscar Facultades", path: "/" },
         { text: "Buscar Carreras", path: "/carrera" },
     ];
-
-
+  
   return (
     <Box sx={{ flexGrow: 1 }} className="box">
       <AppBar position="static" className="bar">

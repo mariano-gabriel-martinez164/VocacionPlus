@@ -19,6 +19,7 @@ import EditarFacultad from "./Components/Facultad/ModificarFacultad";
 import VerFacultad from "./Components/Facultad/VerFacultad";
 import ListaUsuarios from "./pages/Usuario/ListaUsuarios";
 
+
 function App() {
   return (
     <Router>
