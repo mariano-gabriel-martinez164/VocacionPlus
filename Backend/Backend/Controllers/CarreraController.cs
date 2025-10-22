@@ -125,7 +125,8 @@ public async Task<IActionResult> GetCarrerasPorFacultad(int facultad_id, int pag
             {
                 return BadRequest("Los datos de la carrera no pueden ser nulos.");
             }
-        
+            nuevaCarrera.Tags = new List<Tag>();
+            
            _context.carreras.Add(nuevaCarrera);
             await _context.SaveChangesAsync();
 

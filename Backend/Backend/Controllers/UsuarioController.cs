@@ -156,24 +156,29 @@ namespace VocacionPlus.Controllers
         [HttpGet("buscar")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUsuarioPorNombre(
-            [FromQuery] string nombre,
+            [FromQuery(Name = "nombre")] string? nombre = null,
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10)
         {
-            var usuarios = await _context.usuarios
-            .Where(u => u.Nombre.ToLower().Contains(nombre.ToLower()))
+            var query = _context.usuarios.AsQueryable();
+
+            if(!string.IsNullOrWhiteSpace(nombre)){
+                query = query.Where(u => u.Nombre.ToLower().Contains(nombre.ToLower()));
+            }
+            var total = await query.CountAsync();
+            var usuarios = await query
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
-            .Select(u => new UsuarioResponse
-            {
+            .Select(u => new UsuarioResponse {
                 Id = u.Id,
                 Nombre = u.Nombre,
                 Apellido = u.Apellido,
-                Correo = u.Mail
+                Correo = u.Mail,
+                Honor = u.Honor,
             })
             .ToListAsync();
-
-            return Ok(new { usuarios });
+          
+            return Ok(new { usuarios, total });
         }
 
         //post /usuario/iniciar-sesion/
