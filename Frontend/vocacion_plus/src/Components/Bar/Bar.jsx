@@ -49,12 +49,12 @@ export default function Bar() {
 
   const routes = rol === "Admin"
     ? [
-        { text: "Gestionar Facultades", path: "/" },
+        { text: "Gestionar Facultades", path: "/facultades" },
         { text: "Gestionar Carreras", path: "/carrera" },
         { text: "Gestionar Usuarios", path: "/usuarios" },
       ]
     : [
-        { text: "Buscar Facultades", path: "/" },
+        { text: "Buscar Facultades", path: "/facultades" },
         { text: "Buscar Carreras", path: "/carrera" },
       ];
 
@@ -119,15 +119,31 @@ export default function Bar() {
             </Box>
           </Drawer>
 
-          {/* Título */}
-          <Typography
-            className="titulo"
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, textAlign: "center" }}
-          >
-            Vocación Plus
-          </Typography>
+{/* Título clickeable */}
+{/* Título clickeable */}
+<Typography
+  className="titulo"
+  variant="h6"
+  component={Link}   // ✅ lo convierte en link
+  to="/"             // ✅ redirige al inicio
+  sx={{
+    flexGrow: 1,
+    textAlign: "center",
+    textDecoration: "none",
+    color: "inherit",
+    cursor: "pointer",
+    fontWeight: "bold",
+    transition: "all 0.25s ease", // ✅ transición suave
+    transform: "scale(1)",
+    "&:hover": {
+      color: "var(--primaryColor-light)",
+      transform: "scale(1.1)", // ✅ agranda el texto
+    },
+  }}
+>
+  Vocación Plus
+</Typography>
+
 
           {/* Menú del usuario */}
           <div>

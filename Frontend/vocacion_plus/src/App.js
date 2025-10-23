@@ -21,6 +21,7 @@ import ListaUsuarios from "./pages/Usuario/ListaUsuarios";
 import Rating from "./Components/Carreras/careerRating";
 import AltaCarrera from "./Components/Carreras/AltaCarrera";
 import Perfil from "./pages/Usuario/Usuario";
+import Home from "./Components/Bar/LandingPage"
 function App() {
   return (
     <Router>
@@ -33,8 +34,9 @@ function App() {
         <Bar />
         <Box sx= {{ flexGrow: 1, alignItems: 'start' }}>
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/CarreraID/rating" element={<Rating />} />
-            <Route path="/" element={<FacultadList />} />
+            <Route path="/facultades" element={<FacultadList />} />
             <Route path="/alta-facultad" element={<AltaFacultad />} />
             <Route path="/editar-facultad/:id" element={<EditarFacultad />} />
             <Route path="/facultad/:id" element={<VerFacultad />} />
