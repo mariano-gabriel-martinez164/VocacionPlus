@@ -13,7 +13,9 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
-import { getValoracionesAutor } from '../../services/valoServices';
+import { getValoracionesAutor, deleteValoracion } from '../../services/valoServices';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 import '../../index.css'
 
 const MisValoracionesModal = ({ autorId, open, onClose }) => {
@@ -24,6 +26,18 @@ const MisValoracionesModal = ({ autorId, open, onClose }) => {
   const [error, setError] = useState(null);
   const pageSize = 5;
 
+  const handleDelete = async (valoracionId) => {
+    if (!window.confirm('Seguro que quiere eliminar esta valoracion?')) return;
+
+    try {
+      await deleteValoracion(valoracionId);
+      setValoraciones(prev => prev.filter(v => v.id !== valoracionId));
+    } catch(error ) {
+      console.error('error al eliminar la valoracion:', error);
+      setError('no se pudo eliminar la valoracion.');
+    }
+  };
+
   useEffect(() => {
     if (!open || !autorId) return; // evita fetch innecesario si el modal está cerrado
     const fetchData = async () => {
@@ -32,7 +46,8 @@ const MisValoracionesModal = ({ autorId, open, onClose }) => {
         try {
         const data = await getValoracionesAutor(autorId, 1, 5);
         setValoraciones(data.results || []);
-        setTotalPages(data.totalPages || 1);
+        console.log("se supone que esto es el total? :", data.total);
+        setTotalPages(data.total || 1);
       } catch (err) {
         console.error('Error cargando valoraciones:', err);
         setError('error al cargar las valoraciones.');
@@ -120,18 +135,26 @@ const MisValoracionesModal = ({ autorId, open, onClose }) => {
               }}
             >
               <CardContent>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Typography
-                    variant="subtitle1"
-                    sx={{ fontWeight: 'bold', color: 'var(--primaryColor-white)' }}
-                    >
-                    {v.carreraNombre || 'Carrera desconocida'} — {v.puntuacion}
-                    </Typography>
-                    <MenuBookIcon sx={{ color: 'var(--secondary-300)' }} />
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent:'space-between'}}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Typography
+                      variant="subtitle1"
+                      sx={{ fontWeight: 'bold', color: 'var(--primaryColor-white)' }}
+                      >
+                      {v.carreraNombre || 'Carrera desconocida'} — {v.puntuacion}
+                      </Typography>
+                      <MenuBookIcon sx={{ color: 'var(--secondary-300)' }} />
+                  </Box>
+                  <Typography variant="body2" sx={{ mt: 1 }}>
+                    {v.comentario || 'Sin comentario.'}
+                  </Typography>
+                  <IconButton
+                    onClick={() => handleDelete(v.id)}
+                    sx={{ color: 'var(--secondary-300)', '&:hover': { color: 'red' } }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
                 </Box>
-                <Typography variant="body2" sx={{ mt: 1 }}>
-                  {v.comentario || 'Sin comentario.'}
-                </Typography>
               </CardContent>
             </Card>
           ))}

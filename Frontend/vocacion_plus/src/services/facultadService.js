@@ -73,16 +73,13 @@ export const eliminarFacultad = async (facultadId) => {
     return response.data;
     } catch(error) {
         if (error.response) {
-        // El servidor respondió con un estado fuera de 2xx
         console.error("Error con respuesta del servidor:", error.response.status, error.response.data);
         } else if (error.request) {
-        // La solicitud se hizo pero no hubo respuesta
         console.error("Error en la solicitud, no hubo respuesta:", error.request);
         } else {
-        // Otro tipo de error
         console.error("Error desconocido:", error.message);
         }
-    throw error; // opcional, si quieres que el componente maneje el error
+    throw error; 
     }
 };
 

@@ -4,6 +4,7 @@ using VocacionPlus.Models;
 using VocacionPlus.Database;
 using System.IO.Compression;
 using Microsoft.AspNetCore.Authorization;
+using VocacionPlus.Models.DTOs;
 
 namespace VocacionPlus.Controllers
 {
@@ -21,11 +22,25 @@ namespace VocacionPlus.Controllers
         //post: /tag
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreateTag([FromBody] Tag tag)
+        public async Task<IActionResult> CreateTag([FromBody] CrearTagDTO tagDTO)
         {
+            if (string.IsNullOrWhiteSpace(tagDTO.Nombre))
+                return BadRequest("El nombre del tag no puede estar vacio");
+
+            var tag = new Tag
+            {
+                Nombre = tagDTO.Nombre
+            };
             _context.tags.Add(tag);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetTag), new { id = tag.Id }, tag);
+
+            var tagResponse = new TagDTO
+            {
+                Id = tag.Id,
+                Nombre = tag.Nombre
+            };
+
+            return CreatedAtAction(nameof(GetTag), new { id = tag.Id }, tagResponse);
         }
 
         //vincular un tag con una carrera
