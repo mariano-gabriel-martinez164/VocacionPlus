@@ -1,10 +1,23 @@
-import { Autocomplete, TextField, Typography, InputAdornment, Divider, Fab, Pagination, styled } from "@mui/material";
-import { Box, Grid, Stack } from "@mui/system";
-import React from "react";
+import {
+  Autocomplete,
+  TextField,
+  Typography,
+  InputAdornment,
+  Divider,
+  Fab,
+  Pagination,
+  styled,
+  CircularProgress,
+} from "@mui/material";
+import { Box, Stack } from "@mui/system";
+import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import CarreraCard from "./CarreraCard";
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
+// === Estilos personalizados para la paginación ===
 const CustomPagination = styled(Pagination)(({ theme }) => ({
   "& .MuiPaginationItem-root": {
     color: "var(--primary-300)",
@@ -22,189 +35,259 @@ const CustomPagination = styled(Pagination)(({ theme }) => ({
   },
 }));
 
+// === Componente principal ===
 const Carrera = () => {
-  const carreras = [
-    {
-      "carrera_id": 1,
-      "nombre": "Ingeniería en Sistemas de Información",
-      "Valoracion": 9,
-      "descripcion": "Formación en desarrollo de software, redes y gestión de proyectos tecnológicos.",
-      "facultad_id": 1,
-      "plan de estudio": "Plan 2023 - 5 años con prácticas profesionales."
-    },
-    {
-      "carrera_id": 2,
-      "nombre": "Licenciatura en Administración",
-      "Valoracion": 7,
-      "descripcion": "Gestión de empresas, finanzas, recursos humanos y marketing.",
-      "facultad_id": 2,
-      "plan de estudio": "Plan 2020 - 4 años con orientación en gestión empresarial."
-    },
-    {
-      "carrera_id": 3,
-      "nombre": "Contador Público",
-      "Valoracion": 8,
-      "descripcion": "Formación en contabilidad, auditoría, derecho y economía.",
-      "facultad_id": 2,
-      "plan de estudio": "Plan 2019 - 5 años con materias optativas en tributación."
-    },
-    {
-      "carrera_id": 4,
-      "nombre": "Ingeniería Civil",
-      "Valoracion": 8,
-      "descripcion": "Diseño, cálculo y dirección de obras civiles y estructuras.",
-      "facultad_id": 3,
-      "plan de estudio": "Plan 2021 - 6 años con pasantías en empresas constructoras."
-    },
-    {
-      "carrera_id": 5,
-      "nombre": "Arquitectura",
-      "Valoracion": 7,
-      "descripcion": "Diseño de edificios, urbanismo y planificación arquitectónica.",
-      "facultad_id": 3,
-      "plan de estudio": "Plan 2018 - 6 años con orientación en sustentabilidad."
-    },
-    {
-      "carrera_id": 6,
-      "nombre": "Medicina",
-      "Valoracion": 10,
-      "descripcion": "Formación médica integral con prácticas hospitalarias desde el primer año.",
-      "facultad_id": 4,
-      "plan de estudio": "Plan 2022 - 7 años con ciclo clínico y rotaciones."
-    },
-    {
-      "carrera_id": 7,
-      "nombre": "Licenciatura en Psicología",
-      "Valoracion": 8,
-      "descripcion": "Estudio de la conducta humana, teorías psicológicas y prácticas clínicas.",
-      "facultad_id": 4,
-      "plan de estudio": "Plan 2020 - 5 años con orientación clínica, laboral o educativa."
-    },
-    {
-      "carrera_id": 8,
-      "nombre": "Licenciatura en Ciencias de la Comunicación",
-      "Valoracion": 7,
-      "descripcion": "Formación en periodismo, comunicación institucional y medios digitales.",
-      "facultad_id": 5,
-      "plan de estudio": "Plan 2021 - 4 años con talleres prácticos en medios."
-    }
-  ];
-  const facultades = [
-    {
-      "facultad_id": 1,
-      "nombre": "Facultad de Ingeniería en Sistemas"
-    },
-    {
-      "facultad_id": 2,
-      "nombre": "Facultad de Ciencias Económicas"
-    },
-    {
-      "facultad_id": 3,
-      "nombre": "Facultad de Arquitectura e Ingeniería Civil"
-    },
-    {
-      "facultad_id": 4,
-      "nombre": "Facultad de Ciencias de la Salud"
-    },
-    {
-      "facultad_id": 5,
-      "nombre": "Facultad de Ciencias Sociales y Comunicación"
-    }
-  ];
+  const [carreras, setCarreras] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
+  const navigate = useNavigate();
+
+  // === Cargar carreras desde el backend (paginadas) ===
+  useEffect(() => {
+    const fetchCarreras = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get(`http://localhost:5073/Carrera?PageNumber=${page}`);
+        const data = res.data;
+
+        if (Array.isArray(data.data)) {
+          setCarreras(data.data);
+          setTotalPages(data.totalPages || 1);
+        } else if (Array.isArray(data)) {
+          setCarreras(data);
+          setTotalPages(1);
+        } else {
+          console.warn("Formato inesperado:", data);
+          setCarreras([]);
+        }
+
+        setLoading(false);
+      } catch (err) {
+        console.error("Error al cargar carreras:", err);
+        setError("No se pudieron cargar las carreras.");
+        setLoading(false);
+      }
+    };
+
+    fetchCarreras();
+  }, [page]);
+
+  // === Navegar al formulario de Alta Carrera ===
+  const handleOnClick = () => {
+    navigate("/AltaCarrera");
+  };
+
+  // === Control del buscador ===
+  const handleSearchChange = (event, newValue) => {
+    setSearch(newValue);
+  };
+
+  // === Filtrado por nombre ===
+  const filteredCarreras = search
+    ? carreras.filter((c) =>
+        c.nombre?.toLowerCase().includes(search.toLowerCase())
+      )
+    : carreras;
+
+  // === Estado de carga ===
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="80vh">
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  // === Estado de error ===
+  if (error) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="80vh">
+        <Typography color="error">{error}</Typography>
+      </Box>
+    );
+  }
+
+  // === Render principal ===
   return (
-    <Box display="flex" flexDirection="column" sx={{
-      backgroundColor: "var(--gray-light)",
-      pb: 6,
-      minHeight: "88vh"
-    }}>
+    <Box
+      display="flex"
+      flexDirection="column"
+      sx={{
+        /* 🌈 DEGRADADO DE FONDO */
+        minHeight: "100vh",
+        background: "linear-gradient(180deg, #1a0000 0%, #330000 40%, #0d0d0d 100%)",
+        backgroundAttachment: "fixed",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        pb: 6,
+        color: "var(--color-texto)",
+        transition: "background 0.6s ease",
+        boxShadow: "inset 0 0 80px rgba(0,0,0,0.5)",
+      }}
+    >
+      {/* === Título + Buscador === */}
       <Stack
         direction="row"
         spacing={2}
         alignItems="center"
         sx={{ m: 14, pt: 2, mt: 0, mb: 3 }}
       >
-        <Typography variant="h4" sx={{
-          fontSize: "3rem",
-          fontWeight: "bold",
-          color: "var(--primary-200)",
-          flexGrow: 1,
-        }}>
+        <Typography
+          variant="h4"
+          sx={{
+            fontSize: "3rem",
+            fontWeight: "bold",
+            color: "#fff",
+            textShadow: "0 2px 4px rgba(0,0,0,0.3)",
+            flexGrow: 1,
+          }}
+        >
           Carreras
         </Typography>
-        <Autocomplete
+
+        {/* === Buscador === */}
+        <Box
           sx={{
-            alignContent: "center",
             flexGrow: 2,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
-          freeSolo
-          disableClearable
-          options={carreras.map(carrera => carrera.nombre)}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Buscar carrera"
-              variant="outlined"
-              size="medium"
-              InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <SearchIcon fontSize="large" />
-                  </InputAdornment>
-                ),
-                style: {
-                  backgroundColor: "var(--secondary-500)",
-                  borderRadius: "12px",
-                  color: "var(--secondary-500)",
+        >
+          <Autocomplete
+            freeSolo
+            disableClearable
+            options={carreras.map((carrera) => carrera.nombre)}
+            value={search}
+            onInputChange={handleSearchChange}
+            sx={{
+              width: "100%",
+              maxWidth: 700,
+              "& .MuiOutlinedInput-root": {
+                backgroundColor: "rgba(0,0,0,0.4)",
+                borderRadius: "40px",
+                color: "#fff",
+                border: "2px solid var(--primary-500)",
+                transition: "all 0.3s ease",
+                boxShadow: "0 0 10px rgba(255,255,255,0.15)",
+                "&:hover": {
+                  borderColor: "var(--primary-300)",
+                  boxShadow: "0 0 16px rgba(255,255,255,0.25)",
                 },
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": { border: "none" }, // saca el borde del input
+                "&.Mui-focused": {
+                  borderColor: "var(--primary-200)",
+                  boxShadow: "0 0 20px rgba(255,255,255,0.4)",
                 },
-                input: { color: "var(--secondary-100)" }, // color del placeholder/texto
-              }}
-            />
-          )}
-        />
+              },
+              "& .MuiInputBase-input": {
+                color: "#fff",
+                fontSize: "1rem",
+                padding: "12px 48px 12px 20px",
+              },
+              "& .MuiAutocomplete-endAdornment": {
+                right: 12,
+              },
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                placeholder="Buscar carrera..."
+                variant="outlined"
+                InputProps={{
+                  ...params.InputProps,
+                  endAdornment: (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: 36,
+                        height: 36,
+                        borderRadius: "50%",
+                        backgroundColor: "var(--primary-500)",
+                        color: "#fff",
+                        cursor: "pointer",
+                        transition: "all 0.3s ease",
+                        "&:hover": {
+                          backgroundColor: "var(--primary-300)",
+                          transform: "scale(1.1)",
+                          boxShadow: "0 0 10px rgba(255,255,255,0.5)",
+                        },
+                      }}
+                    >
+                      <SearchIcon />
+                    </Box>
+                  ),
+                }}
+              />
+            )}
+          />
+        </Box>
       </Stack>
-      <Divider sx={{ mb: 2, bgcolor: "var(--white)", mr: 8, ml: 8 }} />
-      <Grid container spacing={4} sx={{ paddingInline: "8vw", paddingBlock: "4vh" }}>
-        {carreras.map((item, index) => (
-          <Grid key={index} size={3} m={0}>
-            <CarreraCard carrera={item} index={index} />
-          </Grid>
+
+      <Divider sx={{ mb: 2, bgcolor: "rgba(255,255,255,0.4)", mr: 8, ml: 8 }} />
+
+      {/* === Grilla de Carreras === */}
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-around",
+          gap: 3,
+          px: "6vw",
+          py: "4vh",
+        }}
+      >
+        {filteredCarreras.map((item, index) => (
+          <CarreraCard key={index} carrera={item} index={index} />
         ))}
-      </Grid>
-      <Box sx={{
-        display: 'flex',
-        flexGrow: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
-      }}>
-        <Fab aria-label="add" sx={{
-          color: "var(--primary-200)",
-          bgcolor: "var(--gray-light)",
-          border: 2,
-          borderColor: "var(--primary-200)",
-          transition: "all 0.3s ease",
-          position: "relative",
-          bottom: 20,
-          right: 16,
-          '&:hover': {
-            bgcolor: 'var(--primary-500)',
-            transform: 'scale(1.08)',
-          },
-        }}>
+      </Box>
+
+      {/* === Botón flotante === */}
+      <Box
+        sx={{
+          display: "flex",
+          flexGrow: 1,
+          justifyContent: "flex-end",
+          alignItems: "flex-end",
+        }}
+      >
+        <Fab
+          aria-label="add"
+          onClick={handleOnClick}
+          sx={{
+            color: "var(--primary-200)",
+            bgcolor: "var(--gray-light)",
+            border: 2,
+            borderColor: "var(--primary-200)",
+            transition: "all 0.3s ease",
+            position: "relative",
+            bottom: 20,
+            right: 16,
+            "&:hover": {
+              bgcolor: "var(--primary-500)",
+              transform: "scale(1.08)",
+            },
+          }}
+        >
           <AddIcon />
         </Fab>
       </Box>
-      <Box display='flex' justifyContent='center'>
-        <CustomPagination count={5} />
+
+      {/* === Paginación === */}
+      <Box display="flex" justifyContent="center">
+        <CustomPagination
+          count={totalPages}
+          page={page}
+          onChange={(e, value) => setPage(value)}
+        />
       </Box>
     </Box>
   );
-}
+};
 
 export default Carrera;

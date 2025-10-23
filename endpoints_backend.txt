@@ -1,0 +1,231 @@
+import { 
+  Autocomplete, 
+  TextField, 
+  Typography, 
+  InputAdornment, 
+  Divider, 
+  Fab, 
+  Pagination, 
+  styled, 
+  CircularProgress 
+} from "@mui/material";
+import { Box, Grid, Stack } from "@mui/system";
+import React, { useEffect, useState } from "react";
+import SearchIcon from "@mui/icons-material/Search";
+import CarreraCard from "./CarreraCard";
+import AddIcon from '@mui/icons-material/Add';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+// === Estilos de la paginación ===
+const CustomPagination = styled(Pagination)(({ theme }) => ({
+  "& .MuiPaginationItem-root": {
+    color: "var(--primary-300)",
+    border: "1px solid var(--primary-300)",
+  },
+  "& .MuiPaginationItem-root:hover": {
+    backgroundColor: "var(--primary-100)",
+  },
+  "& .Mui-selected": {
+    backgroundColor: "var(--primary-500)",
+    color: "#fff",
+  },
+  "& .MuiPaginationItem-ellipsis": {
+    color: "gray",
+  },
+}));
+
+// === Componente principal ===
+const Carrera = () => {
+  const [carreras, setCarreras] = useState([]);
+  const [facultades, setFacultades] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+
+  const navigate = useNavigate();
+
+  // === Cargar carreras desde backend ===
+  useEffect(() => {
+    const fetchCarreras = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get(`http://localhost:5000/carrera?pageNumber=${page}`);
+        const data = res.data;
+
+        // Suponiendo que el backend devuelve { items: [...], totalPages: X }
+        setCarreras(data.items || data || []);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error al cargar carreras:", err);
+        setError("No se pudieron cargar las carreras.");
+        setLoading(false);
+      }
+    };
+
+    fetchCarreras();
+  }, [page]);
+
+  // === Cargar facultades (opcional, si luego las usás) ===
+  useEffect(() => {
+    const fetchFacultades = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/facultad?page=1&pageSize=10");
+        setFacultades(res.data.items || res.data || []);
+      } catch (err) {
+        console.warn("No se pudieron cargar las facultades:", err);
+      }
+    };
+
+    fetchFacultades();
+  }, []);
+
+  const handleOnClick = () => {
+    navigate("carrera/alta-carrera");
+  };
+
+  const handleSearchChange = (event, newValue) => {
+    setSearch(newValue);
+  };
+
+  // Filtrado de carreras por nombre
+  const filteredCarreras = search
+    ? carreras.filter(c => 
+        c.nombre?.toLowerCase().includes(search.toLowerCase())
+      )
+    : carreras;
+
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="80vh">
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="80vh">
+        <Typography color="error">{error}</Typography>
+      </Box>
+    );
+  }
+
+  return (
+    <Box display="flex" flexDirection="column" sx={{
+      backgroundColor: "var(--gray-light)",
+      pb: 6,
+      minHeight: "88vh"
+    }}>
+      <Stack
+        direction="row"
+        spacing={2}
+        alignItems="center"
+        sx={{ m: 14, pt: 2, mt: 0, mb: 3 }}
+      >
+        <Typography variant="h4" sx={{
+          fontSize: "3rem",
+          fontWeight: "bold",
+          color: "var(--primary-200)",
+          flexGrow: 1,
+        }}>
+          Carreras
+        </Typography>
+
+        {/* === Buscador === */}
+        <Autocomplete
+          sx={{
+            alignContent: "center",
+            flexGrow: 2,
+          }}
+          freeSolo
+          disableClearable
+          options={carreras.map(carrera => carrera.nombre)}
+          value={search}
+          onInputChange={handleSearchChange}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Buscar carrera"
+              variant="outlined"
+              size="medium"
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon fontSize="large" />
+                  </InputAdornment>
+                ),
+                style: {
+                  backgroundColor: "var(--secondary-500)",
+                  borderRadius: "12px",
+                  color: "var(--secondary-500)",
+                },
+              }}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": { border: "none" },
+                },
+                input: { color: "var(--secondary-100)" },
+              }}
+            />
+          )}
+        />
+      </Stack>
+
+      <Divider sx={{ mb: 2, bgcolor: "var(--white)", mr: 8, ml: 8 }} />
+
+      {/* === Grilla de carreras === */}
+      <Grid container spacing={4} sx={{ paddingInline: "8vw", paddingBlock: "4vh" }}>
+        {filteredCarreras.length > 0 ? (
+          filteredCarreras.map((item, index) => (
+            <Grid key={index} item xs={12} sm={6} md={3}>
+              <CarreraCard carrera={item} index={index} />
+            </Grid>
+          ))
+        ) : (
+          <Typography variant="body1" color="textSecondary" sx={{ m: "auto", mt: 4 }}>
+            No se encontraron carreras.
+          </Typography>
+        )}
+      </Grid>
+
+      {/* === Botón flotante === */}
+      <Box sx={{
+        display: 'flex',
+        flexGrow: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+      }}>
+        <Fab aria-label="add" onClick={handleOnClick} sx={{
+          color: "var(--primary-200)",
+          bgcolor: "var(--gray-light)",
+          border: 2,
+          borderColor: "var(--primary-200)",
+          transition: "all 0.3s ease",
+          position: "relative",
+          bottom: 20,
+          right: 16,
+          '&:hover': {
+            bgcolor: 'var(--primary-500)',
+            transform: 'scale(1.08)',
+          },
+        }}>
+          <AddIcon />
+        </Fab>
+      </Box>
+
+      {/* === Paginación === */}
+      <Box display='flex' justifyContent='center'>
+        <CustomPagination 
+          count={5} 
+          page={page} 
+          onChange={(e, value) => setPage(value)} 
+        />
+      </Box>
+    </Box>
+  );
+};
+
+export default Carrera;

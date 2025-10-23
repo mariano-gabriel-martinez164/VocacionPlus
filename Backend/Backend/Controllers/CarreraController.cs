@@ -66,21 +66,6 @@ public async Task<IActionResult> GetCarreras(int pageNumber = 1)
             return Ok(carrera);
         }
 
-        // GET: /carrera/nombre/{nombre}/
-        /// Busca una carrera por su nombre.
-        [HttpGet("nombre/{nombre}")]
-        public async Task<IActionResult> GetCarreraPorNombre(string nombre)
-        {
-            //usamos el FirstOrDefaultAsync para encontrar la primera coincidencia (o null si no existe).
-            var carrera = await _context.carreras.FirstOrDefaultAsync(c => c.Nombre.ToLower() == nombre.ToLower());
-
-            if (carrera == null)
-            {
-                return NotFound($"No se encontró ninguna carrera con el nombre '{nombre}'.");
-            }
-
-            return Ok(carrera);
-        }
 
        // GET: /carrera/facultad/{facultad_id}?pageNumber=1
 [HttpGet("facultad/{facultad_id}")]
