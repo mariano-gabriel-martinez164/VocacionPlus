@@ -5,12 +5,12 @@ import { Box, Typography, TextField, Button, Chip, Stack } from '@mui/material';
 
 // Paleta de colores consistente con el diseño anterior
 const colors = {
-    background: '#1a0f0f',
-    primary: '#e63946',
-    secondary: '#a8dadc',
-    textPrimary: '#ffffff',
+    background: 'var(--primaryColor-darker)',
+    primary: 'var(--primaryColor-default)',
+    secondary: 'var(--primary-100)',
+    textPrimary: 'var(--white)',
     textSecondary: '#f1faee',
-    surface: '#2c3e50',
+    surface: 'var(--color-fondo)',
 };
 
 // Un componente TextField personalizado para el tema oscuro
@@ -100,7 +100,7 @@ const AltaCarreraForm = () => {
                 border: `1px solid ${colors.surface}`
             }}
         >
-            <Typography variant="h4" sx={{ color: colors.secondary, mb: 4, fontWeight: 'bold' }}>
+            <Typography variant="h4" sx={{ mb: 4, fontWeight: 'bold' }}>
                 Dar de Alta una Carrera
             </Typography>
 
@@ -170,7 +170,7 @@ const AltaCarreraForm = () => {
                 sx={{
                     backgroundColor: colors.primary,
                     '&:hover': {
-                        backgroundColor: '#c0392b', // Un rojo un poco más oscuro
+                        backgroundColor: 'var(--primary-200)', // Un rojo un poco más oscuro
                     },
                     fontWeight: 'bold',
                     width: '100%',
