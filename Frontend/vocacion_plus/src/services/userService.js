@@ -18,6 +18,7 @@ export const loginUser = async (data) => {
     const token = response.data.token || response.data.token;
     if (token) {
         localStorage.setItem("token", token);
+        localStorage.setItem("userId", response.data.id); // Guardar el ID del usuario
     }
     return response.data;
 }; 

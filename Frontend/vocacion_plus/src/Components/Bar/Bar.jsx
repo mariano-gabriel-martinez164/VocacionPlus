@@ -171,6 +171,7 @@ export default function Bar() {
                   <MenuItem key="perfil" onClick={handleClose}>Perfil</MenuItem>,
                   <MenuItem key="cerrar" onClick={() => {
                     localStorage.removeItem("token");
+                    localStorage.removeItem("userId");
                     handleClose();
                     window.location.reload();
                   }}>Cerrar sesión</MenuItem>
