@@ -19,6 +19,41 @@ namespace VocacionPlus.Controllers
 
        // GET: /carrera?pageNumber=1
 /// Obtiene una lista paginada de todas las carreras.
+///
+
+[HttpGet("buscar")]
+public async Task<IActionResult> BuscarCarrerasPorNombre(string nombre, int page = 1, int pageSize = 10)
+{
+    if (string.IsNullOrWhiteSpace(nombre))
+        return BadRequest("El parámetro 'nombre' es obligatorio.");
+
+    if (page <= 0) page = 1;
+    if (pageSize <= 0) pageSize = 10;
+
+    var query = _context.carreras
+        .Include(c => c.Tags)
+        .Where(c => c.Nombre.Contains(nombre));
+
+    var totalItems = await query.CountAsync();
+    var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+    var carreras = await query
+        .Skip((page - 1) * pageSize)
+        .Take(pageSize)
+        .ToListAsync();
+
+    var resultado = new
+    {
+        TotalItems = totalItems,
+        TotalPages = totalPages,
+        CurrentPage = page,
+        PageSize = pageSize,
+        Carreras = carreras
+    };
+
+    return Ok(resultado);
+}
+
 [HttpGet]
 public async Task<IActionResult> GetCarreras(int pageNumber = 1)
 {

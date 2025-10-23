@@ -15,6 +15,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import CarreraCard from "./CarreraCard";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
+import { buscarCarrerasPorNombre } from '../../services/carreraService';
 import axios from "axios";
 
 // === Estilos personalizados para la paginación ===
@@ -76,14 +77,25 @@ const Carrera = () => {
     fetchCarreras();
   }, [page]);
 
+	const handleSearchChange = async (event, newValue) => {
+		setSearch(newValue);
+		if (newValue.trim() === '') return
+		try {
+			const data = await buscarCarrerasPorNombre(newValue,page);
+			console.log('supuestamente mandamos esto :', newValue);
+			console.log('y llega esto?', data)
+			setCarreras(data.carreras || []);
+			setTotalPages(data.totalPages || 1);
+		} catch (err) {
+
+		console.error(err);
+		setError('error al buscar carreras')
+		}
+	};
+
   // === Navegar al formulario de Alta Carrera ===
   const handleOnClick = () => {
     navigate("/AltaCarrera");
-  };
-
-  // === Control del buscador ===
-  const handleSearchChange = (event, newValue) => {
-    setSearch(newValue);
   };
 
   // === Filtrado por nombre ===
