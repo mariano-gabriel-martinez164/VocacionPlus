@@ -20,6 +20,7 @@ import VerFacultad from "./Components/Facultad/VerFacultad";
 import ListaUsuarios from "./pages/Usuario/ListaUsuarios";
 import Rating from "./Components/Carreras/careerRating";
 import AltaCarrera from "./Components/Carreras/AltaCarrera";
+import Perfil from "./pages/Usuario/Usuario";
 function App() {
   return (
     <Router>
@@ -37,6 +38,7 @@ function App() {
             <Route path="/alta-facultad" element={<AltaFacultad />} />
             <Route path="/editar-facultad/:id" element={<EditarFacultad />} />
             <Route path="/facultad/:id" element={<VerFacultad />} />
+            <Route path="/Perfil" element={<Perfil />} />
             <Route path="/usuarios" element={<ListaUsuarios/>} />
             <Route path="/carrera" element={<Carreras />} />
             <Route path="/carrera/:id" element={<VerCarrera />} />

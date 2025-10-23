@@ -1,13 +1,13 @@
-import { 
-  Autocomplete, 
-  TextField, 
-  Typography, 
-  InputAdornment, 
-  Divider, 
-  Fab, 
-  Pagination, 
-  styled, 
-  CircularProgress 
+import {
+  Autocomplete,
+  TextField,
+  Typography,
+  InputAdornment,
+  Divider,
+  Fab,
+  Pagination,
+  styled,
+  CircularProgress,
 } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import React, { useEffect, useState } from "react";
@@ -76,7 +76,7 @@ const Carrera = () => {
     fetchCarreras();
   }, [page]);
 
-  // === Función para ir a Alta Carrera ===
+  // === Navegar al formulario de Alta Carrera ===
   const handleOnClick = () => {
     navigate("/AltaCarrera");
   };
@@ -111,18 +111,25 @@ const Carrera = () => {
     );
   }
 
-  // === Render ===
+  // === Render principal ===
   return (
     <Box
       display="flex"
       flexDirection="column"
       sx={{
-        backgroundColor: "var(--gray-light)",
+        /* 🌈 DEGRADADO DE FONDO */
+        minHeight: "100vh",
+        background: "linear-gradient(180deg, #1a0000 0%, #330000 40%, #0d0d0d 100%)",
+        backgroundAttachment: "fixed",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
         pb: 6,
-        minHeight: "88vh",
+        color: "var(--color-texto)",
+        transition: "background 0.6s ease",
+        boxShadow: "inset 0 0 80px rgba(0,0,0,0.5)",
       }}
     >
-      {/* === Header + Buscador === */}
+      {/* === Título + Buscador === */}
       <Stack
         direction="row"
         spacing={2}
@@ -134,14 +141,15 @@ const Carrera = () => {
           sx={{
             fontSize: "3rem",
             fontWeight: "bold",
-            color: "var(--primary-200)",
+            color: "#fff",
+            textShadow: "0 2px 4px rgba(0,0,0,0.3)",
             flexGrow: 1,
           }}
         >
           Carreras
         </Typography>
 
-        {/* === Buscador Mejorado === */}
+        {/* === Buscador === */}
         <Box
           sx={{
             flexGrow: 2,
@@ -160,19 +168,19 @@ const Carrera = () => {
               width: "100%",
               maxWidth: 700,
               "& .MuiOutlinedInput-root": {
-                backgroundColor: "#1e1e1e",
+                backgroundColor: "rgba(0,0,0,0.4)",
                 borderRadius: "40px",
                 color: "#fff",
                 border: "2px solid var(--primary-500)",
                 transition: "all 0.3s ease",
-                boxShadow: "0 0 8px rgba(255,0,0,0.2)",
+                boxShadow: "0 0 10px rgba(255,255,255,0.15)",
                 "&:hover": {
                   borderColor: "var(--primary-300)",
-                  boxShadow: "0 0 12px rgba(255,0,0,0.4)",
+                  boxShadow: "0 0 16px rgba(255,255,255,0.25)",
                 },
                 "&.Mui-focused": {
                   borderColor: "var(--primary-200)",
-                  boxShadow: "0 0 16px rgba(255,0,0,0.6)",
+                  boxShadow: "0 0 20px rgba(255,255,255,0.4)",
                 },
               },
               "& .MuiInputBase-input": {
@@ -207,7 +215,7 @@ const Carrera = () => {
                         "&:hover": {
                           backgroundColor: "var(--primary-300)",
                           transform: "scale(1.1)",
-                          boxShadow: "0 0 10px rgba(255,0,0,0.5)",
+                          boxShadow: "0 0 10px rgba(255,255,255,0.5)",
                         },
                       }}
                     >
@@ -221,9 +229,9 @@ const Carrera = () => {
         </Box>
       </Stack>
 
-      <Divider sx={{ mb: 2, bgcolor: "var(--white)", mr: 8, ml: 8 }} />
+      <Divider sx={{ mb: 2, bgcolor: "rgba(255,255,255,0.4)", mr: 8, ml: 8 }} />
 
-      {/* === Grilla de carreras === */}
+      {/* === Grilla de Carreras === */}
       <Box
         sx={{
           display: "flex",

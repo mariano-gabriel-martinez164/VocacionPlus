@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -16,8 +15,8 @@ import '../../App.css';
 import "./Bar.css";
 
 export default function Bar() {
-  const [rol, setRol ] = useState(null);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [rol, setRol] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const [isLoggedIn, setLogin] = useState(false);
   const token = localStorage.getItem("token");
@@ -28,17 +27,17 @@ export default function Bar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-   const toggleDrawer = (newOpen) => () => {
+  const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
 
   useEffect(() => {
-    if(token) {
+    if (token) {
       try {
         const decodedToken = jwtDecode(token);
         setLogin(true);
-        setRol(decodedToken.role)
-      }catch(error) {
+        setRol(decodedToken.role);
+      } catch (error) {
         console.error("token vencido:", error);
         localStorage.removeItem("token");
         setLogin(false);
@@ -48,22 +47,22 @@ export default function Bar() {
     }
   }, [token]);
 
-   
-   const routes = rol === "Admin" 
-   ? [
-      { text: "Gestionar Facultades", path: "/" },
-      { text: "Gestionar Carreras", path: "/carrera" },
-      { text: "Gestionar Usuarios", path: "/usuarios" },
-    ]
+  const routes = rol === "Admin"
+    ? [
+        { text: "Gestionar Facultades", path: "/" },
+        { text: "Gestionar Carreras", path: "/carrera" },
+        { text: "Gestionar Usuarios", path: "/usuarios" },
+      ]
     : [
         { text: "Buscar Facultades", path: "/" },
         { text: "Buscar Carreras", path: "/carrera" },
-    ];
-  
+      ];
+
   return (
     <Box sx={{ flexGrow: 1 }} className="box">
       <AppBar position="static" className="bar">
         <Toolbar>
+          {/* Botón menú lateral */}
           <IconButton
             className="menu-boton"
             size="large"
@@ -75,39 +74,43 @@ export default function Bar() {
           >
             <MenuIcon />
           </IconButton>
-          <Drawer open={open} onClose={toggleDrawer(false)} slotProps={{
-            paper: {
-              sx: {
-                backgroundColor: 'var(--primaryColor-darker)',
-                color: 'var(--color-texto)',
-                width: 260,
-                borderRight: '1px solid var(--primaryColor-light)',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                '& .MuiList-root': {
-                  padding: 0,
-                },
-                '& .MuiListItemButton-root': {
-                  textAlign: 'center',
-                  borderBottom: '1px solid var(--primaryColor-dark)',
-                  fontWeight: 500,
-                  '&:hover': {
-                    backgroundColor: 'var(--primaryColor-light)',
-                  },
-                  '&:active': {
-                    backgroundColor: 'var(--primaryColor-default)',
+
+          {/* Drawer lateral */}
+          <Drawer
+            open={open}
+            onClose={toggleDrawer(false)}
+            slotProps={{
+              paper: {
+                sx: {
+                  backgroundColor: 'var(--primaryColor-darker)',
+                  color: 'var(--color-texto)',
+                  width: 260,
+                  borderRight: '1px solid var(--primaryColor-light)',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  '& .MuiList-root': { padding: 0 },
+                  '& .MuiListItemButton-root': {
+                    textAlign: 'center',
+                    borderBottom: '1px solid var(--primaryColor-dark)',
+                    fontWeight: 500,
+                    '&:hover': { backgroundColor: 'var(--primaryColor-light)' },
+                    '&:active': { backgroundColor: 'var(--primaryColor-default)' },
                   },
                 },
               },
-            },
-          }}>
-            <Box sx={{ flexGrow: 1}}>
+            }}
+          >
+            <Box sx={{ flexGrow: 1 }}>
               <List>
                 {routes.map((item, index) => (
                   <ListItem key={index} disablePadding>
-                    <ListItemButton component={Link} to={item.path} onClick={toggleDrawer(false)}>
+                    <ListItemButton
+                      component={Link}
+                      to={item.path}
+                      onClick={toggleDrawer(false)}
+                    >
                       <ListItemText primary={item.text} />
                     </ListItemButton>
                   </ListItem>
@@ -115,9 +118,18 @@ export default function Bar() {
               </List>
             </Box>
           </Drawer>
-          <Typography className="titulo" variant="h6" component="div" sx={{ flexGrow: 1, textAlign: "center" }}>
+
+          {/* Título */}
+          <Typography
+            className="titulo"
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, textAlign: "center" }}
+          >
             Vocación Plus
           </Typography>
+
+          {/* Menú del usuario */}
           <div>
             <IconButton
               className="menu-boton"
@@ -155,35 +167,53 @@ export default function Bar() {
                     minWidth: 160,
                     '& .MuiMenuItem-root': {
                       fontWeight: 500,
-                      '&:hover': {
-                        backgroundColor: 'var(--primaryColor-light)',
-                      },
-                      '&:active': {
-                        backgroundColor: 'var(--primaryColor-default)',
-                      },
+                      '&:hover': { backgroundColor: 'var(--primaryColor-light)' },
+                      '&:active': { backgroundColor: 'var(--primaryColor-default)' },
                     },
                   },
-                }
+                },
               }}
             >
-              { isLoggedIn 
-              ? [
-                  <MenuItem key="perfil" onClick={handleClose}>Perfil</MenuItem>,
-                  <MenuItem key="cerrar" onClick={() => {
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("userId");
-                    handleClose();
-                    window.location.reload();
-                  }}>Cerrar sesión</MenuItem>
-              ]
-              : [  
-                  <MenuItem key="login" component={Link} to="/login" onClick={handleClose}>
-                    Iniciar sesión
-                  </MenuItem>,
-                  <MenuItem key="register" component={Link} to="/register" onClick={handleClose}>
-                    Registrarse
-                  </MenuItem>
-              ]}
+              {isLoggedIn
+                ? [
+                    <MenuItem
+                      key="perfil"
+                      component={Link}
+                      to="/perfil"
+                      onClick={handleClose}
+                    >
+                      Perfil
+                    </MenuItem>,
+                    <MenuItem
+                      key="cerrar"
+                      onClick={() => {
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("userId");
+                        handleClose();
+                        window.location.reload();
+                      }}
+                    >
+                      Cerrar sesión
+                    </MenuItem>,
+                  ]
+                : [
+                    <MenuItem
+                      key="login"
+                      component={Link}
+                      to="/login"
+                      onClick={handleClose}
+                    >
+                      Iniciar sesión
+                    </MenuItem>,
+                    <MenuItem
+                      key="register"
+                      component={Link}
+                      to="/register"
+                      onClick={handleClose}
+                    >
+                      Registrarse
+                    </MenuItem>,
+                  ]}
             </Menu>
           </div>
         </Toolbar>
