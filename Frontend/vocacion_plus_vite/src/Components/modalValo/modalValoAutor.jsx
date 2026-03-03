@@ -16,7 +16,7 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { getValoracionesAutor, deleteValoracion } from '../../services/valoServices';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import '../../index.css'
+import '../../main.css'
 
 const MisValoracionesModal = ({ autorId, open, onClose }) => {
   const [valoraciones, setValoraciones] = useState([]);

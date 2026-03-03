@@ -11,3 +11,5 @@ appsettings.User.json
 fixFacultad.py
 scrapingFacultades.py
 /Backend/Backend/VocacionPlus.db 
+Frontend/vocacion_plus_vite/node_modules/
+Frontend/vocacion_plus_vite/dist/

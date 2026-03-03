@@ -15,7 +15,7 @@ import ListIcon from '@mui/icons-material/List';
 import { banearUsuario, buscarUsuarios, activarUsuario } from '../../services/userService';
 import MisValoracionesModal from '../../Components/modalValo/modalValoAutor';
 import './ListaUsuarios.css';
-import '../../index.css';
+import '../../main.css';
 
 const ListaUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
