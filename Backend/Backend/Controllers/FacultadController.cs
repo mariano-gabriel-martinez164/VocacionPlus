@@ -46,26 +46,24 @@ namespace VocacionPlus.Controllers
         [HttpGet("buscar")]
         public async Task<IActionResult> GetFacultadByName(
             [FromQuery] string? nombre,
-            [FromQuery] string? provincia,
-            [FromQuery] string? localidad,
-            [FromQuery] bool? accesibilidad, 
+            [FromQuery] int? provinciaId,
+            [FromQuery] int? localidadId,
+            [FromQuery] Acceso? accesibilidad, 
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10)
         {
-
             var query = _context.facultades.AsQueryable();
 
-           
             if (!string.IsNullOrWhiteSpace(nombre))
                 query = query.Where(f => 
                     f.Nombre.ToLower().Contains(nombre.ToLower()) ||
                     f.Abreviatura.ToLower().Contains(nombre.ToLower()));
 
-            if (!string.IsNullOrWhiteSpace(provincia))
-                query = query.Where(f => f.Provincia.ToLower().Contains(provincia.ToLower()));
+            if (provinciaId.HasValue)
+                query = query.Where(f => f.ProvinciaId == provinciaId.Value);
 
-            if (!string.IsNullOrWhiteSpace(localidad))
-                query = query.Where(f => f.Localidad.ToLower().Contains(localidad.ToLower()));
+            if (localidadId.HasValue)
+                query = query.Where(f => f.LocalidadId == localidadId.Value);
 
             if (accesibilidad.HasValue)
                 query = query.Where(f => f.Accesibilidad == accesibilidad.Value);

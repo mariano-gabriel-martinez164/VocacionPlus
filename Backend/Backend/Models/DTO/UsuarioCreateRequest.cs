@@ -8,18 +8,18 @@ namespace VocacionPlus.Models.DTOs
         public string Apellido { get; set; }
         public string Correo { get; set; }
         public string Password { get; set; }
-        public bool? Honor { get; set; } //puede comentar
-        public bool esAdmin { get; set; }
-        public TestVocacionalCreateRequest Test { get; set; }
+        public bool esAdmin { get; set; } //dudoso
+        public bool? Honor { get; set; } = true;
+        public TestVocacionalCreateRequest? Test { get; set; }
     }
     public class UsuarioResponse
     {
-        public int Id { get; set; }
+        public int Id { get; set; } //dudoso
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string Correo { get; set; }
 
-        public bool Honor { get; set;  }
+        public bool Honor { get; set;  } //dudoso
     }
     public class ChangePasswordRequest
     {

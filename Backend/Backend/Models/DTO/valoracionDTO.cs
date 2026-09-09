@@ -2,6 +2,7 @@ using VocacionPlus.Models.DTOs;
 
 namespace VocacionPlus.Models.DTOs
 {
+	// revisar, un dto con todos los campos no tiene sentido
     public class ValoracionDTO
     {
         public int Id { get; set; }

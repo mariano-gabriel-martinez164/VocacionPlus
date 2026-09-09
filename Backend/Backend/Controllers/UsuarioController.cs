@@ -58,6 +58,8 @@ namespace VocacionPlus.Controllers
                 };
             }
 
+            Console.WriteLine($"Usuario tiene el honor?: {usuario.Honor}");
+
             _context.usuarios.Add(usuario);
             await _context.SaveChangesAsync();
             var response = new UsuarioResponse
